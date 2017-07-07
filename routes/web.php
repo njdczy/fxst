@@ -11,6 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::group([
+    'middleware'    => ['web', 'admin'],
+], function () {
+
+    Route::get('/', 'IndexController@index');
+
 });
+
+

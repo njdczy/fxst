@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Laravel-admin - admin builder based on Laravel.
+ * @author z-song <https://github.com/z-song>
+ *
+ * Bootstraper for Front.
+ *
+ * Here you can remove builtin form field:
+ * App\Zhenggg\Form::forget(['map', 'editor']);
+ *
+ * Or extend custom form field:
+ * App\Zhenggg\Form::extend('php', PHPEditor::class);
+ *
+ * Or require js and css assets:
+ * Front::css('/packages/prettydocs/css/styles.css');
+ * Front::js('/packages/prettydocs/js/main.js');
+ *
+ */
+
+App\Zhenggg\Form::forget(['map', 'editor']);

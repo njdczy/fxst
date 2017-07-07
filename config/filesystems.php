@@ -68,6 +68,11 @@ return [
             'root' => public_path('upload'),
             'visibility' => 'public',
         ],
+        'front' => [
+            'driver' => 'local',
+            'root' => public_path('upload'),
+            'visibility' => 'public',
+        ],
 
     ],
 

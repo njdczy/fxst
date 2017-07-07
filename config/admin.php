@@ -5,17 +5,17 @@ return [
     /*
      * Laravel-admin name.
      */
-    'name'      => '发行管理系统',
+    'name'      => '发行管理系统后台',
 
     /*
      * Logo in admin panel header.
      */
-    'logo'      => '<b>发行管理</b> 系统',
+    'logo'      => '<b>发行管理</b> 后台',
 
     /*
      * Mini-logo in admin panel header.
      */
-    'logo-mini' => '<b>发行管理</b>',
+    'logo-mini' => '<b>发行后台</b>',
 
     /*
      * Laravel-admin url prefix.
@@ -30,7 +30,7 @@ return [
     /*
      * Laravel-admin html title.
      */
-    'title'  => '发行管理系统',
+    'title'  => '发行管理系统后台',
 
     /*
      * Laravel-admin auth setting.

@@ -170,6 +170,7 @@ return [
 
         //add vendor ServiceProvider
         Encore\Admin\Providers\AdminServiceProvider::class,
+        App\Providers\FrontServiceProvider::class,
 
         /*
          * Application Service Providers...
