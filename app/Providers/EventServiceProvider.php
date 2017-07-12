@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Observer\MenberObserver;
 use App\Zhenggg\Auth\Database\Administrator;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider

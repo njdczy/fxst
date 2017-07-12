@@ -242,7 +242,6 @@ class Front
         if (is_null($this->navbar)) {
             $this->navbar = new Navbar();
         }
-
         return $this->navbar;
     }
 

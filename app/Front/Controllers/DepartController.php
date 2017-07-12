@@ -2,6 +2,7 @@
 
 namespace App\Front\Controllers;
 
+use App\Zhenggg\Auth\Database\Menu;
 use App\Zhenggg\Auth\Database\Permission;
 use App\Zhenggg\Auth\Database\Role;
 use App\Zhenggg\Facades\Front;
@@ -67,12 +68,10 @@ class DepartController extends Controller
     {
         return Front::grid(Role::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->id);
-            $grid->id('ID')->sortable();
             $grid->slug(trans('front::lang.slug'));
             $grid->name(trans('front::lang.name'));
+            $grid->menber_count('人数');
 
-            $grid->created_at(trans('front::lang.created_at'));
-            $grid->updated_at(trans('front::lang.updated_at'));
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 if ($actions->row->slug == 'main_account') {
@@ -96,15 +95,12 @@ class DepartController extends Controller
     public function form()
     {
         return Front::form(Role::class, function (Form $form) {
-            $form->display('id', 'ID');
-
             $form->text('slug', trans('front::lang.slug'))->rules('required');
             $form->text('name', trans('front::lang.name'))->rules('required');
-            $form->multipleSelect('permissions', trans('front::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
-
-            $form->display('created_at', trans('front::lang.created_at'));
-            $form->display('updated_at', trans('front::lang.updated_at'));
-
+            $form->multipleSelect('permissions', trans('front::lang.permissions'))->options(
+                Permission::where('parent_id',0)
+                    ->pluck('name', 'id')
+            );
             $form->hidden('user_id')->default(Front::user()->id);
         });
     }

@@ -2,11 +2,18 @@
 
 namespace App\Front\Controllers;
 
+use App\Zhenggg\Auth\Database\Menu;
 use App\Zhenggg\Auth\Database\Permission;
+use App\Zhenggg\Auth\Database\Role;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
+use App\Zhenggg\Layout\Column;
 use App\Zhenggg\Layout\Content;
+use App\Zhenggg\Layout\Row;
+use App\Zhenggg\Tree;
+use App\Zhenggg\Widgets\Box;
+use App\Zhenggg\Widgets\Form as WidgetsFrom;
 use Illuminate\Routing\Controller;
 
 class PermissionController extends Controller
@@ -23,7 +30,40 @@ class PermissionController extends Controller
         return Front::content(function (Content $content) {
             $content->header(trans('front::lang.permissions'));
             $content->description(trans('front::lang.list'));
-            $content->body($this->grid()->render());
+
+            $content->row(function (Row $row) {
+                $row->column(10, $this->treeView()->render());
+
+//                $row->column(6, function (Column $column) {
+//                    $form = new WidgetsFrom();
+//                    $form->action(front_url('auth/menu'));
+//
+//                    $form->select('parent_id', trans('front::lang.parent_id'))->options(Menu::selectOptions());
+//                    $form->text('title', trans('front::lang.title'))->rules('required');
+//                    $form->icon('icon', trans('front::lang.icon'))->default('fa-bars')->rules('required');
+//                    $form->text('uri', trans('front::lang.uri'));
+//                    $form->multipleSelect('roles', trans('front::lang.roles'))->options(Role::all()->pluck('name', 'id'));
+//
+//                    $column->append((new Box(trans('front::lang.new'), $form))->style('success'));
+//                });
+            });
+        });
+    }
+
+    /**
+     * @return \App\Zhenggg\Tree
+     */
+    protected function treeView()
+    {
+        return Menu::tree(function (Tree $tree) {
+            $tree->disableCreate();
+
+            $tree->branch(function ($branch) {
+                $payload = "<i class='fa {$branch['icon']}'></i>&nbsp;<strong>{$branch['title']}</strong>";
+
+
+                return $payload;
+            });
         });
     }
 

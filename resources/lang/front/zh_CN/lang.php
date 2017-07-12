@@ -70,7 +70,7 @@ return [
 
     'alert'         => '注意',
 
-    'parent_id'     => '父级菜单',
+    'parent_id'     => '父级权限',
     'icon'          => '图标',
     'uri'           => '路径',
 

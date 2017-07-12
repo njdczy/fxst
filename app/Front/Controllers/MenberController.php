@@ -70,7 +70,6 @@ class MenberController extends Controller
             $grid->model()
                 ->where('user_id', '=', Front::user()->id)
                 ->orWhere('id', '=', Front::user()->id);
-            $grid->id('ID')->sortable();
             $grid->username(trans('front::lang.username'));
             $grid->name(trans('front::lang.name'));
             $grid->roles(trans('front::lang.roles'))->pluck('name')->label();
@@ -101,7 +100,6 @@ class MenberController extends Controller
     public function form()
     {
         return Administrator::form(function (Form $form) {
-            $form->display('id', 'ID');
             $form->text('username', trans('front::lang.username'))->rules('required');
             $form->text('name', trans('front::lang.name'))->rules('required');
             $form->image('avatar', trans('front::lang.avatar'));
@@ -123,18 +121,7 @@ class MenberController extends Controller
             $form->hidden('user_id')->default(Front::user()->id);
             $form->saving(function (Form $form) {
                 if ($form->password && $form->model()->password != $form->password) {
-                    $form->password = bcrypt($form->password);
-                }
-            });
-            $form->created(function (Form $form) {
-                if (is_array($form->roles)) {
-                    foreach ($form->roles as $role) {
-                        if ($role) {
-                            Role::where('user_id','=',Front::user()->id)
-                                ->where('id',$role)
-                                ->increment('menber_count');
-                        }
-                    }
+                        $form->password = bcrypt($form->password);
                 }
             });
         });
