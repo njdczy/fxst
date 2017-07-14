@@ -2,7 +2,6 @@
 
 namespace App\Front\Controllers;
 
-use App\Zhenggg\Auth\Database\Menu;
 use App\Zhenggg\Auth\Database\Permission;
 use App\Zhenggg\Auth\Database\Role;
 use App\Zhenggg\Facades\Front;
@@ -67,7 +66,7 @@ class DepartController extends Controller
     protected function grid()
     {
         return Front::grid(Role::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->id);
+            $grid->model()->where('user_id', '=', Front::user()->user_id);
             $grid->slug(trans('front::lang.slug'));
             $grid->name(trans('front::lang.name'));
             $grid->menber_count('人数');
@@ -101,7 +100,7 @@ class DepartController extends Controller
                 Permission::where('parent_id',0)
                     ->pluck('name', 'id')
             );
-            $form->hidden('user_id')->default(Front::user()->id);
+            $form->hidden('user_id')->default(Front::user()->user_id);
         });
     }
 }

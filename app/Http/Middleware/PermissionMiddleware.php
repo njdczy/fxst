@@ -24,7 +24,6 @@ class PermissionMiddleware
             if (!method_exists(Permission::class, $type)) {
                 throw new \InvalidArgumentException("Invaild permission method [$type].");
             }
-
             call_user_func_array([Permission::class, $type], [$args]);
         }
 

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Observer\MenberObserver;
+use App\Observer\PeriodicalObserver;
+use App\Periodical;
 use App\Zhenggg\Auth\Database\Administrator;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -28,6 +30,6 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
         Administrator::observe(new MenberObserver);
-        //
+        Periodical::observe(new PeriodicalObserver);
     }
 }

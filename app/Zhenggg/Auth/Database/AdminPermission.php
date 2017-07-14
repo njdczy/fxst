@@ -134,9 +134,7 @@ trait AdminPermission
         if (empty($roles)) {
             return true;
         }
-
         $roles = array_column($roles, 'slug');
-
         if ($this->inRoles($roles) || $this->isMainAccount()) {
             return true;
         }

@@ -53,7 +53,7 @@ return [
             'file'   => 'file',
         ],
 
-        'host' => 'http://mytest.app/upload/',
+        'host' => 'http://fxst.app/upload/',
     ],
 
     /*

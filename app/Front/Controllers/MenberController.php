@@ -68,8 +68,8 @@ class MenberController extends Controller
     {
         return Administrator::grid(function (Grid $grid) {
             $grid->model()
-                ->where('user_id', '=', Front::user()->id)
-                ->orWhere('id', '=', Front::user()->id);
+                ->where('user_id', '=', Front::user()->user_id)
+                ->orWhere('id', '=', Front::user()->user_id);
             $grid->username(trans('front::lang.username'));
             $grid->name(trans('front::lang.name'));
             $grid->roles(trans('front::lang.roles'))->pluck('name')->label();
@@ -112,13 +112,13 @@ class MenberController extends Controller
             $form->ignore(['password_confirmation']);
 
             $form->multipleSelect('roles', trans('front::lang.roles'))
-                ->options(Role::where('user_id','=',Front::user()->id)->get()->pluck('name', 'id'));
+                ->options(Role::where('user_id','=',Front::user()->user_id)->get()->pluck('name', 'id'));
             $form->multipleSelect('permissions', trans('front::lang.permissions'))
-                ->options(Permission::where('user_id','=',Front::user()->id)->get()->pluck('name', 'id'));
+                ->options(Permission::where('user_id','=',Front::user()->user_id)->get()->pluck('name', 'id'));
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
-            $form->hidden('user_id')->default(Front::user()->id);
+            $form->hidden('user_id')->default(Front::user()->user_id);
             $form->saving(function (Form $form) {
                 if ($form->password && $form->model()->password != $form->password) {
                         $form->password = bcrypt($form->password);
