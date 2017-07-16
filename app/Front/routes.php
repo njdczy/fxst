@@ -18,4 +18,5 @@ Route::group([
     $router->resource('/periodical', 'PeriodicalController');
     $router->resource('/target', 'TargetController');
     $router->resource('/d_target', 'DTargetController');
+    $router->resource('/finance/input', 'InputController');
 });

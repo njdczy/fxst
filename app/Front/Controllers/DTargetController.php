@@ -92,8 +92,10 @@ class DTargetController extends Controller
                         if ($d_target) {
                             $d_target = $d_target->toArray();
                             $form->number('num['.$d_target['id'].']','设置目标份数')->default($d_target['num']);
+                            $form->hidden('p_id['.$d_target['id'].']')->default($target['p_id']);
                         } else {
                             $form->number('num['.'-'.$key.']','设置目标份数');
+                            $form->hidden('p_id['.'-'.$key.']')->default($target['p_id']);
                         }
                         $form->divide();
                     }
@@ -104,11 +106,13 @@ class DTargetController extends Controller
             $form->saving(function(Form $form){
                 if (is_array($form->num)) {
 
-                    foreach ($form->num as $id => $num) {
+                    foreach ($form->num as $d_id => $num) {
 
-                        $d_target = DTarget::firstOrNew(['id' => $id]);
+                        $d_target = DTarget::firstOrNew(['id' => $d_id]);
+                        unset($d_target->id);
                         $d_target->num = $num;
                         $d_target->d_id = $form->id;
+                        $d_target->p_id = $form->p_id[$d_id];
                         $d_target->user_id = Front::user()->user_id;
                         $d_target->save();
                     }

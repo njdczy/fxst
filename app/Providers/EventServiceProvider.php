@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\DTarget;
+use App\Observer\DTargetObserver;
 use App\Observer\MenberObserver;
 use App\Observer\PeriodicalObserver;
 use App\Periodical;
@@ -31,5 +33,6 @@ class EventServiceProvider extends ServiceProvider
         parent::boot();
         Administrator::observe(new MenberObserver);
         Periodical::observe(new PeriodicalObserver);
+        DTarget::observe(new DTargetObserver);
     }
 }
