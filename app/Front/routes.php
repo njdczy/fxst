@@ -19,4 +19,8 @@ Route::group([
     $router->resource('/target', 'TargetController');
     $router->resource('/d_target', 'DTargetController');
     $router->resource('/finance/input', 'InputController');
+    $router->resource('/performance/checkout', 'CheckoutController');
+    $router->resource('/performance/all_dis_per', 'AlldisperController');
+
+    $router->resource('/api/input/u', 'Api\\UController');
 });

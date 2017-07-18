@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\DTarget;
+use App\Input;
+use App\InputP;
 use App\Observer\DTargetObserver;
+use App\Observer\InputObserver;
+use App\Observer\InputPObserver;
 use App\Observer\MenberObserver;
 use App\Observer\PeriodicalObserver;
 use App\Periodical;
@@ -34,5 +38,8 @@ class EventServiceProvider extends ServiceProvider
         Administrator::observe(new MenberObserver);
         Periodical::observe(new PeriodicalObserver);
         DTarget::observe(new DTargetObserver);
+        InputP::observe(new InputPObserver);
+        Input::observe(new InputObserver);
+
     }
 }

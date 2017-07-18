@@ -2,7 +2,7 @@
 
 namespace App\Zhenggg\Form;
 
-use App\Zhenggg\Admin;
+use App\Zhenggg\Front;
 use App\Zhenggg\Form;
 use Illuminate\Support\Collection;
 
@@ -302,14 +302,14 @@ class NestedForm
         /* @var Field $field */
         foreach ($this->fields() as $field) {
 
-            //when field render, will push $script to Admin
+            //when field render, will push $script to Front
             $html .= $field->render();
 
             /*
-             * Get and remove the last script of Admin::$script stack.
+             * Get and remove the last script of Front::$script stack.
              */
             if ($field->getScript()) {
-                $scripts[] = array_pop(Admin::$script);
+                $scripts[] = array_pop(Front::$script);
             }
         }
 

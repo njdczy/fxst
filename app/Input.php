@@ -13,5 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Input extends Model
 {
+    public $fillable = ['d_id'];
 
+    public function input_ps()
+    {
+        return $this->hasMany(InputP::class, 'input_id');
+    }
 }
