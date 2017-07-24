@@ -67,9 +67,9 @@
 
 
 
-
+                    <input type="submit" name="" id="" value="提交" class="next"/>
                 </form>
-                <a href="javascript:0;" class="next col-xs-2">下一步</a>
+                <!--<a href="javascript:0;" class="next col-xs-2">下一步</a>-->
             </div>
             <!--个人订购-卡片信息-->
             <div class="two"  style="display: none;">
