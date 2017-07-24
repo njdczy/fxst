@@ -26,35 +26,46 @@
                 <form method="post" action="/form/{{ $u_id  }}" name="person" class="form-horizontal">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 col-xs-4 control-label">姓名<span>*</span></label>
-                        <div class="col-sm-6 col-xs-7">
+                        <div class="col-sm-7 col-xs-7">
                             <input type="text" name="name" class="form-control" id="name" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="tel" class="col-sm-2 col-xs-4 control-label">电话<span>*</span></label>
-                        <div class="col-sm-6 col-xs-7">
+                        <div class="col-sm-7 col-xs-7">
                             <input type="text" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
-                        <div class="col-sm-6 col-xs-2">
+                        <div class="col-sm-7 col-xs-2">
                             <input id="city-picker2" class="city-picker2" readonly type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="details" class="col-sm-2 col-xs-4 control-label">详细地址<span>*</span></label>
-                        <div class="col-sm-6 col-xs-6">
+                        <div class="col-sm-7 col-xs-7">
                             <textarea class="form-control" name="address" id="details" rows="3"></textarea>
                         </div>
                     </div>
-                    <select class="form-control" style="width: 75%;margin-top:5%; ">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
+                    <p class="price">
+                        <span>选择报纸<span style="color:red;">*</span></span>
+                        <select class="form-control select-box" >
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </p>
+                    <div class="form-group">
+                        <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <input type="text" class="form-control" id="nums" placeholder="">
+                        </div>
+                    </div>
+
+
                 </form>
                 <a href="javascript:0;" class="next col-xs-2">下一步</a>
             </div>
@@ -141,12 +152,6 @@
                             <input type="text" name="address" class="form-control" id="address" placeholder="">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
-                        <div class="col-sm-7 col-xs-7">
-                            <input type="text" class="form-control" id="nums" placeholder="">
-                        </div>
-                    </div>
                     <p class="price">
                         <span>选择报纸<span style="color:red;">*</span></span>
                         <select class="form-control select-box">
@@ -158,6 +163,13 @@
                         </select>
 
                     </p>
+                    <div class="form-group">
+                        <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <input type="text" class="form-control" id="nums" placeholder="">
+                        </div>
+                    </div>
+
 
                     <input type="submit" name="" id="" value="提交" class="next"/>
                 </form>
