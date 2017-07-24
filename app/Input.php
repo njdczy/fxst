@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Input extends Model
 {
-    public $fillable = ['d_id'];
+    public $fillable = ['d_id','dis_status'];
 
     public function input_ps()
     {

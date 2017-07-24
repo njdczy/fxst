@@ -54,7 +54,7 @@ class InputController extends Controller
     protected function grid()
     {
         return Front::grid(Input::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id);
+            $grid->model()->where('user_id', '=', Front::user()->user_id)->orderBy('id','desc');
             $grid->c_id('客户')->display(function(){
                 return Customer::find($this->c_id)->value('name');
             });
@@ -64,14 +64,14 @@ class InputController extends Controller
             });
 
             $grid->source('订单来源')->display(function(){
-                return $this->source;
+                return trans('app.pay_source.' .$this->source. '');
             });
-            $grid->column('input','订单状态/下单时间')->display(function(){
-                return $this->input_status == 1 ? '已确认' : '未确认' . '/' . $this->created_at;
+            $grid->column('input','订单状态/创建时间')->display(function(){
+                return trans('app.input_status.' .$this->input_status. '') . '/' . $this->created_at;
             });
 
             $grid->column('pay','支付状态/支付方式')->display(function(){
-                return $this->pay_status == 1 ?   '已支付' : $this->pay_status == 2 ? '部分付款' : '未支付' . '/' . $this->pay_name;
+                return trans('app.pay_status.' .$this->pay_status. '') . '/' . trans('app.pay_name.' .$this->pay_name. '');
             });
 
             $grid->column('input_ps','订单详情')->display(function(){
@@ -125,9 +125,9 @@ class InputController extends Controller
                 $form->number('price','单价')->default(0);
             });
 //            $form->saving(function (Form $form){
-//                unset($form->u_id);
-////                $u_id = Administrator::where('username',$form->u_id)->value('id');
-////                $form->u_id = $u_id;
+                //unset($form->u_id);
+//                $u_id = Administrator::where('username',$form->u_id)->value('id');
+//                $form->u_id = $u_id;
 //            });
 
             $form->divide();

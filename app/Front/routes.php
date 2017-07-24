@@ -19,8 +19,16 @@ Route::group([
     $router->resource('/target', 'TargetController');
     $router->resource('/d_target', 'DTargetController');
     $router->resource('/finance/input', 'InputController');
-    $router->resource('/performance/checkout', 'CheckoutController');
-    $router->resource('/performance/all_dis_per', 'AlldisperController');
+    $router->resource('/performance/checkout', 'CheckoutController',['except' => 'create','destroy']);
+
+
+    $router->resource('/performance/checkout/{u_id}/details', 'CheckDetailsController',['except' => 'create','destroy']);
+
+
+
+
+    $router->resource('/performance/all_dis_per', 'AlldisperController',['except' => 'create','destroy']);
+    $router->resource('/performance/d_dis_per', 'DdisperController',['except' => 'create','destroy']);
 
     $router->resource('/api/input/u', 'Api\\UController');
 });

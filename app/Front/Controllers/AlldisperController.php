@@ -42,25 +42,20 @@ class AlldisperController extends Controller
         });
     }
 
-    public function create()
-    {
-        return Front::content(function (Content $content) {
-
-            $content->header('设置');
-            $content->description('总比例');
-
-            $content->body($this->form());
-        });
-    }
-
     protected function grid()
     {
         return Front::grid(Periodical::class, function (Grid $grid) {
-
+            $grid->model()->where('user_id', '=', Front::user()->user_id);
+            $grid->column('');
             $grid->name("刊物");
             $grid->per("比例（百分比）");
             $grid->disableCreation();
             $grid->disableExport();
+            $grid->disableFilter();
+            $grid->disableRowSelector();
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+            });
         });
     }
 
@@ -69,7 +64,7 @@ class AlldisperController extends Controller
         return Front::form(Periodical::class, function (Form $form) {
 
             $form->display('name', '刊物');
-            $form->number('per', '"比例（百分比）');
+            $form->number('per', '比例（百分比）')->rules('numeric|min:0|max:100');
 
         });
     }

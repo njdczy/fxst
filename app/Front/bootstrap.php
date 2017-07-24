@@ -18,7 +18,10 @@
  *
  */
 
+
+
 App\Zhenggg\Form::forget(['map', 'editor']);
+
 
 //更改后台视图文件位置
 app('view')->prependNamespace('front', resource_path('views/front'));

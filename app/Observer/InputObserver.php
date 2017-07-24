@@ -9,6 +9,7 @@
 namespace App\Observer;
 
 use App\DTarget;
+use App\CheckDetail;
 use App\Zhenggg\Auth\Database\Administrator;
 use App\Zhenggg\Facades\Front;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,19 @@ class InputObserver
 {
     public function saved($input)
     {
+        if ($input->getOriginal('dis_status') == 0 && $input->dis_status ==1) {
+
+            $check_detail = new CheckDetail;
+            $check_detail->user_id = $input->user_id;
+            $check_detail->u_id = $input->u_id;
+            $check_detail->money = $input->should_dis_amount;
+            $check_detail->save();
+
+            Administrator::find($input->u_id)
+                ->increment('money',$input->should_dis_amount);
+        }
+
+
         Administrator::find($input->u_id)->roles->each(function ($role, $key) use ($input) {
 
             DB::table('inputs')->where('id',$input->id)
@@ -41,5 +55,10 @@ class InputObserver
 
             });
         }
+    }
+
+    public function deleting()
+    {
+
     }
 }

@@ -249,6 +249,9 @@ class Grid
     {
         return $this->keyName ?: 'id';
     }
+    public function getRows(){
+        return $this->rows;
+    }
 
     /**
      * Add column to Grid.

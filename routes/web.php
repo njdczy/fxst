@@ -12,12 +12,9 @@
 */
 
 
-Route::group([
-    'middleware'    => ['web', 'admin'],
-], function () {
-
-    Route::get('/', 'IndexController@index');
-
+Route::get('/form/{u_id}', function ($u_id) {
+    return view('form',['u_id' => $u_id]);
 });
 
+Route::post('/form/{u_id}', 'IndexController@doForm');
 

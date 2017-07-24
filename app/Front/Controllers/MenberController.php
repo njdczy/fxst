@@ -11,6 +11,8 @@ use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use Illuminate\Routing\Controller;
 
+use QrCode;
+
 class MenberController extends Controller
 {
     use ModelForm;
@@ -73,6 +75,18 @@ class MenberController extends Controller
             $grid->username(trans('front::lang.username'));
             $grid->name(trans('front::lang.name'));
             $grid->roles(trans('front::lang.roles'))->pluck('name')->label();
+            $grid->column('qrcode','二维码')->display(function () {
+                return  '<img src="data:image/png;base64,'
+                .base64_encode(
+                    QrCode::format("png")
+                        //->merge(asset('images/logo/logo'.Front::user()->id.'.png'), .28,true)
+                        ->errorCorrection('H')
+                        ->size(140)
+                        ->generate(url("/form/".$this->id))
+                )
+                .'"/>';
+            });
+            $grid->money('余额');
             $grid->created_at(trans('front::lang.created_at'));
             $grid->updated_at(trans('front::lang.updated_at'));
 
