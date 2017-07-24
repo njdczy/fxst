@@ -124,7 +124,7 @@ html,body{
 	background: url(../img/step-two.png) 0 0 no-repeat;
 	background-size: cover;
 	
-	margin: 20.116% 0 40px 20px;
+	margin: 15.116% 0 40px 20px;
 }
 .container .main-form .form-horizontal{
 	margin-left: 30px;
@@ -205,7 +205,7 @@ html,body{
 	.select-box{
 		display: inline-block;
 		width: 55%;
-		margin-left:35px;
+		margin-left:32px;
 	}
 
 }
