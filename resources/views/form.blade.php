@@ -36,18 +36,6 @@
                             <input type="text" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
-                        <div class="col-sm-7 col-xs-2">
-                            <input id="city-picker2" class="city-picker2" readonly type="text">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="details" class="col-sm-2 col-xs-4 control-label">详细地址<span>*</span></label>
-                        <div class="col-sm-7 col-xs-7">
-                            <textarea class="form-control" name="address" id="details" rows="3"></textarea>
-                        </div>
-                    </div>
                     <p class="price">
                         <span>选择报纸<span style="color:red;">*</span></span>
                         <select class="form-control select-box" >
@@ -64,6 +52,20 @@
                             <input type="text" class="form-control" id="nums" placeholder="">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
+                        <div class="col-sm-7 col-xs-2">
+                            <input id="city-picker2" class="city-picker2" readonly type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="details" class="col-sm-2 col-xs-4 control-label">详细地址<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <textarea class="form-control" name="address" id="details" rows="3"></textarea>
+                        </div>
+                    </div>
+
+
 
 
                 </form>
@@ -138,20 +140,6 @@
                             <input type="text" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
-                        <div class="col-sm-10 col-xs-7">
-                            <input id="city-picker2" class="city-picker2" readonly type="text">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="address" class="col-sm-2 col-xs-4 control-label">详细地址<span>*</span></label>
-                        <div class="col-sm-7 col-xs-7">
-                            <input type="text" name="address" class="form-control" id="address" placeholder="">
-                        </div>
-                    </div>
                     <p class="price">
                         <span>选择报纸<span style="color:red;">*</span></span>
                         <select class="form-control select-box">
@@ -169,6 +157,20 @@
                             <input type="text" class="form-control" id="nums" placeholder="">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
+                        <div class="col-sm-10 col-xs-7">
+                            <input id="city-picker2" class="city-picker2" readonly type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="col-sm-2 col-xs-4 control-label">详细地址<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <input type="text" name="address" class="form-control" id="address" placeholder="">
+                        </div>
+                    </div>
+
 
 
                     <input type="submit" name="" id="" value="提交" class="next"/>
