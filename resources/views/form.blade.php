@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label for="details" class="col-sm-2 col-xs-4 control-label">详细地址<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <textarea class="form-control" name="address" id="details" rows="3"></textarea>
+                            <input type="text" name="address" class="form-control" id="address" placeholder="">
                         </div>
                     </div>
 
