@@ -2,16 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2017/7/13
- * Time: 17:56
+ * Date: 2017/7/20
+ * Time: 17:13
  */
 
-namespace App;
+namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
 
-class Target extends Model
+class UCheckout extends Model
 {
 
 }

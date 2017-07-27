@@ -2,9 +2,9 @@
 
 namespace App\Front\Controllers;
 
-use App\Customer;
-use App\Input;
-use App\Periodical;
+use App\Models\Customer;
+use App\Models\Input;
+use App\Models\Periodical;
 use App\Zhenggg\Auth\Database\Administrator;
 use App\Zhenggg\Auth\Database\Role;
 use App\Zhenggg\Form;

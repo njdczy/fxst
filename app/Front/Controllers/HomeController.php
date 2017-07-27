@@ -25,18 +25,18 @@ class HomeController extends Controller
     {
         return Front::content(function (Content $content) {
 
-//            $content->header('Dashboard');
-//            $content->description('Description...');
-//
+            $content->header('Dashboard');
+            $content->description('Description...');
+
 //            $content->row(function ($row) {
 //                $row->column(3, new InfoBox('New Users', 'users', 'aqua', '/admin/users', '1024'));
 //                $row->column(3, new InfoBox('New Orders', 'shopping-cart', 'green', '/admin/orders', '150%'));
 //                $row->column(3, new InfoBox('Articles', 'book', 'yellow', '/admin/articles', '2786'));
 //                $row->column(3, new InfoBox('Documents', 'file', 'red', '/admin/files', '698726'));
 //            });
-//
-//            $content->row(function (Row $row) {
-//
+
+            $content->row(function (Row $row) {
+
 //                $row->column(6, function (Column $column) {
 //
 //                    $tab = new Tab();
@@ -80,10 +80,10 @@ class HomeController extends Controller
 //                    ]);
 //                    $column->append((new Box('Doughnut', $doughnut))->removable()->collapsable()->style('info'));
 //                });
-//
-//                $row->column(6, function (Column $column) {
-//
-//                    $column->append(new Box('Radar', new Radar()));
+
+                $row->column(6, function (Column $column) {
+
+                    $column->append(new Box('Radar', new Radar()));
 //
 //                    $polarArea = new PolarArea([
 //                        ['Red', 300],
@@ -96,9 +96,9 @@ class HomeController extends Controller
 //                    $column->append((new Box('Polar Area', $polarArea))->removable()->collapsable());
 //
 //                    $column->append((new Box('Line', new Line()))->removable()->collapsable()->style('danger'));
-//                });
-//
-//            });
+                });
+
+            });
 //
 //            $headers = ['Id', 'Email', 'Name', 'Company', 'Last Login', 'Status'];
 //            $rows = [

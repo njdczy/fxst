@@ -8,7 +8,7 @@
 
 namespace App\Front\Controllers;
 
-use App\Periodical;
+use App\Models\Periodical;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;

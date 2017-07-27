@@ -8,7 +8,7 @@
 
 namespace App\Front\Controllers;
 
-use App\DPer;
+use App\Models\DPer;
 use App\Periodical;
 use App\Zhenggg\Auth\Database\Role;
 use App\Zhenggg\Form;

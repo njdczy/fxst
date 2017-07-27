@@ -31,4 +31,8 @@ Route::group([
     $router->resource('/performance/d_dis_per', 'DdisperController',['except' => 'create','destroy']);
 
     $router->resource('/api/input/u', 'Api\\UController');
+
+
+    $router->get('/system/jconfig','Base\\JConfigController@index')->name('jconfig');
+    $router->post('/system/jconfig','Base\\JConfigController@storeAndUpdate')->name('store_and_update_jconfig');
 });

@@ -3,10 +3,10 @@ namespace App\Http\Controllers;
 
 
 use App\Zhenggg\Front;
+use Illuminate\Foundation\Http\FormRequest;
 
 class IndexController extends Controller
 {
-
 
     public function doForm($u_id,FormRequest $request)
     {

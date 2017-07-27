@@ -2,16 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2017/7/21
- * Time: 14:33
+ * Date: 2017/7/13
+ * Time: 17:56
  */
 
-namespace App;
+namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
 
-class CheckDetail extends Model
+class Target extends Model
 {
 
 }

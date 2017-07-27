@@ -8,7 +8,8 @@
 
 namespace App\Front\Controllers;
 
-use App\Input;
+use App\Models\Input;
+
 use App\Zhenggg\Auth\Database\Administrator;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;

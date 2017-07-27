@@ -9,9 +9,9 @@
 namespace App\Front\Controllers;
 
 
-use App\DTarget;
-use App\Periodical;
-use App\Target;
+use App\Models\DTarget;
+use App\Models\Periodical;
+use App\Models\Target;
 use App\Zhenggg\Auth\Database\Role;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Grid;

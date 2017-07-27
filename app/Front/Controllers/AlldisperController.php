@@ -12,7 +12,7 @@ use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Controllers\ModelForm;
-use App\Periodical;
+use App\Models\Periodical;
 use App\Zhenggg\Facades\Front;
 use Illuminate\Routing\Controller;
 
