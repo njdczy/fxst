@@ -5,7 +5,7 @@ namespace App\Zhenggg\Controllers;
 use App\Zhenggg\Auth\Database\Administrator;
 use App\Zhenggg\Auth\Database\Permission;
 use App\Zhenggg\Auth\Database\Role;
-use App\Zhenggg\Front;
+use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
@@ -67,15 +67,15 @@ class UserController extends Controller
     protected function grid()
     {
         return Administrator::grid(function (Grid $grid) {
-            $grid->id('ID')->sortable();
-            $grid->username(trans('front::lang.username'));
-            $grid->name(trans('front::lang.name'));
-            $grid->roles(trans('front::lang.roles'))->pluck('name')->label();
+            $grid->model()->where('user_id', '=', Front::user()->user_id);
+            $grid->admin_account(trans('front::lang.admin_account'));
+            $grid->admin_name(trans('front::lang.admin_name'));
+            $grid->roles(trans('front::lang.admin_roles'))->pluck('name')->label();
             $grid->created_at(trans('front::lang.created_at'));
             $grid->updated_at(trans('front::lang.updated_at'));
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
-                if ($actions->getKey() == 1) {
+                if ($actions->row->roles[0]['slug'] == 'main_account') {
                     $actions->disableDelete();
                 }
             });
@@ -98,10 +98,10 @@ class UserController extends Controller
     public function form()
     {
         return Administrator::form(function (Form $form) {
-            $form->display('id', 'ID');
 
-            $form->text('username', trans('front::lang.username'))->rules('required');
-            $form->text('name', trans('front::lang.name'))->rules('required');
+
+            $form->text('admin_account', trans('front::lang.admin_account'))->rules('required');
+            $form->text('admin_name', trans('front::lang.admin_name'))->rules('required');
             $form->image('avatar', trans('front::lang.avatar'));
             $form->password('password', trans('front::lang.password'))->rules('required|confirmed');
             $form->password('password_confirmation', trans('front::lang.password_confirmation'))->rules('required')
@@ -111,7 +111,6 @@ class UserController extends Controller
 
             $form->ignore(['password_confirmation']);
 
-            $form->multipleSelect('roles', trans('front::lang.roles'))->options(Role::all()->pluck('name', 'id'));
             $form->multipleSelect('permissions', trans('front::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
 
             $form->display('created_at', trans('front::lang.created_at'));

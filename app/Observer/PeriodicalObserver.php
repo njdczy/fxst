@@ -9,7 +9,7 @@
 namespace App\Observer;
 
 
-use App\Target;
+use App\Models\Target;
 
 class PeriodicalObserver
 {

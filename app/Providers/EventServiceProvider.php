@@ -2,16 +2,18 @@
 
 namespace App\Providers;
 
-use App\DTarget;
-use App\Input;
-use App\InputP;
+use App\Models\DTarget;
+use App\Models\Input;
+use App\Models\InputP;
+use App\Models\Periodical;
+use App\Zhenggg\Auth\Database\Administrator;
+
 use App\Observer\DTargetObserver;
 use App\Observer\InputObserver;
 use App\Observer\InputPObserver;
 use App\Observer\MenberObserver;
 use App\Observer\PeriodicalObserver;
-use App\Periodical;
-use App\Zhenggg\Auth\Database\Administrator;
+
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider

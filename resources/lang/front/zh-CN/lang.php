@@ -80,4 +80,8 @@ return [
     'pagination'    => [
         'range'  => '从 :first 到 :last ，总共 :total 条',
     ],
+
+    'admin_account' => '管理员账号',
+    'admin_name' => '管理员名称',
+    'admin_roles' => '管理员级别',
 ];

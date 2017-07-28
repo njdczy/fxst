@@ -8,8 +8,8 @@
 
 namespace App\Observer;
 
-use App\Input;
-use App\InputP;
+use App\Models\Input;
+use App\Models\InputP;
 
 class InputPObserver
 {

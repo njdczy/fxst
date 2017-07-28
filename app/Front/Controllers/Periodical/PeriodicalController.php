@@ -6,8 +6,10 @@
  * Time: 14:26
  */
 
-namespace App\Front\Controllers;
+namespace App\Front\Controllers\Periodical;
 
+use App\Front\Controllers\ModelForm;
+use App\Models\Baoshe;
 use App\Models\Periodical;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
@@ -58,7 +60,23 @@ class PeriodicalController extends Controller
         return Front::grid(Periodical::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id);
             $grid->name("刊物名称");
+            $grid->baoshe()->name('所属报社');
+            $grid->price("原价格");
+            $grid->c_price("优惠价格");
+            $grid->per('基准分成比例(百分比)');
 
+            $grid->disableExport();
+            $grid->disableRowSelector();
+
+            $grid->filter(function($filter){
+
+                $filter->disableIdFilter();
+
+                $filter->like('name', '刊物名称');
+
+                $filter->is('baoshe_id', '所属报社')->select(Baoshe::where('user_id', Front::user()->user_id)->pluck('name', 'id'));
+
+            });
         });
     }
 
@@ -66,7 +84,15 @@ class PeriodicalController extends Controller
     protected function form()
     {
         return Front::form(Periodical::class, function (Form $form) {
-            $form->text('name','刊物名称');
+            $form->text('name','刊物名称')->rules('required');
+            $form->number('price','原价格/份')->rules('required');
+            $form->number('c_price','优惠价格/份')->rules('required');
+            $form->number('per','基准分成比例(百分比)')->help('填写0到100')->rules('required|between:0,100');
+            $form->select('baoshe_id','所属报社')
+                ->options(
+                    Baoshe::where('user_id', Front::user()->user_id)
+                        ->pluck('name', 'id')
+                )->rules('required');
 
             $form->hidden('user_id')->default(Front::user()->user_id);
 

@@ -10,15 +10,10 @@ use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use Illuminate\Routing\Controller;
 
-class DepartController extends Controller
+class DepartmentController extends Controller
 {
     use ModelForm;
 
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
     public function index()
     {
         return Front::content(function (Content $content) {
@@ -28,13 +23,6 @@ class DepartController extends Controller
         });
     }
 
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     *
-     * @return Content
-     */
     public function edit($id)
     {
         return Front::content(function (Content $content) use ($id) {
@@ -44,11 +32,6 @@ class DepartController extends Controller
         });
     }
 
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
     public function create()
     {
         return Front::content(function (Content $content) {
@@ -58,17 +41,15 @@ class DepartController extends Controller
         });
     }
 
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
     protected function grid()
     {
         return Front::grid(Role::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id);
             $grid->slug(trans('front::lang.slug'));
             $grid->name(trans('front::lang.name'));
+//            $grid->baoshe_id('上级部门')->display(function () {
+//                return
+//            });
             $grid->menber_count('人数');
 
 
@@ -86,11 +67,6 @@ class DepartController extends Controller
         });
     }
 
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
     public function form()
     {
         return Front::form(Role::class, function (Form $form) {

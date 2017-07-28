@@ -9,8 +9,8 @@
 namespace App\Observer;
 
 
-use App\DTarget;
-use App\Target;
+use App\Models\DTarget;
+use App\Models\Target;
 use App\Zhenggg\Facades\Front;
 
 class DTargetObserver

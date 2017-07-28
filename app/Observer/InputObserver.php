@@ -8,8 +8,8 @@
 
 namespace App\Observer;
 
-use App\DTarget;
-use App\CheckDetail;
+use App\Models\DTarget;
+use App\Models\CheckDetail;
 use App\Zhenggg\Auth\Database\Administrator;
 use App\Zhenggg\Facades\Front;
 use Illuminate\Support\Facades\DB;

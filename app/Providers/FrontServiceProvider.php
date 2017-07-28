@@ -29,7 +29,7 @@ class FrontServiceProvider extends ServiceProvider
         'front.log'         => \App\Http\Middleware\OperationLog::class,
         'front.permission'  => \App\Http\Middleware\PermissionMiddleware::class,
         'front.bootstrap'   => \App\Http\Middleware\BootstrapMiddleware::class,
-        'front.isSetJituanConfig'   => \App\Http\Middleware\IsSetJituanConfigMiddleware::class,
+        'front.isSetBase'   => \App\Http\Middleware\IsSetBaseMiddleware::class,
     ];
 
     /**
@@ -43,7 +43,7 @@ class FrontServiceProvider extends ServiceProvider
             'front.pjax',
             'front.log',
             'front.bootstrap',
-            'front.isSetJituanConfig',
+            'front.isSetBase',
         ],
     ];
 
