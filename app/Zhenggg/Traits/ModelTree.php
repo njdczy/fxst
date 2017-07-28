@@ -151,9 +151,9 @@ trait ModelTree
             $nodes = $this->allNodes();
         }
         foreach ($nodes as $node) {
+
             if ($node[$this->parentColumn] == $parentId) {
                 $children = $this->buildNestedArray($nodes, $node[$this->getKeyName()]);
-
                 if ($children) {
                     $node['children'] = $children;
                 }
@@ -179,7 +179,6 @@ trait ModelTree
         if ($this->queryCallback instanceof \Closure) {
             $self = call_user_func($this->queryCallback, $self);
         }
-
         return $self->orderByRaw($byOrder)->get()->toArray();
     }
 

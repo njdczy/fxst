@@ -49,6 +49,20 @@ trait AdminPermission
     }
 
     /**
+     * A User belongs to many menus.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function menus()
+    {
+        $pivotTable = config('front.database.user_menu_table');
+
+        $relatedModel = config('front.database.menu_model');
+
+        return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'menu_id');
+    }
+
+    /**
      * Check if user has permission.
      *
      * @param $permission
@@ -137,6 +151,32 @@ trait AdminPermission
         $roles = array_column($roles, 'slug');
         if ($this->inRoles($roles) || $this->isMainAccount()) {
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * If visible for adminusers.
+     *
+     * @param administrators
+     *
+     * @return bool
+     */
+    public function userVisible($administrators)
+    {
+        if ($this->isMainAccount()) {
+            return true;
+        }
+
+        if ($administrators) {
+            foreach ($administrators as $user) {
+                $users[] = $user['pivot']['user_id'];
+            }
+
+            if (in_array($this->id, $users) ) {
+                return true;
+            }
         }
 
         return false;

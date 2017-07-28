@@ -56,6 +56,20 @@ class Menu extends Model
     }
 
     /**
+     * A Menu belongs to many roles.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function administrators()
+    {
+        $pivotTable = config('front.database.user_menu_table');
+
+        $relatedModel = config('front.database.users_model');
+
+        return $this->belongsToMany($relatedModel, $pivotTable, 'menu_id', 'user_id');
+    }
+
+    /**
      * @return array
      */
     public function allNodes()
@@ -63,6 +77,6 @@ class Menu extends Model
         $orderColumn = DB::getQueryGrammar()->wrap($this->orderColumn);
         $byOrder = $orderColumn.' = 0,'.$orderColumn;
 
-        return static::with('roles')->orderByRaw($byOrder)->get()->toArray();
+        return static::with('administrators')->orderByRaw($byOrder)->get()->toArray();
     }
 }

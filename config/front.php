@@ -86,6 +86,7 @@ return [
         'role_users_table'       => 'front_role_users',
         'role_permissions_table' => 'front_role_permissions',
         'role_menu_table'        => 'front_role_menu',
+        'user_menu_table'        => 'front_user_menu',
     ],
 
     /*

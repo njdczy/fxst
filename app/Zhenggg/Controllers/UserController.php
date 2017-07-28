@@ -3,6 +3,7 @@
 namespace App\Zhenggg\Controllers;
 
 use App\Zhenggg\Auth\Database\Administrator;
+use App\Zhenggg\Auth\Database\Menu;
 use App\Zhenggg\Auth\Database\Permission;
 use App\Zhenggg\Auth\Database\Role;
 use App\Zhenggg\Facades\Front;
@@ -75,7 +76,7 @@ class UserController extends Controller
             $grid->updated_at(trans('front::lang.updated_at'));
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
-                if ($actions->row->roles[0]['slug'] == 'main_account') {
+                if ($actions->row->roles && $actions->row->roles[0]['slug'] == 'main_account') {
                     $actions->disableDelete();
                 }
             });
@@ -111,7 +112,9 @@ class UserController extends Controller
 
             $form->ignore(['password_confirmation']);
 
-            $form->multipleSelect('permissions', trans('front::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
+            $form->multipleSelect('menus', trans('front::lang.menus'))->options(Menu::all()->pluck('title', 'id'));
+
+            //$form->multipleSelect('permissions', trans('front::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));

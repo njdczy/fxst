@@ -7,9 +7,11 @@ use App\Models\Input;
 use App\Models\InputP;
 use App\Models\Periodical;
 use App\Zhenggg\Auth\Database\Administrator;
+use App\Zhenggg\Auth\Database\Menu;
 
 use App\Observer\DTargetObserver;
 use App\Observer\InputObserver;
+use App\Observer\MenuObserver;
 use App\Observer\InputPObserver;
 use App\Observer\MenberObserver;
 use App\Observer\PeriodicalObserver;
@@ -42,6 +44,7 @@ class EventServiceProvider extends ServiceProvider
         DTarget::observe(new DTargetObserver);
         InputP::observe(new InputPObserver);
         Input::observe(new InputObserver);
+        Menu::observe(new MenuObserver);
 
     }
 }

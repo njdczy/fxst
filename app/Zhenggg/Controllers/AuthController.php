@@ -2,7 +2,7 @@
 
 namespace App\Zhenggg\Controllers;
 
-use App\Zhenggg\Front;
+use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Auth\Database\Administrator;
 use App\Zhenggg\Form;
 use App\Zhenggg\Layout\Content;
@@ -52,7 +52,7 @@ class AuthController extends Controller
             return redirect()->intended(config('front.prefix'));
         }
 
-        return Redirect::back()->withInput()->withErrors(['admin_name' => $this->getFailedLoginMessage()]);
+        return Redirect::back()->withInput()->withErrors(['admin_account' => $this->getFailedLoginMessage()]);
     }
 
     /**
