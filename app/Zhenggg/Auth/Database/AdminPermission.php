@@ -81,11 +81,11 @@ trait AdminPermission
             }
         }
 
-        foreach ($this->roles as $role) {
-            if ($role->can($permission)) {
-                return true;
-            }
-        }
+//        foreach ($this->roles as $role) {
+//            if ($role->can($permission)) {
+//                return true;
+//            }
+//        }
 
         return false;
     }

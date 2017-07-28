@@ -112,9 +112,9 @@ class UserController extends Controller
 
             $form->ignore(['password_confirmation']);
 
-            $form->multipleSelect('menus', trans('front::lang.menus'))->options(Menu::all()->pluck('title', 'id'));
+            //$form->multipleSelect('menus', trans('front::lang.menus'))->options(Menu::all()->pluck('title', 'id'));
 
-            //$form->multipleSelect('permissions', trans('front::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
+            $form->multipleSelect('permissions', trans('front::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
