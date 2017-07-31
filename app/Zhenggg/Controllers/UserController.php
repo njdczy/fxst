@@ -10,6 +10,7 @@ use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class UserController extends Controller
@@ -98,6 +99,7 @@ class UserController extends Controller
      */
     public function form()
     {
+
         return Administrator::form(function (Form $form) {
 
 
@@ -114,7 +116,12 @@ class UserController extends Controller
 
             //$form->multipleSelect('menus', trans('front::lang.menus'))->options(Menu::all()->pluck('title', 'id'));
 
-            $form->multipleSelect('permissions', trans('front::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
+//            $form->multipleSelect('permissions', trans('front::lang.permissions'))
+//                ->options(Permission::all()->pluck('name', 'id'));
+            //$form->radio('permissions', trans('front::lang.permissions'))->default('m');
+
+            $form->pSelect('permissions', trans('front::lang.permissions'))
+                ->options(Permission::orderBy('parent_id', 'asc')->get()->pluck('name', 'id'));
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
@@ -125,5 +132,16 @@ class UserController extends Controller
                 }
             });
         });
+    }
+
+    public function pselect($uid , Request $req)
+    {
+        $val = $req->input('val');
+        $parent_id = Permission::where('id',$val)->value('parent_id');
+
+        if ($parent_id) {
+            die(json_encode(['parent_id'=>$parent_id]));
+        }
+
     }
 }

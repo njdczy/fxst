@@ -4,6 +4,7 @@ namespace App\Zhenggg\Auth\Database;
 
 trait AdminPermission
 {
+
     /**
      * Get avatar attribute.
      *

@@ -1,10 +1,18 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2017/7/30
+ * Time: 21:53
+ */
 
-namespace App\Zhenggg\Form\Field;
+namespace App\Front\Extensions;
 
+
+use App\Zhenggg\Form\Field\MultipleSelect;
 use Illuminate\Contracts\Support\Arrayable;
 
-class Checkbox extends MultipleSelect
+class PSelect extends MultipleSelect
 {
     protected $inline = true;
 
@@ -15,6 +23,12 @@ class Checkbox extends MultipleSelect
     protected static $js = [
         'packages/front/AdminLTE/plugins/iCheck/icheck.min.js',
     ];
+
+
+    private function getUrl()
+    {
+        return url()->current() ;
+    }
 
     /**
      * Set options.
@@ -55,8 +69,25 @@ class Checkbox extends MultipleSelect
      */
     public function render()
     {
-        $this->script = "$('{$this->getElementClassSelector()}').iCheck({checkboxClass:'icheckbox_minimal-blue'});";
+        $this->script = <<<EOT
+$('{$this->getElementClassSelector()}').on('ifChecked', function(event){
+    val = this.value;
+    $.ajax({
+         type: 'get',
+         url: '{$this->getUrl()}/pselect' ,
+         data: {val:val} ,
+         dataType: 'json',
+         success: function(data){
+            if(data) {
+                data.parent_id
+            }
+         }
+    });
+});
+$('{$this->getElementClassSelector()}').iCheck({checkboxClass:'icheckbox_minimal-blue'});
 
+
+EOT;
 
         return parent::render()->with('inline', $this->inline);
     }

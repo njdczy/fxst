@@ -1,5 +1,5 @@
 
-@if(($item['parent_id'] !=0) || Front::user()->can($item['uri']))
+@if( Front::user()->can($item['uri']))
 {{--@if(Front::user()->visible($item['roles']))--}}
 {{--@if(Front::user()->userVisible($item['administrators']))--}}
     @if(!isset($item['children']))

@@ -12,6 +12,7 @@ Route::group([
 ], function (Router $router) {
     $router->get('/', 'HomeController@index');
 
+
     //base
     $router->get('/system/jconfig','Base\\JConfigController@index')->name('jconfig');
     $router->post('/system/jconfig','Base\\JConfigController@storeAndUpdate')->name('store_and_update_jconfig');
