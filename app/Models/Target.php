@@ -13,5 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Target extends Model
 {
-
+    public function periodical()
+    {
+        return $this->belongsTo(Periodical::class,'p_id');
+    }
 }

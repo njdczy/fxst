@@ -6,11 +6,11 @@
  * Time: 17:42
  */
 
-namespace App\Front\Controllers;
+namespace App\Front\Controllers\Yeji;
 
+use App\Models\Menber;
 use App\Models\UCheckout;
 
-use App\Zhenggg\Auth\Database\Administrator;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Facades\Front;
@@ -57,10 +57,10 @@ class CheckoutController extends  Controller
 
     protected function grid()
     {
-        return Front::grid(Administrator::class, function (Grid $grid) {
+        return Front::grid(Menber::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id);
             $grid->name('名称');
-            $grid->roles('所属部门')->pluck('name')->label();
+            $grid->department()->name('部门')->label();
             $grid->id("总有效销售额/已结算/未结算")->display(function(){
                 $checkout = UCheckout::where('u_id',$this->id)->first();
                 $h = '';
@@ -69,7 +69,7 @@ class CheckoutController extends  Controller
                 }
                 return $h;
             });
-            $grid->column('details','详情')->display(function(){
+            $grid->column('details','订阅目标完成详情')->display(function(){
                return "<a href='checkout/$this->id/details'>查看</a>";
             });
         });
@@ -77,7 +77,7 @@ class CheckoutController extends  Controller
 
     protected function form()
     {
-        return Front::form(Administrator::class, function (Form $form) {
+        return Front::form(Menber::class, function (Form $form) {
 
             $form->display('name', '名称');
             $form->display('created_at', 'Created At');

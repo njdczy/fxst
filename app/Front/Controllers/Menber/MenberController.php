@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Front\Controllers;
+namespace App\Front\Controllers\Menber;
 
-use App\Zhenggg\Auth\Database\Administrator;
-use App\Zhenggg\Auth\Database\Permission;
-use App\Zhenggg\Auth\Database\Role;
+use App\Front\Controllers\ModelForm;
+use App\Models\Department;
+use App\Models\Menber;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
@@ -68,13 +68,14 @@ class MenberController extends Controller
      */
     protected function grid()
     {
-        return Administrator::grid(function (Grid $grid) {
+        return Menber::grid(function (Grid $grid) {
             $grid->model()
                 ->where('user_id', '=', Front::user()->user_id)
                 ->orWhere('id', '=', Front::user()->user_id);
-            $grid->username(trans('front::lang.username'));
-            $grid->name(trans('front::lang.name'));
-            $grid->roles(trans('front::lang.roles'))->pluck('name')->label();
+
+            $grid->name('姓名');
+
+            $grid->department()->name('部门')->label();
             $grid->column('qrcode','二维码')->display(function () {
                 return  '<img src="data:image/png;base64,'
                 .base64_encode(
@@ -90,17 +91,16 @@ class MenberController extends Controller
             $grid->created_at(trans('front::lang.created_at'));
             $grid->updated_at(trans('front::lang.updated_at'));
 
-            $grid->actions(function (Grid\Displayers\Actions $actions) {
-                if ($actions->getKey() == 1) {
-                    $actions->disableDelete();
-                }
+            $grid->filter(function($filter){
+
+                $filter->disableIdFilter();
+
+                $filter->like('name', '姓名');
+
+                //$filter->is('d_id', '所属部门')->select(Department::selectOptions());
+
             });
 
-            $grid->tools(function (Grid\Tools $tools) {
-                $tools->batch(function (Grid\Tools\BatchActions $actions) {
-                    $actions->disableDelete();
-                });
-            });
 
             $grid->disableExport();
         });
@@ -113,31 +113,16 @@ class MenberController extends Controller
      */
     public function form()
     {
-        return Administrator::form(function (Form $form) {
-            $form->text('username', trans('front::lang.username'))->rules('required');
-            $form->text('name', trans('front::lang.name'))->rules('required');
-            $form->image('avatar', trans('front::lang.avatar'));
-            $form->password('password', trans('front::lang.password'))->rules('required|confirmed');
-            $form->password('password_confirmation', trans('front::lang.password_confirmation'))->rules('required')
-                ->default(function ($form) {
-                    return $form->model()->password;
-                });
+        return Menber::form(function (Form $form) {
 
-            $form->ignore(['password_confirmation']);
+            $form->text('name', '姓名')->rules('required');
 
-            $form->multipleSelect('roles', trans('front::lang.roles'))
-                ->options(Role::where('user_id','=',Front::user()->user_id)->get()->pluck('name', 'id'));
-            $form->multipleSelect('permissions', trans('front::lang.permissions'))
-                ->options(Permission::where('user_id','=',Front::user()->user_id)->get()->pluck('name', 'id'));
+            $form->select('d_id','部门')->options()->options(Department::selectOptions());
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
             $form->hidden('user_id')->default(Front::user()->user_id);
-            $form->saving(function (Form $form) {
-                if ($form->password && $form->model()->password != $form->password) {
-                        $form->password = bcrypt($form->password);
-                }
-            });
+
         });
     }
 }

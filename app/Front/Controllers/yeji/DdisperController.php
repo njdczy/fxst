@@ -6,11 +6,11 @@
  * Time: 14:17
  */
 
-namespace App\Front\Controllers;
+namespace App\Front\Controllers\Yeji;
 
+use App\Models\Department;
 use App\Models\DPer;
-use App\Periodical;
-use App\Zhenggg\Auth\Database\Role;
+use App\Models\Periodical;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Facades\Front;
@@ -52,7 +52,7 @@ class DdisperController extends Controller
 
     protected function grid()
     {
-        return Front::grid(Role::class, function (Grid $grid) {
+        return Front::grid(Department::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id);
             $grid->column('');
             $grid->name("部门");
@@ -91,7 +91,7 @@ class DdisperController extends Controller
 
     protected function form($periodicals = '',$id = '')
     {
-        return Front::form(Role::class, function (Form $form) use ($periodicals , $id) {
+        return Front::form(Department::class, function (Form $form) use ($periodicals , $id) {
 
             $form->display('name', '部门');
             if ($periodicals) {

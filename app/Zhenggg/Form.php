@@ -93,6 +93,12 @@ class Form
     protected $saving;
 
     /**
+     * Creating callback.
+     *
+     * @var Closure
+     */
+    protected $creating;
+    /**
      * Saved callback.
      *
      * @var Closure
@@ -329,7 +335,9 @@ class Form
         if (($response = $this->prepare($data)) instanceof Response) {
             return $response;
         }
-
+        if (($response = $this->firstSave($this->creating)) instanceof Response) {
+            return $response;
+        }
         DB::transaction(function () {
             $inserts = $this->prepareInsert($this->updates);
 
@@ -460,6 +468,20 @@ class Form
     {
         if ($this->saving instanceof Closure) {
             return call_user_func($this->saving, $this);
+        }
+    }
+
+    /**
+     * Callback before creating a Model.
+     *
+     * @param Closure|null $callback
+     *
+     * @return mixed|null
+     */
+    protected function firstSave(Closure $callback = null)
+    {
+        if ($callback instanceof Closure) {
+            return $callback($this);
         }
     }
 
@@ -839,6 +861,18 @@ class Form
     public function saving(Closure $callback)
     {
         $this->saving = $callback;
+    }
+
+    /**
+     * Set creating callback.
+     *
+     * @param Closure $callback
+     *
+     * @return void
+     */
+    public function creating(Closure $callback)
+    {
+        $this->creating = $callback;
     }
 
     /**

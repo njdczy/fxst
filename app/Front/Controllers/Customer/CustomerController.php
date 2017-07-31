@@ -6,8 +6,9 @@
  * Time: 10:10
  */
 
-namespace App\Front\Controllers;
+namespace App\Front\Controllers\Customer;
 
+use App\Front\Controllers\ModelForm;
 use App\Models\Customer;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;

@@ -20,4 +20,9 @@ class Periodical extends Model
     {
         return $this->belongsTo(Baoshe::class, 'baoshe_id');
     }
+
+    public function targets()
+    {
+        return $this->hasMany(Target::class, 'p_id');
+    }
 }

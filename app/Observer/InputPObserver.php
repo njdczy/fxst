@@ -22,6 +22,7 @@ class InputPObserver
             $input = Input::find($input_p->input_id);
 
             $input->p_amount = $input_p->num * $input_p->price;
+            //todo should_dis_amount
             $input->save();
         });
     }

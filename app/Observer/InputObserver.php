@@ -8,16 +8,20 @@
 
 namespace App\Observer;
 
-use App\Models\DTarget;
 use App\Models\CheckDetail;
-use App\Zhenggg\Auth\Database\Administrator;
+use App\Models\Department;
+use App\Models\Input;
+use App\Models\Menber;
+use App\Models\Target;
 use App\Zhenggg\Facades\Front;
 use Illuminate\Support\Facades\DB;
+
 
 class InputObserver
 {
     public function saved($input)
     {
+        //当分成，增家余额
         if ($input->getOriginal('dis_status') == 0 && $input->dis_status ==1) {
 
             $check_detail = new CheckDetail;
@@ -26,32 +30,49 @@ class InputObserver
             $check_detail->money = $input->should_dis_amount;
             $check_detail->save();
 
-            Administrator::find($input->u_id)
+            Menber::find($input->u_id)
                 ->increment('money',$input->should_dis_amount);
         }
+        //当input save ，如果订单的销售改变，更新订单的部门
+        $department = Menber::find($input->u_id)->department;
 
+        Input::where('id',$input->id)
+            ->update(['d_id' => $department->id]);
 
-        Administrator::find($input->u_id)->roles->each(function ($role, $key) use ($input) {
-
-            DB::table('inputs')->where('id',$input->id)
-                ->update(['d_id' => $role->id]);
-        });
-
-        //当input saved时，如果订单确认状态发生改变，更新部门，个人已经完成目标
+        //当input saved时，如果订单确认状态发生改变，更新所有该刊物下面的目标
 
         if ($input->input_status != $input->getOriginal('input_status')) {
+            $input = Input::where('id',$input->id)
+                ->first();
             $input->input_ps->each(function ($input_p, $key) use ($input) {
+                //查出改订单的部门的上级部门，更新其上级部门的该刊物的目标
+                if ($input->d_id) {
+                    $d_id_array = [0,$input->d_id];
+                    $parent = Department::find($input->d_id)->parent;
+                    if ($parent) {
+                        array_push($d_id_array,$parent->id);
+                        $parent = Department::find($parent->id)->parent;
+                        if ($parent) {
+                            array_push($d_id_array,$parent->id);
+                            $parent = Department::find($parent->id)->parent;
+                            if ($parent) {
+                                array_push($d_id_array,$parent->id);
+                            }
+                        }
+                    }
+                }
                 if ($input->input_status == 1) {
-                    DTarget::where('user_id', '=', Front::user()->id)
+                    Target::where('user_id', '=', Front::user()->user_id)
+                        ->whereIn('d_id', $d_id_array)
                         ->where('p_id', $input_p->p_id)
-                        ->where('d_id', $input->d_id)
                         ->increment('numed',$input_p->num);
                 } else {
-                    DTarget::where('user_id', '=', Front::user()->id)
+                    Target::where('user_id', '=', Front::user()->user_id)
+                        ->whereIn('d_id', $d_id_array)
                         ->where('p_id', $input_p->p_id)
-                        ->where('d_id', $input->d_id)
                         ->decrement('numed',$input_p->num);
                 }
+
 
             });
         }

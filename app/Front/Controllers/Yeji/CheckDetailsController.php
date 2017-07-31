@@ -6,11 +6,12 @@
  * Time: 10:59
  */
 
-namespace App\Front\Controllers;
+namespace App\Front\Controllers\Yeji;
 
 use App\Models\Input;
 
-use App\Zhenggg\Auth\Database\Administrator;
+use App\Models\Menber;
+
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Facades\Front;
@@ -38,11 +39,13 @@ class CheckDetailsController extends Controller
         return Front::grid(Input::class, function (Grid $grid) use ($u_id) {
             $grid->model()
                 ->where('pay_status', 1)
-                ->where('user_id', '=', Front::user()->user_id);
+                ->where('user_id', '=', Front::user()->user_id)
+                ->where('u_id', '=', $u_id)
+                ->where('should_dis_amount', '!=', 0.00);
 
             $grid->input_sn('订单编号');
             $grid->column('name','客户名称')->display( function () {
-                return Administrator::where('id', $this->u_id)->value('name');
+                return Menber::where('id', $this->u_id)->value('name');
             });
             $grid->created_at('订单创建时间');
             $grid->column('i_status','订单状态')->display(function () {
@@ -73,7 +76,7 @@ class CheckDetailsController extends Controller
             });
             $grid->actions(function ($actions) {
                 $actions->disableDelete();
-                //$actions->disableEdit();
+                $actions->disableEdit();
             });
 
         });
