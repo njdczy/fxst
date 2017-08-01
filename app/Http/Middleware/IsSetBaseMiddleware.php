@@ -47,10 +47,13 @@ class IsSetBaseMiddleware
             }
             //检查是否添加报社
             if (
+                JituanConfig::where('user_id',Front::user()->user_id)->first()
+                &&
                 !Baoshe::where('user_id',Front::user()->user_id)->first()
                 &&
                 !$this->passThrough($request,
                     [
+
                         'get' =>  Front::url('system/baoshe/create'),
                         'post' =>Front::url('system/baoshe'),
                     ]
@@ -65,10 +68,16 @@ class IsSetBaseMiddleware
             }
             //检查是否添加刊物
             if (
+                Baoshe::where('user_id',Front::user()->user_id)->first()
+                &&
                 !Periodical::where('user_id',Front::user()->user_id)->first()
                 &&
                 !$this->passThrough($request,
                     [
+                        'get' =>  Front::url('system/jconfig/'),
+                        'post' =>Front::url('system/jconfig'),
+                        'get' =>  Front::url('system/baoshe/create'),
+                        'post' =>Front::url('system/baoshe'),
                         'get' =>  Front::url('periodical/create'),
                         'post' =>Front::url('periodical'),
                     ]
@@ -81,7 +90,7 @@ class IsSetBaseMiddleware
                 ]);
                 return redirect()->to(Front::url('periodical/create'))->with(compact('error'));
             }
-            //检查是否设置部门
+//            //检查是否设置部门
         }
 
         return $next($request);
