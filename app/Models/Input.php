@@ -17,6 +17,6 @@ class Input extends Model
 
     public function input_ps()
     {
-        return $this->hasMany(InputP::class, 'input_id');
+        return $this->hasOne(InputP::class, 'input_id');
     }
 }

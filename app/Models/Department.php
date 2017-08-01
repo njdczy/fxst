@@ -241,8 +241,13 @@ class Department extends Model
     public static function selectOptions()
     {
         $options = (new static())->buildSelectOptions();
-
         return collect($options)->prepend('/', 0)->all();
+    }
+
+    public static function selectOptionsForUser()
+    {
+        $options = (new static())->buildSelectOptions();
+        return collect($options);
     }
 
     /**
@@ -276,7 +281,6 @@ class Department extends Model
                 }
             }
         }
-
         return $options;
     }
 

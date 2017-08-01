@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 
+use App\Models\Baoshe;
 use App\Models\Department;
 use App\Models\Input;
 use App\Models\InputP;
 use App\Models\Menber;
+use App\Observer\BaosheObserver;
 use App\Zhenggg\Auth\Database\Menu;
 use App\Models\Periodical;
 
@@ -42,6 +44,7 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
+        Baoshe::observe(new BaosheObserver);
         Department::observe(new DepartmentObserver);
         Input::observe(new InputObserver);
         InputP::observe(new InputPObserver);

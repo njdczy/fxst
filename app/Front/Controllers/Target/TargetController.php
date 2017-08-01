@@ -67,7 +67,11 @@ class TargetController extends Controller
             $grid->name('刊物');
             $grid->column('');
             $grid->column('');
-            $grid->targets("部门/时间段/目标数/已完成")->map(function ($target) {
+            $grid->targets("部门&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            时间段&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            目标数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            已完成")
+                ->map(function ($target) {
                 $num = $target['num'];
                 $numed = $target['numed'];
                 $name = Department::where('user_id', '=', Front::user()->user_id)->where('id',$target['d_id'])->value('name')?:'总目标';
@@ -75,11 +79,11 @@ class TargetController extends Controller
                 $date =  Carbon::parse($target['s_time'])->format('Y-m-d'). '--' . Carbon::parse($target['e_time'])->format('Y-m-d');
                 return "<strong><i style='display:inline-block;width: 100px;'>$name</i></strong>
 <span style='display:inline-block;width: 140px;'>$date</span>
-<strong style='display:inline-block;width: 70px;text-align: center;'>$num/$numed</strong>
-<a style='padding-left: 50px;' href='/front/target/$target[id]/edit'>
+<strong style='display:inline-block;width: 80px;text-align: center;'>$num/$numed</strong>
+<a style='padding-left: 80px;' href='/front/target/$target[id]/edit'>
     <i class='fa fa-edit'></i>
 </a>
-<a style='padding-left: 50px;'  href=\"javascript:void(0);\" data-url=\"/front/target/$target[id]\" data-id=\"$target[id]\" class=\"grid-row-delete\">
+<a style='padding-left: 60px;'  href=\"javascript:void(0);\" data-url=\"/front/target/$target[id]\" data-id=\"$target[id]\" class=\"grid-row-delete\">
     <i class=\"fa fa-trash\"></i>
 </a>
 ";

@@ -58,6 +58,8 @@ class BaosheController extends Controller
     {
         return Front::grid(Baoshe::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id);
+            $grid->column('');
+            $grid->column('');
             $grid->name('报社名称');
             $grid->disableExport();
             $grid->disableFilter();
@@ -70,7 +72,7 @@ class BaosheController extends Controller
         return Front::form(Baoshe::class, function (Form $form) {
 
             $form->hidden('user_id')->default(Front::user()->user_id);
-            $form->text('name','报社名称')->rules('required');
+            $form->text('name','报社名称')->rules('required')->help('如：江苏经济报社');
         });
     }
 }

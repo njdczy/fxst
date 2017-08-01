@@ -84,11 +84,7 @@ class InputController extends Controller
             });
 
             $grid->column('input_ps','订单详情')->display(function(){
-                $input_ps = Input::find($this->id)->input_ps->toArray();
-                $html = '';
-                foreach ($input_ps as $input_p) {
-                    $html .=  Periodical::where('id',$input_p['p_id'])->value('name') . ":" .$input_p['num'] .'份';
-                }
+                $html =  Periodical::where('id',$this->p_id)->value('name') . ":" .$this->num .'份';
                 return $html;
             });;
             $grid->p_amount('应付总金额');
@@ -126,17 +122,13 @@ class InputController extends Controller
 
             })->tab('2.订单信息', function ($form) {
 
-                $form->hasMany('input_ps', '订单详情',function (Form\NestedForm $form) {
-                    $form->select('p_id','刊物')->options(
-                        Periodical::where('user_id', Front::user()->user_id)
-                            ->pluck('name', 'id')
-                    )->setWidth('4');
-                    $form->number('num','数量')->rules('required');
-                    $form->number('price','单价')->default(0)->rules('required');
-                });
+                $form->select('p_id','刊物')->options(
+                    Periodical::where('user_id', Front::user()->user_id)
+                        ->pluck('name', 'id')
+                )->setWidth('4')->rules('required');
+                $form->number('num','数量')->rules('required');
 
             })->tab('3.款项信息', function ($form) {
-
 
                 $form->number('money_paid', '已付款金额')->help('未付款填0');
                 $form->select('pay_status', '支付状态')->options([0 => '未支付',1 => '已支付', 2=> '部分付款'])->default($form->pay_status)->setWidth('4');
@@ -147,11 +139,20 @@ class InputController extends Controller
                 $form->divide();
                 $form->hidden('user_id')->default(Front::user()->user_id);
                 $form->hidden('menber_name');
+                $form->hidden('dis_per');
+                $form->hidden('p_name');
+                $form->hidden('p_money');
+                $form->hidden('p_amount');
             });
 
             $form->saving(function (Form $form){
                 $menber_name =  Menber::where('id',$form->u_id)->value('name');
+                $periodical =  Periodical::where('id',$form->p_id)->first();
                 $form->menber_name = $menber_name;
+                $form->p_name = $periodical->name;
+                $form->dis_per = $periodical->per;
+                $form->p_money = $periodical->c_price != 0? $periodical->c_price:$periodical->price;
+                $form->p_amount = ($form->num * $form->p_money);
             });
 
         });

@@ -69,7 +69,7 @@ class CheckoutController extends  Controller
 //                }
 //                return $h;
 //            });
-            $grid->column('details','订阅目标完成详情')->display(function(){
+            $grid->column('details','目标详情(确认并付完全款)')->display(function(){
                return "<a href='checkout/$this->id/details'>查看</a>";
             });
             $grid->actions(function ($actions) {

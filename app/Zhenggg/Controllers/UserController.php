@@ -125,6 +125,8 @@ class UserController extends Controller
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
+            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('roles')->default(3);
 
             $form->saving(function (Form $form) {
                 if ($form->password && $form->model()->password != $form->password) {

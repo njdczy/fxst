@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AddMenberTarget;
 use App\Zhenggg\Facades\Front;
 use Illuminate\Routing\Router;
 
@@ -36,9 +37,13 @@ Route::group([
 
     //customer
     $router->resource('/customer', 'Customer\\CustomerController');
+    Route::group([
+        'middleware'    => AddMenberTarget::class,
+    ], function (Router $router) {
+        //finance/finance
+        $router->resource('/finance/input', 'Finance\\InputController');
+    });
 
-    //finance/finance
-    $router->resource('/finance/input', 'Finance\\InputController');
 
     //yeji
     $router->resource('/performance/d_dis_per', 'Yeji\\DdisperController',['except' => 'create','destroy']);

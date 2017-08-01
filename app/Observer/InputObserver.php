@@ -44,7 +44,6 @@ class InputObserver
         if ($input->input_status != $input->getOriginal('input_status')) {
             $input = Input::where('id',$input->id)
                 ->first();
-            $input->input_ps->each(function ($input_p, $key) use ($input) {
                 //查出改订单的部门的上级部门，更新其上级部门的该刊物的目标
                 if ($input->d_id) {
                     $d_id_array = [0,$input->d_id];
@@ -64,17 +63,15 @@ class InputObserver
                 if ($input->input_status == 1) {
                     Target::where('user_id', '=', Front::user()->user_id)
                         ->whereIn('d_id', $d_id_array)
-                        ->where('p_id', $input_p->p_id)
-                        ->increment('numed',$input_p->num);
+                        ->where('p_id', $input->p_id)
+                        ->increment('numed',$input->num);
                 } else {
                     Target::where('user_id', '=', Front::user()->user_id)
                         ->whereIn('d_id', $d_id_array)
-                        ->where('p_id', $input_p->p_id)
-                        ->decrement('numed',$input_p->num);
+                        ->where('p_id', $input->p_id)
+                        ->decrement('numed',$input->num);
                 }
 
-
-            });
         }
     }
 

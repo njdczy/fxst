@@ -38,7 +38,8 @@ class JConfigController extends Controller
 
                     $form->text('jituan_name', '单位名称')
                         ->default($jituan_config ? $jituan_config->jituan_name : '')
-                        ->placeholder('请先设置本单位名称');
+                        ->placeholder('请先设置本单位名称')
+                        ->help('如：新华报业集团');
 
                     $column->append(new Box('基本信息', $form));
 
