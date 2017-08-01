@@ -64,12 +64,18 @@ class TargetController extends Controller
             $grid->model()->where('user_id', '=', Front::user()->user_id);
             $grid->column('');
             $grid->column('');
-            $grid->name('刊物');
+            $grid->name('刊物')->label();
             $grid->column('');
             $grid->column('');
             $grid->targets("部门&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             时间段&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             目标数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             已完成")
                 ->map(function ($target) {
                 $num = $target['num'];
@@ -77,9 +83,9 @@ class TargetController extends Controller
                 $name = Department::where('user_id', '=', Front::user()->user_id)->where('id',$target['d_id'])->value('name')?:'总目标';
 
                 $date =  Carbon::parse($target['s_time'])->format('Y-m-d'). '--' . Carbon::parse($target['e_time'])->format('Y-m-d');
-                return "<strong><i style='display:inline-block;width: 100px;'>$name</i></strong>
-<span style='display:inline-block;width: 140px;'>$date</span>
-<strong style='display:inline-block;width: 80px;text-align: center;'>$num/$numed</strong>
+                return "<strong><i style='display:inline-block;width: 100px;margin-left: -30px;font-style: normal;'>$name</i></strong>
+<span style='display:inline-block;width: 140px;margin-left: 63px;'>$date</span>
+<strong style='display:inline-block;width: 80px;text-align: center;margin-left: 95px;'>$num</strong><strong style='display:inline-block;width: 80px;text-align: center;margin-left: 120px;'>$numed</strong>
 <a style='padding-left: 80px;' href='/front/target/$target[id]/edit'>
     <i class='fa fa-edit'></i>
 </a>
@@ -87,7 +93,7 @@ class TargetController extends Controller
     <i class=\"fa fa-trash\"></i>
 </a>
 ";
-            })->implode('<br />');
+            })->implode('<br /><hr />');
             $grid->column('')->display(function () {
                 $confirm = '该目标已完成的的数量将无法关联到之后添加的目标，确定要删除目标吗？';
                 return <<<SCRIPT

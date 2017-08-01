@@ -74,10 +74,6 @@ class IsSetBaseMiddleware
                 &&
                 !$this->passThrough($request,
                     [
-                        'get' =>  Front::url('system/jconfig/'),
-                        'post' =>Front::url('system/jconfig'),
-                        'get' =>  Front::url('system/baoshe/create'),
-                        'post' =>Front::url('system/baoshe'),
                         'get' =>  Front::url('periodical/create'),
                         'post' =>Front::url('periodical'),
                     ]
