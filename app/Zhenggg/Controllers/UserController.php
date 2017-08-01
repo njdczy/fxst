@@ -114,7 +114,7 @@ class UserController extends Controller
 
             $form->ignore(['password_confirmation']);
 
-            $form->select('roles', '角色')->options(Role::where('id',3)->pluck('name', 'id'));
+            $form->select('roles', '角色')->options(Role::all()->pluck('name', 'id'));
 
 //            $form->multipleSelect('permissions', trans('front::lang.permissions'))
 //                ->options(Permission::all()->pluck('name', 'id'));
