@@ -8,6 +8,7 @@ use App\Models\Input;
 use App\Models\Menber;
 use App\Models\Periodical;
 
+use App\Models\Zhifu;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Facades\Front;
@@ -61,7 +62,14 @@ class InputController extends Controller
             });
 
             $grid->column('sale','销售人/所属部门')->display(function(){
-                return Menber::where('id',$this->u_id)->value('name'). '/' . Department::where('id',$this->d_id)->value('name');
+                $menber_name =  Menber::where('id',$this->u_id)->value('name');
+
+                if ($menber_name) {
+                    return $menber_name. '/' . Department::where('id',$this->d_id)->value('name');
+                } else {
+                    return $this->menber_name. '(已删除)' ;
+                }
+
             });
 
             $grid->source('订单来源')->display(function(){
@@ -106,10 +114,14 @@ class InputController extends Controller
                 )->rules('required')->setWidth('4');
 
                 $form->select('source', '订单来源')->options(
-                    ['线下','微信']
+                    ['后台添加','微信']
                 )->setWidth('4');
 
-                $form->select('input_status', '订单状态')->options([0 => '未确认', 1=> '已确认'])->default($form->input_status)->setWidth('4');
+                $form->select('input_status', '订单状态')->options(
+                    Zhifu::where('user_id', Front::user()->user_id)
+                        ->orWhere('user_id', '=', 0)
+                        ->pluck('name', 'id')
+                )->default($form->input_status)->setWidth('4');
                 $form->divide();
 
             })->tab('2.订单信息', function ($form) {
@@ -134,14 +146,13 @@ class InputController extends Controller
                 $form->text('pay_note', '付款备注');
                 $form->divide();
                 $form->hidden('user_id')->default(Front::user()->user_id);
+                $form->hidden('menber_name');
             });
 
-
-//            $form->saving(function (Form $form){
-                //unset($form->u_id);
-//                $u_id = Administrator::where('username',$form->u_id)->value('id');
-//                $form->u_id = $u_id;
-//            });
+            $form->saving(function (Form $form){
+                $menber_name =  Menber::where('id',$form->u_id)->value('name');
+                $form->menber_name = $menber_name;
+            });
 
         });
     }

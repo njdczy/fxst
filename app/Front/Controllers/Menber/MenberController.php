@@ -3,6 +3,7 @@
 namespace App\Front\Controllers\Menber;
 
 use App\Front\Controllers\ModelForm;
+use App\Front\Extensions\MenberDel;
 use App\Models\Department;
 use App\Models\Menber;
 use App\Zhenggg\Facades\Front;
@@ -101,7 +102,11 @@ class MenberController extends Controller
 
             });
 
-
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+                //自定义删除
+                $actions->append(new MenberDel($actions->getKey()));
+            });
             $grid->disableExport();
         });
     }
@@ -117,7 +122,7 @@ class MenberController extends Controller
 
             $form->text('name', '姓名')->rules('required');
 
-            $form->select('d_id','部门')->options()->options(Department::selectOptions());
+            $form->select('d_id','部门')->options(Department::selectOptions());
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));

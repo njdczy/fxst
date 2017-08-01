@@ -59,18 +59,22 @@ class CheckoutController extends  Controller
     {
         return Front::grid(Menber::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id);
-            $grid->name('名称');
+            $grid->name('人员');
             $grid->department()->name('部门')->label();
-            $grid->id("总有效销售额/已结算/未结算")->display(function(){
-                $checkout = UCheckout::where('u_id',$this->id)->first();
-                $h = '';
-                if ($checkout) {
-                    $h .= $checkout->all_money  . "/" . $checkout->j_money  . "/" . $checkout->no_money  . "" . "<br/>";
-                }
-                return $h;
-            });
+//            $grid->id("总有效销售额/已结算/未结算")->display(function(){
+//                $checkout = UCheckout::where('u_id',$this->id)->first();
+//                $h = '';
+//                if ($checkout) {
+//                    $h .= $checkout->all_money  . "/" . $checkout->j_money  . "/" . $checkout->no_money  . "" . "<br/>";
+//                }
+//                return $h;
+//            });
             $grid->column('details','订阅目标完成详情')->display(function(){
                return "<a href='checkout/$this->id/details'>查看</a>";
+            });
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+                $actions->disableEdit();
             });
         });
     }

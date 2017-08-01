@@ -11,7 +11,7 @@ namespace App\Front\Extensions;
 
 use App\Zhenggg\Facades\Front;
 
-class MyDel
+class MenberDel
 {
     protected $id;
 
@@ -22,7 +22,7 @@ class MyDel
 
     protected function script()
     {
-        $confirm = trans('front::lang.delete_confirm');
+        $confirm = '确定删除该人员吗？删除后该人员的业绩记录也将被删除。';
 
         return <<<SCRIPT
 
@@ -30,7 +30,7 @@ $('.grid-row-delete').unbind('click').click(function() {
     if(confirm("{$confirm}")) {
         $.ajax({
             method: 'post',
-            url: '{$this->getResource()}/' + $(this).data('id'),
+            url: '/front/menber/' + $(this).data('id'),
             data: {
                 _method:'delete',
                 _token:LA.token,

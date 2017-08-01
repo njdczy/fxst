@@ -2,14 +2,16 @@
 
 namespace App\Providers;
 
-use App\Models\DTarget;
+
+use App\Models\Department;
 use App\Models\Input;
 use App\Models\InputP;
-use App\Models\Periodical;
-use App\Zhenggg\Auth\Database\Administrator;
+use App\Models\Menber;
 use App\Zhenggg\Auth\Database\Menu;
+use App\Models\Periodical;
 
-use App\Observer\DTargetObserver;
+
+use App\Observer\DepartmentObserver;
 use App\Observer\InputObserver;
 use App\Observer\MenuObserver;
 use App\Observer\InputPObserver;
@@ -39,12 +41,13 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-        Administrator::observe(new MenberObserver);
-        Periodical::observe(new PeriodicalObserver);
-        DTarget::observe(new DTargetObserver);
-        InputP::observe(new InputPObserver);
+
+        Department::observe(new DepartmentObserver);
         Input::observe(new InputObserver);
+        InputP::observe(new InputPObserver);
+        Menber::observe(new MenberObserver);
         Menu::observe(new MenuObserver);
+        Periodical::observe(new PeriodicalObserver);
 
     }
 }

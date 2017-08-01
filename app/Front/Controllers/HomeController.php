@@ -25,8 +25,8 @@ class HomeController extends Controller
     {
         return Front::content(function (Content $content) {
 
-            $content->header('Dashboard');
-            $content->description('Description...');
+            $content->header('发行管理系统');
+            $content->description('发行管理系统');
 
 //            $content->row(function ($row) {
 //                $row->column(3, new InfoBox('New Users', 'users', 'aqua', '/admin/users', '1024'));
@@ -83,7 +83,7 @@ class HomeController extends Controller
 
                 $row->column(6, function (Column $column) {
 
-                    $column->append(new Box('Radar', new Radar()));
+//                    $column->append(new Box('Radar', new Radar()));
 //
 //                    $polarArea = new PolarArea([
 //                        ['Red', 300],

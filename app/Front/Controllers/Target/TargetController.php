@@ -62,12 +62,15 @@ class TargetController extends Controller
     {
         return Front::grid(Periodical::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id);
+            $grid->column('');
+            $grid->column('');
             $grid->name('刊物');
-
+            $grid->column('');
+            $grid->column('');
             $grid->targets("部门/时间段/目标数/已完成")->map(function ($target) {
                 $num = $target['num'];
                 $numed = $target['numed'];
-                $name = Department::where('user_id', '=', Front::user()->user_id)->where('id',$target['d_id'])->value('name')?:'总';
+                $name = Department::where('user_id', '=', Front::user()->user_id)->where('id',$target['d_id'])->value('name')?:'总目标';
 
                 $date =  Carbon::parse($target['s_time'])->format('Y-m-d'). '--' . Carbon::parse($target['e_time'])->format('Y-m-d');
                 return "<strong><i style='display:inline-block;width: 100px;'>$name</i></strong>
@@ -82,7 +85,7 @@ class TargetController extends Controller
 ";
             })->implode('<br />');
             $grid->column('')->display(function () {
-                $confirm = trans('front::lang.delete_confirm');
+                $confirm = '该目标已完成的的数量将无法关联到之后添加的目标，确定要删除目标吗？';
                 return <<<SCRIPT
 <script>
     $('.grid-row-delete').unbind('click').click(function() {

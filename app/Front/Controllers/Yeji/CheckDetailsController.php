@@ -41,7 +41,7 @@ class CheckDetailsController extends Controller
                 ->where('pay_status', 1)
                 ->where('user_id', '=', Front::user()->user_id)
                 ->where('u_id', '=', $u_id)
-                ->where('should_dis_amount', '!=', 0.00);
+                ->where('should_dis_amount', '>', 0);
 
             $grid->input_sn('订单编号');
             $grid->column('name','客户名称')->display( function () {
@@ -52,7 +52,7 @@ class CheckDetailsController extends Controller
                 return trans('app.input_status.' .$this->input_status. '');
             });
 
-            $grid->dis_amount('有效金额');
+            $grid->money_paid('有效金额');
             $grid->should_dis_amount('应结算佣金');
 
             $states = [
