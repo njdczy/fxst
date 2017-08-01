@@ -136,14 +136,27 @@ class UserController extends Controller
         });
     }
 
-    public function pselect($uid , Request $req)
+    public function pselect(Request $req)
     {
+        $res = ['parent_id'=>'','children_id'=>[]];
         $val = $req->input('val');
         $parent_id = Permission::where('id',$val)->value('parent_id');
-
         if ($parent_id) {
-            die(json_encode(['parent_id'=>$parent_id]));
+            $res['parent_id'] = $parent_id;
+        }
+        $children = Permission::where('parent_id',$val)->get();
+        if ($children) {
+            foreach ($children as $key => $child) {
+                $children_id[] = $child->id;
+            }
+
+            $res['children_id'] = $children_id;
+
         }
 
+        die(json_encode($res));
+
+
     }
+
 }

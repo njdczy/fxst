@@ -102,8 +102,6 @@ class InputController extends Controller
                     Customer::where('user_id', Front::user()->user_id)
                         ->pluck('name', 'id')
                 )->rules('required')->setWidth('4');
-
-
                 $form->select('u_id', '销售')->options(
                     Menber::where('user_id', Front::user()->user_id)
                         ->pluck('name', 'id')
@@ -114,14 +112,11 @@ class InputController extends Controller
                 )->setWidth('4');
 
                 $form->select('input_status', '订单状态')->options(
-                    Zhifu::where('user_id', Front::user()->user_id)
-                        ->orWhere('user_id', '=', 0)
-                        ->pluck('name', 'id')
+                    [0 => '未确认',1 => '已确认']
                 )->default($form->input_status)->setWidth('4');
                 $form->divide();
 
             })->tab('2.订单信息', function ($form) {
-
                 $form->select('p_id','刊物')->options(
                     Periodical::where('user_id', Front::user()->user_id)
                         ->pluck('name', 'id')
@@ -133,7 +128,9 @@ class InputController extends Controller
                 $form->number('money_paid', '已付款金额')->help('未付款填0');
                 $form->select('pay_status', '支付状态')->options([0 => '未支付',1 => '已支付', 2=> '部分付款'])->default($form->pay_status)->setWidth('4');
                 $form->select('pay_name', '支付方式')->options(
-                    ['线下','微信']
+                    Zhifu::where('user_id', Front::user()->user_id)
+                        ->orWhere('user_id', '=', 0)
+                        ->pluck('name', 'id')
                 )->setWidth('4');
                 $form->text('pay_note', '付款备注');
                 $form->divide();

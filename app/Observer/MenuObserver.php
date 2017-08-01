@@ -20,6 +20,7 @@ class MenuObserver
         Permission::truncate();
         $menus->each(function ($menu, $key) {
             Permission::create([
+                'id'  => $menu->id,
                 'name'  => $menu->title,
                 'slug'  => $menu->uri,
                 'parent_id'  => $menu->parent_id,

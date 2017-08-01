@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
-    protected $fillable = ['name', 'slug', 'parent_id'];
+    public $incrementing  = false;
+
+
+    protected $fillable = ['id','name', 'slug', 'parent_id'];
 
     /**
      * @var string

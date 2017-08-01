@@ -265,6 +265,7 @@ class Front
                 $router->resource('auth/logs', 'LogController', ['only' => ['index', 'destroy']]);
             });
             $router->get('/auth/users/{uid}/edit/pselect', 'UserController@pselect');
+            $router->get('/auth/users/create/pselect', 'UserController@pselect');
             $router->get('auth/login', 'AuthController@getLogin');
             $router->post('auth/login', 'AuthController@postLogin');
             $router->get('auth/logout', 'AuthController@getLogout');
