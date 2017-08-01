@@ -53,7 +53,7 @@ return [
             'file'   => 'file',
         ],
 
-        'host' => 'http://fxst.app/upload/',
+        'host' => 'http://f.xhbuy.cn/upload/',
     ],
 
     /*
