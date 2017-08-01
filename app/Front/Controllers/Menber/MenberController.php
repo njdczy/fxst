@@ -76,7 +76,13 @@ class MenberController extends Controller
 
             $grid->name('姓名');
 
-            $grid->department()->name('部门')->label();
+            $grid->department()->name('部门')->display(function () {
+                if ($this->department['parent_id'] > 0) {
+                    $parent_name = Department::where('id',$this->department['parent_id'] )->value('name');
+                    return $this->department['name'] . '(' . $parent_name . ')';
+                }
+                return $this->department['name'];
+            })->label();
             $grid->column('qrcode','二维码')->display(function () {
                 return  '<img src="data:image/png;base64,'
                 .base64_encode(

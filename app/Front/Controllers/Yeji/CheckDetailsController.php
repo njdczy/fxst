@@ -74,6 +74,7 @@ class CheckDetailsController extends Controller
                     $batch->disableDelete();
                 });
             });
+            $grid->disableActions();
             $grid->actions(function ($actions) {
                 $actions->disableDelete();
                 $actions->disableEdit();

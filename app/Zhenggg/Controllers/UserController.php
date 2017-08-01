@@ -114,7 +114,7 @@ class UserController extends Controller
 
             $form->ignore(['password_confirmation']);
 
-            //$form->multipleSelect('menus', trans('front::lang.menus'))->options(Menu::all()->pluck('title', 'id'));
+            $form->select('roles', '角色')->options(Role::where('id',3)->pluck('name', 'id'));
 
 //            $form->multipleSelect('permissions', trans('front::lang.permissions'))
 //                ->options(Permission::all()->pluck('name', 'id'));
@@ -126,7 +126,7 @@ class UserController extends Controller
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
             $form->hidden('user_id')->default(Front::user()->user_id);
-            $form->hidden('roles')->default(3);
+
 
             $form->saving(function (Form $form) {
                 if ($form->password && $form->model()->password != $form->password) {

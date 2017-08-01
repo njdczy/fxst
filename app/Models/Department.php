@@ -304,9 +304,9 @@ class Department extends Model
         static::saving(function (Model $branch) {
             $parentColumn = $branch->getParentColumn();
 
-            if (Request::has($parentColumn) && Request::input($parentColumn) == $branch->getKey()) {
-                throw new \Exception(trans('front::lang.parent_select_error'));
-            }
+//            if (Request::has($parentColumn) && Request::input($parentColumn) == $branch->getKey()) {
+//                throw new \Exception(trans('front::lang.parent_select_error'));
+//            }
 
             if (Request::has('_order')) {
                 $order = Request::input('_order');

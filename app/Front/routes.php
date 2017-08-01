@@ -42,15 +42,16 @@ Route::group([
     ], function (Router $router) {
         //finance/finance
         $router->resource('/finance/input', 'Finance\\InputController');
+
+        //yeji
+        $router->resource('/performance/checkout', 'Yeji\\CheckoutController',['except' => 'create','destroy']);
+
+        $router->resource('/performance/checkout/{u_id}/details', 'Yeji\\CheckDetailsController',['except' => 'create','destroy']);
     });
 
 
-    //yeji
-    $router->resource('/performance/d_dis_per', 'Yeji\\DdisperController',['except' => 'create','destroy']);
 
-    $router->resource('/performance/checkout', 'Yeji\\CheckoutController',['except' => 'create','destroy']);
 
-    $router->resource('/performance/checkout/{u_id}/details', 'Yeji\\CheckDetailsController',['except' => 'create','destroy']);
 
     $router->resource('/permissions', 'PermissionController');
 

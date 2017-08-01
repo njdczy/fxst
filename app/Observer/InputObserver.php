@@ -27,11 +27,11 @@ class InputObserver
             $check_detail = new CheckDetail;
             $check_detail->user_id = $input->user_id;
             $check_detail->u_id = $input->u_id;
-            $check_detail->money = $input->should_dis_amount;
+            $check_detail->money = $input->money_paid * $input->dis_per;
             $check_detail->save();
 
             Menber::find($input->u_id)
-                ->increment('money',$input->should_dis_amount);
+                ->increment('money',$check_detail->money);
         }
         //当input save ，如果订单的销售改变，更新订单的部门
         $department = Menber::find($input->u_id)->department;
