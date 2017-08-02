@@ -56,7 +56,7 @@ class IndexController extends Controller
             $input->pay_name = '无';
             $input->save();
 
-            redirect()->to('formm/success');
+            redirect()->to('formm/s');
         }
 
     }
@@ -99,7 +99,7 @@ class IndexController extends Controller
             $input->p_amount = ($num * $input->p_money);
             $input->pay_name = '无';
             $input->save();
-            redirect()->to('formm/success');
+            redirect()->to('formm/s');
         }
 
     }

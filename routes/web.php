@@ -17,3 +17,6 @@ Route::get('/form/{u_id}', 'IndexController@formm');
 Route::post('/formg/{u_id}', 'IndexController@doFormmg');
 Route::post('/formq/{u_id}', 'IndexController@doFormmq');
 
+Route::get('/formm/s', function(){
+    return view('/formm/s');
+});
