@@ -25,7 +25,7 @@ class FormmgRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'mobile' => 'required',
+            'mobile' => 'required|number',
             'baozi' => 'required',
             'num' => 'required',
             'address' => 'required',

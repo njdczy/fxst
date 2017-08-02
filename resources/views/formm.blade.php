@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label for="tel" class="col-sm-2 col-xs-4 control-label">电话<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <input type="text" name="mobile" class="form-control" id="tel" placeholder="">
+                            <input type="tel" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
                     <p class="price">
@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <input type="text" name="num" class="form-control" id="num" placeholder="">
+                            <input type="number" name="num" class="form-control" id="num" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -141,7 +141,7 @@
                     <div class="form-group">
                         <label for="tel" class="col-sm-2 col-xs-4 control-label">电话<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <input type="text" name="mobile" class="form-control" id="tel" placeholder="" >
+                            <input type="tel" name="mobile" class="form-control" id="tel" placeholder="" >
                         </div>
                     </div>
                     <p class="price">
@@ -156,7 +156,7 @@
                     <div class="form-group">
                         <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <input type="text" name="num" class="form-control" id="num" placeholder="">
+                            <input type="number" name="num" class="form-control" id="num" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
