@@ -12,6 +12,7 @@
 */
 
 Route::get('/form/{u_id}', 'IndexController@formm');
+Route::get('/formpc/{u_id}', 'IndexController@formpc');
 
 
 Route::post('/formg/{u_id}', 'IndexController@doFormmg');

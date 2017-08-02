@@ -23,7 +23,8 @@
             <!--个人订购-基本信息-->
             <div class="one " style="display: block;">
                 <div class="step-one"></div>
-                <form method="post" action="/form/{{ $u_id  }}" name="person" class="form-horizontal">
+                <form method="post" action="/formg/{{ $u_id  }}" name="person" class="form-horizontal">
+                    {{ csrf_field() }}
                     <div class="form-group">
                         <label for="name" class="col-sm-2 col-xs-4 control-label">姓名<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
@@ -38,18 +39,16 @@
                     </div>
                     <p class="price">
                         <span>选择报纸<span style="color:red;">*</span></span>
-                        <select class="form-control select-box" >
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <select class="form-control select-box" name="baozi">
+                            @foreach ($p as $pp)
+                                <option value="{{ $pp->id }}">{{ $pp->name }}</option>
+                            @endforeach
                         </select>
                     </p>
                     <div class="form-group">
                         <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <input type="text" class="form-control" id="nums" placeholder="">
+                            <input type="text" name="num" class="form-control" id="nums" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -121,7 +120,8 @@
         <div class="main-form company" style="display: none;">
             <div class="company-one" style="display: block;">
                 <div class="step-one"></div>
-                <form method="post" action="/form/{{ $u_id }}" name="danwei" class="form-horizontal">
+                <form method="post" action="/formq/{{ $u_id }}" name="danwei" class="form-horizontal">
+                    {{ csrf_field() }}
                     <div class="form-group">
                         <label for="company-name" class="col-sm-2 col-xs-4 control-label">单位名称<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
@@ -142,19 +142,17 @@
                     </div>
                     <p class="price">
                         <span>选择报纸<span style="color:red;">*</span></span>
-                        <select class="form-control select-box">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <select class="form-control select-box" name="baozi">
+                            @foreach ($p as $pp)
+                                <option value="{{ $pp->id }}">{{ $pp->name }}</option>
+                            @endforeach
                         </select>
 
                     </p>
                     <div class="form-group">
                         <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <input type="text" class="form-control" id="nums" placeholder="">
+                            <input type="text" name="num" class="form-control" id="nums" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -197,12 +195,12 @@
         $('.one').css('display','block');
         $('.two').css('display','none');
     });
-    //个人订购-上一步
-    $('.next').on('click',function(){
-        $('.one').css('display','none');
-        $('.two').css('display','block');
-
-    });
+//    //个人订购-上一步
+//    $('.next').on('click',function(){
+//        $('.one').css('display','none');
+//        $('.two').css('display','block');
+//
+//    });
     //个人订购-切换
     $('.btn-left').on('click',function(){
         $('.person').css('display','block');

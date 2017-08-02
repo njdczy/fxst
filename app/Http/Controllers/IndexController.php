@@ -18,6 +18,12 @@ class IndexController extends Controller
         return view('formm',['u_id' => $u_id])->with('p', $periodical);
     }
 
+    public function formpc($u_id)
+    {
+        $periodical = Periodical::all();
+        return view('form',['u_id' => $u_id])->with('p', $periodical);
+    }
+
     public function doFormmg($u_id,FormmgRequest $request)
     {
 
