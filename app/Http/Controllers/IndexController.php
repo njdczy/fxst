@@ -44,19 +44,19 @@ class IndexController extends Controller
             $input->c_id = $customer->id;
             $input->user_id = $menber->user_id;
             $input->u_id = $menber->id;
-            $input->menber_name = $menber->id;
+            $input->menber_name = $menber->name;
             $input->d_id = $menber->d_id;
             $input->p_id = $periodical->id;
             $input->p_name = $periodical->id;
             $input->source = 1;
-            $input->num = $customer->id;
+            $input->num = $num;
             $input->dis_per = $periodical->per;
             $input->p_money = $periodical->c_price != 0? $periodical->c_price:$periodical->price;
             $input->p_amount = ($num * $input->p_money);
             $input->pay_name = '无';
             $input->save();
 
-            redirect()->to('formm/s');
+            return redirect()->to('formm/s');
         }
 
     }
@@ -88,18 +88,18 @@ class IndexController extends Controller
             $input->c_id = $customer->id;
             $input->user_id = $menber->user_id;
             $input->u_id = $menber->id;
-            $input->menber_name = $menber->id;
+            $input->menber_name = $menber->name;
             $input->d_id = $menber->d_id;
             $input->p_id = $periodical->id;
             $input->p_name = $periodical->id;
             $input->source = 1;
-            $input->num = $customer->id;
+            $input->num = $num;
             $input->dis_per = $periodical->per;
             $input->p_money = $periodical->c_price != 0 ? $periodical->c_price : $periodical->price;
             $input->p_amount = ($num * $input->p_money);
             $input->pay_name = '无';
             $input->save();
-            redirect()->to('formm/s');
+            return redirect()->to('formm/s');
         }
 
     }

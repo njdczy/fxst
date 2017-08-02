@@ -222,12 +222,12 @@
         $('.one').css('display','block');
         $('.two').css('display','none');
     });
-    //个人订购-上一步
-    $('.next').on('click',function(){
-        $('.one').css('display','none');
-        $('.two').css('display','block');
-
-    });
+//    //个人订购-上一步
+//    $('.next').on('click',function(){
+//        $('.one').css('display','none');
+//        $('.two').css('display','block');
+//
+//    });
     //个人订购-切换
     $('.btn-left').on('click',function(){
         $('.person').css('display','block');

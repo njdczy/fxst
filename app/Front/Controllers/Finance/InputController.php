@@ -58,7 +58,7 @@ class InputController extends Controller
         return Front::grid(Input::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id)->orderBy('id','desc');
             $grid->c_id('客户')->display(function(){
-                return Customer::find($this->c_id)->value('name');
+                return Customer::where('id',$this->c_id)->value('name');
             });
 
             $grid->column('sale','销售人/所属部门')->display(function(){
