@@ -37,14 +37,24 @@
                             <input type="tel" onkeyup="value=value.replace(/[^\d.]/g,'')" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
-                    <p class="price">
-                        <span>选择报纸<span style="color:red;">*</span></span>
-                        <select class="form-control select-box" name="baozi">
-                            @foreach ($p as $pp)
-                                <option value="{{ $pp->id }}">{{ $pp->name }}</option>
-                            @endforeach
-                        </select>
-                    </p>
+                    {{--<p class="price">--}}
+                        {{--<span>选择报纸<span style="color:red;">*</span></span>--}}
+                        {{--<select class="form-control select-box" name="baozi">--}}
+                            {{--@foreach ($p as $pp)--}}
+                                {{--<option value="{{ $pp->id }}">{{ $pp->name }}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                    {{--</p>--}}
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 col-xs-4 control-label">选择报纸<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <select class="form-control select-box" name="baozi">
+                                @foreach ($p as $pp)
+                                    <option value="{{ $pp->id }}">{{ $pp->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
