@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="tel" class="col-sm-2 col-xs-4 control-label">电话<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <input type="tel" name="mobile" class="form-control" id="tel" placeholder="">
+                            <input type="tel" onkeyup="value=value.replace(/[^\d.]/g,'')" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
                     <p class="price">
@@ -137,7 +137,7 @@
                     <div class="form-group">
                         <label for="tel" class="col-sm-2 col-xs-4 control-label">电话<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
-                            <input type="tel" name="mobile" class="form-control" id="tel" placeholder="">
+                            <input type="tel" onkeyup="value=value.replace(/[^\d.]/g,'')" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
                     <p class="price">
