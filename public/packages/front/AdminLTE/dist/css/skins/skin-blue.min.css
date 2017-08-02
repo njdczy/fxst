@@ -74,12 +74,12 @@
 }
 
 .skin-blue .sidebar-menu > li > a {
-    line-height: 2.5em;
+    line-height: 1em;
     border-left: 3px solid transparent
 }
 
 .skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
-    line-height: 2.5em;
+    line-height: 1em;
     color: #fff;
     background: #1e282c;
     border-left-color: #3c8dbc

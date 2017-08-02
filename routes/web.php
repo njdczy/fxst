@@ -11,10 +11,9 @@
 |
 */
 
+Route::get('/form/{u_id}', 'IndexController@formm');
 
-Route::get('/form/{u_id}', function ($u_id) {
-    return view('form',['u_id' => $u_id]);
-});
 
-Route::post('/form/{u_id}', 'IndexController@doForm');
+Route::post('/formg/{u_id}', 'IndexController@doFormmg');
+Route::post('/formq/{u_id}', 'IndexController@doFormmq');
 

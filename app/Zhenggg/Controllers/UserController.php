@@ -126,7 +126,9 @@ class UserController extends Controller
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
             $form->hidden('user_id')->default(Front::user()->user_id);
-
+            $form->html('<script>
+            function check(){}
+</script>');
 
             $form->saving(function (Form $form) {
                 if ($form->password && $form->model()->password != $form->password) {
@@ -145,13 +147,14 @@ class UserController extends Controller
             $res['parent_id'] = $parent_id;
         }
         $children = Permission::where('parent_id',$val)->get();
-        if ($children) {
+        if (!$children->isEmpty()) {
+
             foreach ($children as $key => $child) {
                 $children_id[] = $child->id;
             }
-
-            $res['children_id'] = $children_id;
-
+            if ($children_id) {
+                $res['children_id'] = $children_id;
+            }
         }
 
         die(json_encode($res));

@@ -116,7 +116,7 @@ html,body{
 	background: url(../img/step-one.png) 0 0 no-repeat;
 	background-size: cover;
 	
-	margin: 20.116% 0 40px 20px;
+	margin: 6.116% 0 40px 20px;
 }
 .container .main-form .step-two{
 	width: 72.606%;
@@ -124,7 +124,7 @@ html,body{
 	background: url(../img/step-two.png) 0 0 no-repeat;
 	background-size: cover;
 	
-	margin: 20.116% 0 40px 20px;
+	margin: 6.116% 0 40px 20px;
 }
 .container .main-form .form-horizontal{
 	margin-left: 30px;
@@ -167,13 +167,19 @@ html,body{
 	margin-top: 25px;
 }
 .container .main-form .price span:nth-child(1){
-	font-size: 20px;
+	font-size: 16px;
 	
 }
 .container .main-form .price span:nth-child(2){
 	font-size: 20px;
 	color: #ff0000;
 	padding-left: 25.365%;
+}
+.select-box{
+	width: 56%;
+	display: inline-block;
+	margin-left: 27px;
+	margin-bottom: 15px;
 }
 @media screen and (min-width:320px) and (max-width:414px){
 	.container .main-form .price span:nth-child(1){
@@ -196,55 +202,20 @@ html,body{
 		text-align: left;
 		width: 29% ;
 	}
-}
-.select-paper{
-	width: 985px;
-	margin-left: 25px;
-	margin-top: 30px;
-}
-.select-paper .paper-top,.select-paper .paper-bottom{
-	height: 248px;
-	border: 2px solid #c5c5c5;
-	background: white;
-}
-.select-paper .paper-top{
-	margin-bottom: 20px;
-}
-.select-paper .paper-top ul,.select-paper .paper-bottom ul{
-	font-size: 0;
-}
+	.select-box{
+		display: inline-block;
+		width: 55%;
+		margin-left:33px;
+	}
 
-.select-paper .paper-top ul li:nth-child(1),.select-paper .paper-bottom ul li:nth-child(1){
-	margin-left: 14px;
 }
-
-.select-paper .paper-top ul li,.select-paper .paper-bottom ul li{
-	display: inline-block;
-	width: 127px;
-	margin-left: 37px;
-	padding-top: 10px;
-	
-}
-.selected{
-	border: 1px solid deepskyblue;
-}
-.select-paper .paper-top ul li,.select-paper .paper-bottom ul li img{
-	cursor: pointer;
-}
-.select-paper .paper-top ul li p,.select-paper .paper-bottom ul li p{
-	margin-top: 10px;
-	margin-bottom: 10px;
-	font-size: 14px;
-	color: #5757f2;
-	text-align: center;
-	cursor: pointer;
-}
-
-.select-paper .paper-top ul li span,.select-paper .paper-bottom ul li span{
-	display: inline-block;
-	width: 110px;
-	font-size: 12px;
-	color: #999999;
-	text-align: right;
-	cursor: pointer;
-}
+ #city1,#city2 {
+        width: 100%;
+        height: 34px;
+        font-size: 14px;
+        color: #555;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 0px 5% 0 17%;
+       	padding: 6px 12px;
+    }
