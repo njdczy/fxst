@@ -244,7 +244,13 @@ class Department extends Model
         return collect($options)->prepend('/', 0)->all();
     }
 
-    public static function selectOptionsForUser()
+    public static function selectOptionsForTarget()
+    {
+        $options = (new static())->buildSelectOptions();
+        return collect($options)->prepend('总目标', 0)->all();
+    }
+
+    public static function selectOptionsForNoroot()
     {
         $options = (new static())->buildSelectOptions();
         return collect($options);

@@ -15,6 +15,11 @@ class Input extends Model
 {
     public $fillable = ['d_id','dis_status','pay_name'];
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'd_id');
+    }
+
     public function input_ps()
     {
         return $this->hasOne(InputP::class, 'input_id');

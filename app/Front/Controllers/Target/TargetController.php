@@ -12,6 +12,7 @@ use App\Front\Controllers\ModelForm;
 use App\Models\Department;
 use App\Models\Periodical;
 use App\Models\Target;
+use App\Models\TargetD;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
@@ -24,34 +25,35 @@ use Illuminate\Support\MessageBag;
 
 class TargetController extends Controller
 {
+    protected $trees = [];
+
     use ModelForm;
 
     public function index()
     {
         return Front::content(function (Content $content) {
-            $content->header('目标');
+            $content->header('目标列表');
             $content->description('列表');
-            $content->body(view('front::zhenggg.target')->render());
+
+            $targets = Target::where('user_id', Front::user()->user_id)->get();
+            $p_targets = $targets->groupBy('p_id');
+            $p_targets->each(function ($targets, $k) {
+
+                $targets->each(function ($target, $key) {
+                    $target_d = new TargetD;
+                    $this->trees[$key] = $this->depth($target_d->toTree($target->periodical->id));
+                });
+
+            });
+            $trees = $this->trees;
+            $content->body(view('front::zhenggg.target',compact('p_targets','trees'))->render());
         });
-
-
-
-
-
-
-
-
-
-
 
 
         return Front::content(function (Content $content) {
 
-            $content->header('目标');
-            $content->description('列表');
-
             $confirm = '该目标已完成的的数量将无法关联到之后添加的目标，确定要删除目标吗？';
-            $script =  <<<SCRIPT
+            $script = <<<SCRIPT
 <script>
     $('.grid-row-delete').unbind('click').click(function() {
         if(confirm("{$confirm}")) {
@@ -78,31 +80,23 @@ class TargetController extends Controller
     });
 </script>
 SCRIPT;
-            // table 1
-            $headers = ['部门', '目标数', '已完成' ,'完成详情' ,'操作'];
-            $rows = [
-                ['<strong>总目标</strong>', 4, 25, '<a href="baidu.com">点击查看</a>',
-                    "
-                     <a  href='/front/target/1/edit/' style='padding-right: 1.5rem;'><i class='fa fa-edit'></i></a>
-                     <a  href='javascript:void(0);' data-url='/front/target/1' data-id='1' class='grid-row-delete'><i class='fa fa-trash' ></i></a>
-                    "
-                ],
-                ['人事部', 4, 25, '<a href="baidu.com">点击查看</a>'.$script],
 
-            ];
-
-            $table = new Table($headers, $rows);
-
-            $content->row((new Box('
-<strong>江苏经济报</strong>  (目标时间段：2017-08-02--2017-08-03)
-<div class="btn-group pull-right" style="margin-right: 10px;">
-    <a href="/front/target/create" class="btn btn-sm btn-success" style="">
-        <i class="fa fa-save"></i>&nbsp;&nbsp;修改
-    </a>
-</div>
-', $table)));
-            $content->body($this->grid());
         });
+    }
+
+    protected function depth($array)
+    {
+        static $res = [];
+        static $depth = 1;
+        foreach ($array as $key => $value) {
+            $value['depth'] = $depth++;
+            $res[] = $value;
+            if(isset($value['children'])){
+                $this->depth($value['children']);
+            }
+            $depth = 1;
+        }
+        return $res;
     }
 
     public function edit($id)
@@ -145,12 +139,12 @@ SCRIPT;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             已完成")
                 ->map(function ($target) {
-                $num = $target['num'];
-                $numed = $target['numed'];
-                $name = Department::where('user_id', '=', Front::user()->user_id)->where('id',$target['d_id'])->value('name')?:'总目标';
+                    $num = $target['num'];
+                    $numed = $target['numed'];
+                    $name = Department::where('user_id', '=', Front::user()->user_id)->where('id', $target['d_id'])->value('name') ?: '总目标';
 
-                $date =  Carbon::parse($target['s_time'])->format('Y-m-d'). '--' . Carbon::parse($target['e_time'])->format('Y-m-d');
-                return "<strong><i style='display:inline-block;width: 6rem;margin-left: 0.05rem;font-style: normal;'>$name</i></strong>
+                    $date = Carbon::parse($target['s_time'])->format('Y-m-d') . '--' . Carbon::parse($target['e_time'])->format('Y-m-d');
+                    return "<strong><i style='display:inline-block;width: 6rem;margin-left: 0.05rem;font-style: normal;'>$name</i></strong>
 <span style='display:inline-block;width: 140px;margin-left: 63px;'>$date</span>
 <strong style='display:inline-block;width: 80px;text-align: center;margin-left: 95px;'>$num</strong><strong style='display:inline-block;width: 80px;text-align: center;margin-left: 120px;'>$numed</strong>
 <a style='padding-left: 80px;' href='/front/target/$target[id]/edit'>
@@ -160,7 +154,7 @@ SCRIPT;
     <i class=\"fa fa-trash\"></i>
 </a>
 ";
-            })->implode('<br /><hr />');
+                })->implode('<br /><hr />');
             $grid->column('')->display(function () {
                 $confirm = '该目标已完成的的数量将无法关联到之后添加的目标，确定要删除目标吗？';
                 return <<<SCRIPT
@@ -209,29 +203,42 @@ SCRIPT;
 
     protected function form()
     {
+
+
         return Front::form(Target::class, function (Form $form) {
             $form->select('p_id', '刊物')->options(
                 Periodical::where('user_id', '=', Front::user()->user_id)
                     ->pluck('name', 'id')
-            );
-            $form->select('d_id', '部门')->options(
-                Department::selectOptions()
-            );
+            )->setWidth(4);
+
             $form->dateRange('s_time', 'e_time', '目标时间段');
-            $form->number('num','目标份数');
+            $form->number('num', '设置总目标份数');
+            $form->display('numed', '总已完成数')->setWidth(1)->default($form->model()->numed ?: 0);
             $form->hidden('user_id')->default(Front::user()->user_id);
+//            $form->hasMany('targetds', '设置部门目标', function (Form\NestedForm $form) {
+//                $form->select('d_id', '部门')->options(
+//                    Department::selectOptionsForNoroot()
+//                )->setWidth(4);
+//                $form->number('num', '设置部门目标份数');
+//                $form->hidden('user_id')->default(Front::user()->user_id);
+//                $form->display('numed', '已完成')->setWidth(1)->default(0);
+//            });
             $form->creating(function (Form $form) {
-                if (Target::where('p_id', '=', $form->p_id)
-                    ->where('d_id', '=', $form->d_id)
-                    ->whereNotBetween('s_time', [$form->s_time,$form->e_time])
-                    ->whereNotBetween('e_time', [$form->s_time,$form->e_time])->exists()
+                if (
+                Target::where('p_id', '=', $form->p_id)
+                    ->where(function ($query) use ($form) {
+                        $query->whereBetween('s_time', [$form->s_time, $form->e_time])
+                            ->OrwhereBetween('e_time', [$form->s_time, $form->e_time]);
+                    })->exists()
+
                 ) {
                     $error = new MessageBag([
-                        'title' => '相同刊物和部门的目标时间段重复',
+                        'title' => '相同刊物和目标时间段重复',
                         'message' => '',
                     ]);
                     return redirect()->back()->with(compact('error'));
                 }
+
             });
 
         });

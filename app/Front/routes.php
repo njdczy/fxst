@@ -34,6 +34,9 @@ Route::group([
 
     //target
     $router->resource('/target', 'Target\\TargetController');
+    $router->resource('/target/{target_id}/targetd', 'Target\\TargetDController');
+
+    $router->resource('/target/{target_id}/targetd/{targetd_id}/targetm', 'Target\\TargetMController',['except' => 'create','destroy']);
 
     //customer
     $router->resource('/customer', 'Customer\\CustomerController');

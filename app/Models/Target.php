@@ -17,4 +17,9 @@ class Target extends Model
     {
         return $this->belongsTo(Periodical::class,'p_id');
     }
+
+    public function targetds()
+    {
+        return $this->hasMany(TargetD::class,'target_id');
+    }
 }

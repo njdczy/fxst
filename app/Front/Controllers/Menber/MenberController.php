@@ -127,7 +127,7 @@ class MenberController extends Controller
         return Menber::form(function (Form $form) {
 
             $form->text('name', '姓名')->rules('required');
-            $select = Department::selectOptionsForUser();
+            $select = Department::selectOptionsForNoroot();
             $form->select('d_id','部门')->options($select);
 
             $form->display('created_at', trans('front::lang.created_at'));

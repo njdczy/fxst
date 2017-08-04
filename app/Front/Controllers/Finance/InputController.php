@@ -57,8 +57,13 @@ class InputController extends Controller
     {
         return Front::grid(Input::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', Front::user()->user_id)->orderBy('id','desc');
-            $grid->c_id('客户')->display(function(){
-                return Customer::where('id',$this->c_id)->value('name');
+            $grid->column('customer','客户')->display(function(){
+                $customer_name =  Customer::where('id',$this->c_id)->value('name');
+                if ($customer_name) {
+                    return $customer_name;
+                } else {
+                    return $this->customer_name. '(已删除)' ;
+                }
             });
 
             $grid->column('sale','销售人/所属部门')->display(function(){
@@ -71,6 +76,7 @@ class InputController extends Controller
                 }
 
             });
+            $grid->fapiao('发票');
 
             $grid->source('订单来源')->display(function(){
                 return trans('app.pay_source.' .$this->source. '');
@@ -80,7 +86,7 @@ class InputController extends Controller
             });
 
             $grid->column('pay','支付状态/支付方式')->display(function(){
-                return trans('app.pay_status.' .$this->pay_status. '') . '/' . trans('app.pay_name.' .$this->pay_name. '');
+                return trans('app.pay_status.' .$this->pay_status. '') . '/' .$this->pay_name;
             });
 
             $grid->column('input_ps','订单详情')->display(function(){
@@ -90,7 +96,30 @@ class InputController extends Controller
             $grid->p_amount('应付总金额');
 
             $grid->money_paid('已付款金额');
+            $grid->money_kou('做扣')->display(function(){
+                return $this->money_kou == 0?'':$this->money_kou;
+            });
+            $grid->liushui('流水号');
             $grid->pay_note('付款备注');
+
+            $grid->filter(function($filter){
+                $filter->useModal();
+                $filter->disableIdFilter();
+
+                $filter->like('customer_name', '客户');
+                $filter->like('fapiao', '发票');
+                $filter->like('menber_name', '销售人');
+                $filter->like('d_id', '部门ID');
+                // 关系查询，查询对应关系`department`的字段
+                $filter->where(function ($query) {
+                    $input = $this->input;
+                    $query->whereHas('department', function ($query) use ($input) {
+                        $query->where('name', 'like', "%{$input}%");
+                    });
+                }, '部门');
+                $filter->like('liushui', '流水号');
+                $filter->is('pay_status', '支付状态')->select(trans('app.pay_status'));
+            });
         });
     }
 
@@ -106,7 +135,7 @@ class InputController extends Controller
                     Menber::where('user_id', Front::user()->user_id)
                         ->pluck('name', 'id')
                 )->rules('required')->setWidth('4');
-
+                $form->text('fapiao','发票')->setWidth('4');
                 $form->select('source', '订单来源')->options(
                     ['后台添加','微信']
                 )->setWidth('4');
@@ -132,6 +161,7 @@ class InputController extends Controller
                         ->orWhere('user_id', '=', 0)
                         ->pluck('name', 'id')
                 )->setWidth('4');
+                $form->text('liushui','流水号')->setWidth('4');
                 $form->text('pay_note', '付款备注');
                 $form->divide();
                 $form->hidden('user_id')->default(Front::user()->user_id);

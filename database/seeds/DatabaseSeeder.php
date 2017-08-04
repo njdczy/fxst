@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Periodical::truncate();
         \App\Zhenggg\Auth\Database\Administrator::whereColumn('id', '!=', 'user_id')->delete();
         \App\Models\Target::truncate();
+        \App\Models\TargetD::truncate();
         \App\Models\UCheckout::truncate();
         \App\Models\Zhifu::where('user_id','!=',0)->delete();
     }
