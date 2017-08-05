@@ -14,6 +14,7 @@ use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Layout\Row;
 use App\Zhenggg\Widgets\Box;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\MessageBag;
 
 class DepartmentController extends Controller
 {
@@ -117,9 +118,21 @@ class DepartmentController extends Controller
             $form->text('name', trans('front::lang.name'))->rules('required');
 
             $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('id');
 
             $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
 
+            $form->deleting(function (Form $form,$id) {
+                if(!Department::where('id',$id)->first()->children->isEmpty()){
+                    $error = new MessageBag([
+                        'title' => '部门下面有子部门，如需删除，请逐级删除',
+                        'message' => '',
+                    ]);
+                    return back()->with(compact('error'));
+                }
+            });
         });
+
+
     }
 }

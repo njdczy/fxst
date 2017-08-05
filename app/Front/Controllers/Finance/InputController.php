@@ -142,7 +142,7 @@ class InputController extends Controller
 
                 $form->select('input_status', '订单状态')->options(
                     [0 => '未确认',1 => '已确认']
-                )->default($form->input_status)->setWidth('4');
+                )->default($form->input_status)->help('当订单状态设为已确认时，将计入目标数')->rules('required')->setWidth('4');
                 $form->divide();
 
             })->tab('2.订单信息', function ($form) {

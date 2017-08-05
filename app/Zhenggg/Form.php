@@ -93,16 +93,25 @@ class Form
     protected $saving;
 
     /**
+     * Deleting callback.
+     *
+     * @var Closure
+     */
+
+    protected $deleting;
+    /**
      * Creating callback.
      *
      * @var Closure
      */
+
     protected $creating;
     /**
      * Saved callback.
      *
      * @var Closure
      */
+
     protected $saved;
 
     /**
@@ -286,6 +295,9 @@ class Form
      */
     public function destroy($id)
     {
+        if (($response = $this->callDeleting($this->deleting,$id)) instanceof Response) {
+            return $response;
+        }
         $ids = explode(',', $id);
 
         foreach ($ids as $id) {
@@ -482,6 +494,20 @@ class Form
     {
         if ($callback instanceof Closure) {
             return $callback($this);
+        }
+    }
+
+    /**
+     * Callback before deleting a Model.
+     *
+     * @param Closure|null $callback
+     *
+     * @return mixed|null
+     */
+    protected function callDeleting(Closure $callback = null,$id)
+    {
+        if ($callback instanceof Closure) {
+            return $callback($this,$id);
         }
     }
 
@@ -875,6 +901,17 @@ class Form
         $this->creating = $callback;
     }
 
+    /**
+     * Set creating callback.
+     *
+     * @param Closure $callback
+     *
+     * @return void
+     */
+    public function deleting(Closure $callback)
+    {
+        $this->deleting = $callback;
+    }
     /**
      * Set saved callback.
      *

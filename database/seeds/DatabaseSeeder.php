@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
         \App\Models\Customer::truncate();
         \App\Models\Department::truncate();
         \App\Models\Input::truncate();
-        \App\Models\InputP::truncate();
         \App\Models\JituanConfig::truncate();
         \App\Models\Menber::truncate();
         \App\Models\Periodical::truncate();
         \App\Zhenggg\Auth\Database\Administrator::whereColumn('id', '!=', 'user_id')->delete();
         \App\Models\Target::truncate();
         \App\Models\TargetD::truncate();
+        \App\Models\TargetM::truncate();
         \App\Models\UCheckout::truncate();
         \App\Models\Zhifu::where('user_id','!=',0)->delete();
     }
