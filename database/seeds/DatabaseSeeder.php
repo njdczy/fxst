@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\TargetD::truncate();
         \App\Models\TargetM::truncate();
         \App\Models\UCheckout::truncate();
+        \App\Zhenggg\Auth\Database\OperationLog::truncate();
         \App\Models\Zhifu::where('user_id','!=',0)->delete();
     }
 }
