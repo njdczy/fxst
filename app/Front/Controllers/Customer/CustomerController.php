@@ -82,7 +82,7 @@ class CustomerController extends Controller
             $grid->name("客户名称");
             $grid->address("客户（寄送）地址");
             $grid->type("性质")->display(function (){
-                return $this->type = 1 ? '单位':'个人';
+                return $this->type == 1 ? '单位':'个人';
             });
             $grid->contacts("联系人");
             $grid->mobile("电话/手机");
@@ -99,11 +99,11 @@ class CustomerController extends Controller
     protected function form()
     {
         return Front::form(Customer::class, function (Form $form) {
-            $form->text('name','客户名称');
+            $form->text('name','客户名称')->rules('required')->setWidth('4');
+            $form->select('type','性质')->options([1 => '单位',0 => '个人'])->rules('required')->setWidth('4');
+            $form->text('contacts','联系人')->rules('required')->setWidth('4');
+            $form->text('mobile','电话/手机')->setWidth('4');
             $form->text('address','客户（寄送）地址');
-            $form->select('type','性质')->options([1 => '单位',0 => '个人']);;
-            $form->text('contacts','联系人');
-            $form->text('mobile','电话/手机');
             $form->text('source','来源');
             $form->hidden('user_id')->default(Front::user()->user_id);
 

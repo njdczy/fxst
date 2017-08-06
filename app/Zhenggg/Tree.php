@@ -186,7 +186,12 @@ class Tree implements Renderable
             if(confirm("{$confirm}")) {
                 $.post('{$this->path}/' + id, {_method:'delete','_token':LA.token}, function(data){
                     $.pjax.reload('#pjax-container');
-                    toastr.success('{$deleteSucceeded}');
+                        if (data.status) {
+                            toastr.success(data.message);
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    //toastr.success('{$deleteSucceeded}');
                 });
             }
         });
@@ -200,13 +205,23 @@ class Tree implements Renderable
             },
             function(data){
                 $.pjax.reload('#pjax-container');
-                toastr.success('{$saveSucceeded}');
+                        if (data.status) {
+                            toastr.success(data.message);
+                        } else {
+                            toastr.error(data.message);
+                        }
+                //toastr.success('{$saveSucceeded}');
             });
         });
 
         $('.{$this->elementId}-refresh').click(function () {
             $.pjax.reload('#pjax-container');
-            toastr.success('{$refreshSucceeded}');
+                        if (data.status) {
+                            toastr.success(data.message);
+                        } else {
+                            toastr.error(data.message);
+                        }
+            //toastr.success('{$refreshSucceeded}');
         });
 
         $('.{$this->elementId}-tree-tools').on('click', function(e){

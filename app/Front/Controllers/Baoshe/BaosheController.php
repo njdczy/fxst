@@ -75,4 +75,25 @@ class BaosheController extends Controller
             $form->text('name','报社名称')->rules('required')->help('如：江苏经济报社');
         });
     }
+
+    public function destroy($id)
+    {
+        if (!Baoshe::find($id)->periodical->isEmpty()) {
+            return response()->json([
+                'status'  => false,
+                'message' => '报社下有刊物，不能删除',
+            ]);
+        }
+        if ($this->form()->destroy($id)) {
+            return response()->json([
+                'status'  => true,
+                'message' => trans('front::lang.delete_succeeded'),
+            ]);
+        } else {
+            return response()->json([
+                'status'  => false,
+                'message' => trans('front::lang.delete_failed'),
+            ]);
+        }
+    }
 }

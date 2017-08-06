@@ -5,6 +5,7 @@ namespace App\Front\Controllers\Department;
 use App\Front\Controllers\ModelForm;
 
 use App\Models\Department;
+use App\Models\Menber;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
@@ -122,17 +123,38 @@ class DepartmentController extends Controller
 
             $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
 
-            $form->deleting(function (Form $form,$id) {
-                if(!Department::where('id',$id)->first()->children->isEmpty()){
-                    $error = new MessageBag([
-                        'title' => '部门下面有子部门，如需删除，请逐级删除',
-                        'message' => '',
-                    ]);
-                    return back()->with(compact('error'));
-                }
-            });
         });
 
 
+    }
+
+    public function destroy($id)
+    {
+        if (!Department::find($id)->children->isEmpty()) {
+
+            return response()->json([
+                'status'  => false,
+                'message' => '部门下面有子部门，如需删除，请逐级删除',
+            ]);
+        }
+
+        if (!Menber::where('d_id',$id)->first()->isEmpty()) {
+
+            return response()->json([
+                'status'  => false,
+                'message' => '部门下面有人员，不能删除',
+            ]);
+        }
+        if ($this->form()->destroy($id)) {
+            return response()->json([
+                'status'  => true,
+                'message' => trans('front::lang.delete_succeeded'),
+            ]);
+        } else {
+            return response()->json([
+                'status'  => false,
+                'message' => trans('front::lang.delete_failed'),
+            ]);
+        }
     }
 }

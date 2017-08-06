@@ -144,6 +144,7 @@ class InputController extends Controller
                     [0 => '未确认',1 => '已确认']
                 )->default($form->input_status)->help('当订单状态设为已确认时，将计入目标数')->rules('required')->setWidth('4');
                 $form->divide();
+                $form->html(view('front::zhenggg.backandnext',['which'=>1,'max'=>3,'is_last'=>false]), '');
 
             })->tab('2.订单信息', function ($form) {
                 $form->select('p_id','刊物')->options(
@@ -151,7 +152,8 @@ class InputController extends Controller
                         ->pluck('name', 'id')
                 )->setWidth('4')->rules('required');
                 $form->number('num','数量')->rules('required');
-
+                $form->divide();
+                $form->html(view('front::zhenggg.backandnext',['which'=>2,'max'=>3,'is_last'=>false]), '');
             })->tab('3.款项信息', function ($form) {
 
                 $form->number('money_paid', '已付款金额')->help('未付款填0');
@@ -170,6 +172,8 @@ class InputController extends Controller
                 $form->hidden('p_name');
                 $form->hidden('p_money');
                 $form->hidden('p_amount');
+                $form->divide();
+                $form->html(view('front::zhenggg.backandnext',['which'=>3,'max'=>3,'is_last'=>true]), '');
             });
 
             $form->saving(function (Form $form){

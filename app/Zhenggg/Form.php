@@ -295,9 +295,6 @@ class Form
      */
     public function destroy($id)
     {
-        if (($response = $this->callDeleting($this->deleting,$id)) instanceof Response) {
-            return $response;
-        }
         $ids = explode(',', $id);
 
         foreach ($ids as $id) {
@@ -504,10 +501,10 @@ class Form
      *
      * @return mixed|null
      */
-    protected function callDeleting(Closure $callback = null,$id)
+    protected function callDeleting(Closure $callback = null)
     {
         if ($callback instanceof Closure) {
-            return $callback($this,$id);
+            return $callback($this);
         }
     }
 

@@ -11,6 +11,7 @@ namespace App\Front\Controllers\Periodical;
 use App\Front\Controllers\ModelForm;
 use App\Models\Baoshe;
 use App\Models\Periodical;
+use App\Models\Target;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
@@ -104,13 +105,13 @@ class PeriodicalController extends Controller
 
     public function destroy($id)
     {
+        if (!Periodical::find($id)->targets->isEmpty()) {
+            return response()->json([
+                'status'  => false,
+                'message' => '刊物下有目标，不能删除',
+            ]);
+        }
         if ($this->form()->destroy($id)) {
-            if (Periodical::where('id',$id)->exists()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => '刊物下有目标，不能删除',
-                ]);
-            }
             return response()->json([
                 'status'  => true,
                 'message' => trans('front::lang.delete_succeeded'),

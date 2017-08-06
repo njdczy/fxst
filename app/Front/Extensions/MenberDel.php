@@ -22,7 +22,7 @@ class MenberDel
 
     protected function script()
     {
-        $confirm = '确定删除该人员吗？删除后该人员的业绩记录也将被删除。';
+        $confirm = '确定删除该人员吗？删除后该人员的业绩记录将失去关联。';
 
         return <<<SCRIPT
 

@@ -34,7 +34,7 @@ class AddMenberTarget
             )
             {
                 $error = new MessageBag([
-                    'title'   => '请先添加人员',
+                    'title'   => '请先添加发行人',
                     'message' => '',
                 ]);
                 return redirect()->to(Front::url('menber/create'))->with(compact('error'));
