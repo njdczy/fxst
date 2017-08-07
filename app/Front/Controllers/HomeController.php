@@ -3,6 +3,7 @@
 namespace App\Front\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Input;
 use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Column;
 use App\Zhenggg\Layout\Content;
@@ -18,6 +19,7 @@ use App\Zhenggg\Widgets\Collapse;
 use App\Zhenggg\Widgets\InfoBox;
 use App\Zhenggg\Widgets\Tab;
 use App\Zhenggg\Widgets\Table;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -28,12 +30,32 @@ class HomeController extends Controller
             $content->header('发行管理系统');
             $content->description('发行管理系统');
 
-//            $content->row(function ($row) {
-//                $row->column(3, new InfoBox('New Users', 'users', 'aqua', '/admin/users', '1024'));
-//                $row->column(3, new InfoBox('New Orders', 'shopping-cart', 'green', '/admin/orders', '150%'));
-//                $row->column(3, new InfoBox('Articles', 'book', 'yellow', '/admin/articles', '2786'));
-//                $row->column(3, new InfoBox('Documents', 'file', 'red', '/admin/files', '698726'));
-//            });
+            $content->row(function ($row) {
+                $day_start = Carbon::today()->toDateTimeString();
+                $day_end = Carbon::tomorrow()->toDateTimeString();
+                $day_datetime = ['created_at'=>['start'=>$day_start,'end'=>$day_end]];
+                $day_order_url = '/front/finance/input?'. http_build_query($day_datetime);
+
+                $day_input_num = Input::where('user_id', Front::user()->user_id)
+                    ->whereBetween('created_at', [$day_start,$day_end])
+                    ->count();
+                $row->column(3, new InfoBox('今日订单', 'shopping-cart', 'aqua', $day_order_url, $day_input_num));
+
+                $month_start = Carbon::now()->startOfMonth()->toDateTimeString();
+                $month_end = Carbon::now()->endOfMonth()->toDateTimeString();
+                $month_datetime = ['created_at'=>['start'=>$month_start,'end'=>$month_end]];
+                $month_order_url = '/front/finance/input?'. http_build_query($month_datetime);
+
+                $month_input_num = Input::where('user_id', Front::user()->user_id)
+                    ->whereBetween('created_at', [$month_start,$month_end])
+                    ->count();
+                $row->column(3, new InfoBox('今月订单', 'shopping-cart', 'green', $month_order_url, $month_input_num));
+
+
+
+//                $data = $this->getSellerQuData('2017-08-01 00:00:00','2017-08-31 00:00:00');
+//                dd($data);
+            });
 
             $content->row(function (Row $row) {
 
@@ -111,5 +133,41 @@ class HomeController extends Controller
 //
 //            $content->row((new Box('Table', new Table($headers, $rows)))->style('info')->solid());
         });
+    }
+
+    /**
+     * [getSellerQuData 获取商户结算数据 曲线]
+     * @param  [string] $start [起始时间]2017-08
+     * @param  [string] $end   [结束时间]
+     * @return [type]        [description]
+     */
+    private function getSellerQuData($start,$end){
+
+        //计算时间差值,以决定格式化时间格式
+        $diff = strtotime($end)-strtotime($start);
+
+        //分组条件 1天内按小时分组,否则按天/月分组
+        //86400/1天 2678400/1月
+        if($diff<86400&&$diff>0){
+            $sort = '%H';
+        }elseif($diff<2678400){
+            $sort = '%Y-%m-%d';
+        }else{
+            $sort = '%Y-%m';
+        }
+        //把数据添加时间按格式化时间分组求和,求和分两种,一种是直接求和,一种是满足case when条件的数据求和
+        $query = \DB::table('inputs as i')->select(\DB::raw("FROM_UNIXTIME(created_at,'{$sort}') as thedata,sum(case when i.input_status = 1 then i.p_amount end) as xiabi,sum(case when i.input_status = 0 then i.p_amount end) as online,sum(i.p_amount) as alls"))->groupBy(\DB::raw("FROM_UNIXTIME(created_at,'{$sort}')"));
+
+        //条件筛选 某时间段内
+        if( !empty($start) ){
+            $query->whereRaw('i.created_at >= ?',strtotime($start));
+        }
+        if( !empty($end) ){
+            $query->whereRaw('i.created_at <= ?',strtotime($end));
+        }
+
+        $data = $query->get();
+
+        return $data;
     }
 }

@@ -109,6 +109,7 @@ class InputController extends Controller
                 $filter->like('customer_name', '客户');
                 $filter->like('fapiao', '发票');
                 $filter->like('menber_name', '销售人');
+                $filter->between('created_at', '下单时间')->datetime();
                 $filter->like('d_id', '部门ID');
                 // 关系查询，查询对应关系`department`的字段
                 $filter->where(function ($query) {
@@ -168,6 +169,7 @@ class InputController extends Controller
                 $form->divide();
                 $form->hidden('user_id')->default(Front::user()->user_id);
                 $form->hidden('menber_name');
+                $form->hidden('customer_name');
                 $form->hidden('dis_per');
                 $form->hidden('p_name');
                 $form->hidden('p_money');
@@ -178,8 +180,10 @@ class InputController extends Controller
 
             $form->saving(function (Form $form){
                 $menber_name =  Menber::where('id',$form->u_id)->value('name');
+                $customer_name =  Customer::where('id',$form->c_id)->value('name');
                 $periodical =  Periodical::where('id',$form->p_id)->first();
                 $form->menber_name = $menber_name;
+                $form->customer_name = $customer_name;
                 $form->p_name = $periodical->name;
                 $form->dis_per = $periodical->per;
                 $form->p_money = $periodical->c_price != 0? $periodical->c_price:$periodical->price;
