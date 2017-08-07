@@ -51,7 +51,7 @@ class HomeController extends Controller
                     ->whereBetween('created_at', [$day_start, $day_end])
                     ->sum('num');
                 $row->column(3, new InfoBox('今日订单份数', 'shopping-cart', 'aqua', $day_order_url, $day_input_num));
-                $row->column(2, '');
+                $row->column(1, '');
 
 
                 $month_datetime = ['created_at' => ['start' => $this->month_start, 'end' => $this->month_end]];
@@ -61,7 +61,7 @@ class HomeController extends Controller
                     ->whereBetween('created_at', [$this->month_start, $this->month_end])
                     ->sum('num');
                 $row->column(3, new InfoBox('今月订单份数', 'shopping-cart', 'green', $month_order_url, $month_input_num));
-
+                $row->column(1, '');
 
                 $year_datetime = ['created_at' => ['start' => $this->year_start, 'end' => $this->year_end]];
                 $year_order_url = '/front/finance/input?' . http_build_query($year_datetime);
@@ -69,7 +69,7 @@ class HomeController extends Controller
                 $year_input_num = Input::where('user_id', Front::user()->user_id)
                     ->whereBetween('created_at', [$this->year_start, $this->year_end])
                     ->sum('num');
-                $row->column(3, new InfoBox('今年订单份数', 'shopping-cart', 'silver', $year_order_url, $year_input_num));
+                $row->column(3, new InfoBox('今年订单份数', 'shopping-cart', 'yellow', $year_order_url, $year_input_num));
 
 
             });
