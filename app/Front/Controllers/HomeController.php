@@ -28,6 +28,9 @@ class HomeController extends Controller
         $this->dt = Carbon::now();
         $this->month_start = $this->dt->startOfMonth()->toDateTimeString();
         $this->month_end = $this->dt->endOfMonth()->toDateTimeString();
+
+        $this->year_start = $this->dt->startOfYear()->toDateTimeString();
+        $this->year_end = $this->dt->endOfYear()->toDateTimeString();
     }
 
     public function index()
@@ -58,6 +61,15 @@ class HomeController extends Controller
                     ->whereBetween('created_at', [$this->month_start, $this->month_end])
                     ->sum('num');
                 $row->column(3, new InfoBox('今月订单份数', 'shopping-cart', 'green', $month_order_url, $month_input_num));
+
+
+                $year_datetime = ['created_at' => ['start' => $this->year_start, 'end' => $this->year_end]];
+                $year_order_url = '/front/finance/input?' . http_build_query($year_datetime);
+
+                $year_input_num = Input::where('user_id', Front::user()->user_id)
+                    ->whereBetween('created_at', [$this->year_start, $this->year_end])
+                    ->sum('num');
+                $row->column(3, new InfoBox('今年订单份数', 'shopping-cart', 'silver', $year_order_url, $year_input_num));
 
 
             });
