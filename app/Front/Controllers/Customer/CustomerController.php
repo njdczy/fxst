@@ -77,7 +77,8 @@ class CustomerController extends Controller
     protected function grid()
     {
         return Front::grid(Customer::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id);
+            $grid->model()->where('user_id', '=', Front::user()->user_id)
+            ->orderBy('created_at','desc');
 
             $grid->name("客户名称");
             $grid->address("客户（寄送）地址");
@@ -106,6 +107,18 @@ class CustomerController extends Controller
             $form->text('address','客户（寄送）地址');
             $form->text('source','来源');
             $form->hidden('user_id')->default(Front::user()->user_id);
+
+            $form->divide();
+
+            $form->hasMany('customer_piaos', '开票信息',function (Form\NestedForm $form) {
+                $form->text('name','名称')->setWidth('4');
+                $form->text('hao','纳税识别号')->setWidth('4');
+                $form->text('addr','地址')->setWidth('4');
+                $form->text('phone','电话')->setWidth('4');
+                $form->text('bank','银行')->setWidth('4');
+                $form->text('bank_account','账号')->setWidth('4');
+                $form->hidden('user_id')->default(Front::user()->user_id);
+            });
 
         });
     }
