@@ -1,8 +1,6 @@
 <?php
 namespace App\Front\Extensions;
 
-
-use App\Zhenggg\Facades\Front;
 class Checkout
 {
     protected $id;
@@ -28,7 +26,7 @@ SCRIPT;
 
     protected function render()
     {
-        Front::script($this->script());
+        \Front::script($this->script());
 
         return "<a class='btn btn-xs btn-success fa fa-check grid-check-row' data-id='{$this->id}'></a>";
     }

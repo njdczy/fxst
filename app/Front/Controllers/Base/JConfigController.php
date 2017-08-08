@@ -2,7 +2,6 @@
 namespace App\Front\Controllers\Base;
 
 
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Layout\Column;
 
@@ -23,7 +22,7 @@ class JConfigController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
             $content->header('基本信息');
             $content->description('填写');
 
@@ -31,7 +30,7 @@ class JConfigController extends Controller
                 $row->column(2, '');
                 $row->column(6, function (Column $column) {
 
-                    $jituan_config = JituanConfig::where('user_id', Front::user()->user_id)->first();
+                    $jituan_config = JituanConfig::where('user_id', \Front::user()->user_id)->first();
 
                     $form = new Form();
                     $form->action(route('store_and_update_jconfig'));
@@ -55,13 +54,13 @@ class JConfigController extends Controller
                 'jituan_name' => [
                     'bail',
                     'required',
-                    Rule::unique('jituan_configs')->ignore(Front::user()->user_id, 'user_id')
+                    Rule::unique('jituan_configs')->ignore(\Front::user()->user_id, 'user_id')
                 ],
             ]
         );
         $jituan_name = $request->input('jituan_name');
 
-        $jituan_config = JituanConfig::firstOrNew(['user_id' => Front::user()->user_id]);
+        $jituan_config = JituanConfig::firstOrNew(['user_id' => \Front::user()->user_id]);
         $jituan_config->jituan_name = $jituan_name;
         $jituan_config->save();
 

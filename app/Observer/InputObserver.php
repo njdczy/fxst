@@ -9,13 +9,12 @@
 namespace App\Observer;
 
 use App\Models\CheckDetail;
-use App\Models\Department;
+
 use App\Models\Input;
 use App\Models\Menber;
 use App\Models\Target;
 use App\Models\TargetM;
-use App\Zhenggg\Facades\Front;
-use Illuminate\Support\Facades\DB;
+
 
 
 class InputObserver
@@ -47,7 +46,7 @@ class InputObserver
                 ->first();
                 if ($now_input->input_status == 1) {
                     //总目标
-                    $targets = Target::where('user_id', '=', Front::user()->user_id)
+                    $targets = Target::where('user_id', '=', \Front::user()->user_id)
                         ->where('p_id', $now_input->p_id)
                         ->where('s_time', '<',$now_input->created_at)
                         ->where('e_time', '>',$now_input->created_at)
@@ -63,7 +62,7 @@ class InputObserver
                             $target_d->save();
                             //个人目标
                             $target_m = TargetM::firstOrNew([
-                                'user_id' => Front::user()->user_id,
+                                'user_id' => \Front::user()->user_id,
                                 'user_name' => $now_input->menber_name,
                                 'u_id' => $now_input->u_id,
                                 't_id' => $target->id,
@@ -74,7 +73,7 @@ class InputObserver
                     });
                 } else if ($input->getOriginal('input_status') != null){
                     //总目标
-                    $targets = Target::where('user_id', '=', Front::user()->user_id)
+                    $targets = Target::where('user_id', '=', \Front::user()->user_id)
                         ->where('p_id', $now_input->p_id)
                         ->where('s_time', '<',$now_input->created_at)
                         ->where('e_time', '>',$now_input->created_at)
@@ -89,7 +88,7 @@ class InputObserver
                             $target_d->save();
                             //个人目标
                             $target_m = TargetM::firstOrNew([
-                                'user_id' => Front::user()->user_id,
+                                'user_id' => \Front::user()->user_id,
                                 'user_name' => $now_input->menber_name,
                                 'u_id' => $now_input->u_id,
                                 't_id' => $target->id,

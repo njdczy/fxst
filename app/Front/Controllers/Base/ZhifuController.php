@@ -12,7 +12,6 @@ namespace App\Front\Controllers\Base;
 use App\Models\Zhifu;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Controllers\ModelForm;
 
@@ -24,7 +23,7 @@ class ZhifuController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('支付方式');
             $content->description('管理');
@@ -35,7 +34,7 @@ class ZhifuController extends Controller
 
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('支付方式');
             $content->description('管理');
@@ -46,7 +45,7 @@ class ZhifuController extends Controller
 
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('支付方式');
             $content->description('管理');
@@ -57,9 +56,9 @@ class ZhifuController extends Controller
 
     protected function grid()
     {
-        return Front::grid(Zhifu::class, function (Grid $grid) {
+        return \Front::grid(Zhifu::class, function (Grid $grid) {
             $grid->model()
-                ->where('user_id', '=', Front::user()->user_id)
+                ->where('user_id', '=', \Front::user()->user_id)
                 ->orWhere('user_id', '=', 0);
             $grid->column('');
             $grid->column('');
@@ -78,9 +77,9 @@ class ZhifuController extends Controller
 
     protected function form()
     {
-        return Front::form(Zhifu::class, function (Form $form) {
+        return \Front::form(Zhifu::class, function (Form $form) {
 
-            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('user_id')->default(\Front::user()->user_id);
             $form->text('name','支付方式名称')->rules('required');
         });
     }

@@ -8,8 +8,6 @@
 
 namespace App\Models;
 
-
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Traits\AdminBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -189,7 +187,7 @@ class Department extends Model
         if ($this->queryCallback instanceof \Closure) {
             $self = call_user_func($this->queryCallback, $self);
         }
-        return $self->orderByRaw($byOrder)->where('user_id', Front::user()->user_id)->get()->toArray();
+        return $self->orderByRaw($byOrder)->where('user_id', \Front::user()->user_id)->get()->toArray();
     }
 
     /**

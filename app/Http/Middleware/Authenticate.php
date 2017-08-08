@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Zhenggg\Front;
 use Illuminate\Support\Facades\Auth;
 
 class Authenticate
@@ -19,7 +18,7 @@ class Authenticate
     public function handle($request, Closure $next)
     {
         if (Auth::guard('front')->guest() && !$this->shouldPassThrough($request)) {
-            return redirect()->guest(Front::url('auth/login'));
+            return redirect()->guest(\Front::url('auth/login'));
         }
 
         return $next($request);
@@ -35,8 +34,8 @@ class Authenticate
     protected function shouldPassThrough($request)
     {
         $excepts = [
-            Front::url('auth/login'),
-            Front::url('auth/logout'),
+            \Front::url('auth/login'),
+            \Front::url('auth/logout'),
         ];
 
         foreach ($excepts as $except) {

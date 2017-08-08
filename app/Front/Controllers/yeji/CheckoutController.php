@@ -9,11 +9,11 @@
 namespace App\Front\Controllers\Yeji;
 
 use App\Models\Menber;
-use App\Models\UCheckout;
+
 
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
-use App\Zhenggg\Facades\Front;
+
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Controllers\ModelForm;
 use Illuminate\Routing\Controller;
@@ -24,7 +24,7 @@ class CheckoutController extends  Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('业绩');
             $content->description('结算');
@@ -35,7 +35,7 @@ class CheckoutController extends  Controller
 
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('业绩');
             $content->description('结算');
@@ -46,7 +46,7 @@ class CheckoutController extends  Controller
 
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('业绩');
             $content->description('结算');
@@ -57,8 +57,8 @@ class CheckoutController extends  Controller
 
     protected function grid()
     {
-        return Front::grid(Menber::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id);
+        return \Front::grid(Menber::class, function (Grid $grid) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id);
             $grid->name('人员');
             $grid->department()->name('部门')->label();
 //            $grid->id("总有效销售额/已结算/未结算")->display(function(){
@@ -81,7 +81,7 @@ class CheckoutController extends  Controller
 
     protected function form()
     {
-        return Front::form(Menber::class, function (Form $form) {
+        return \Front::form(Menber::class, function (Form $form) {
 
             $form->display('name', '名称');
             $form->display('created_at', 'Created At');

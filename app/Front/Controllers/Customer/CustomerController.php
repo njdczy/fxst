@@ -10,7 +10,6 @@ namespace App\Front\Controllers\Customer;
 
 use App\Front\Controllers\ModelForm;
 use App\Models\Customer;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
@@ -27,7 +26,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('客户');
             $content->description('列表');
@@ -44,7 +43,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('客户');
             $content->description('修改');
@@ -60,7 +59,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('客户');
             $content->description('新建');
@@ -76,8 +75,8 @@ class CustomerController extends Controller
      */
     protected function grid()
     {
-        return Front::grid(Customer::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id)
+        return \Front::grid(Customer::class, function (Grid $grid) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id)
             ->orderBy('created_at','desc');
 
             $grid->name("客户名称");
@@ -99,14 +98,14 @@ class CustomerController extends Controller
      */
     protected function form()
     {
-        return Front::form(Customer::class, function (Form $form) {
+        return \Front::form(Customer::class, function (Form $form) {
             $form->text('name','客户名称')->rules('required')->setWidth('4');
             $form->select('type','性质')->options([1 => '单位',0 => '个人'])->rules('required')->setWidth('4');
             $form->text('contacts','联系人')->rules('required')->setWidth('4');
             $form->text('mobile','电话/手机')->setWidth('4');
             $form->text('address','客户（寄送）地址');
             $form->text('source','来源');
-            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('user_id')->default(\Front::user()->user_id);
 
             $form->divide();
 
@@ -117,7 +116,7 @@ class CustomerController extends Controller
                 $form->text('phone','电话')->setWidth('4');
                 $form->text('bank','银行')->setWidth('4');
                 $form->text('bank_account','账号')->setWidth('4');
-                $form->hidden('user_id')->default(Front::user()->user_id);
+                $form->hidden('user_id')->default(\Front::user()->user_id);
             });
 
         });

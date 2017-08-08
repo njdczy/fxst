@@ -11,7 +11,6 @@ use App\Models\Periodical;
 use App\Models\Zhifu;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Controllers\ModelForm;
 use Illuminate\Routing\Controller;
@@ -22,7 +21,7 @@ class InputController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('订单');
             $content->description('列表');
@@ -33,7 +32,7 @@ class InputController extends Controller
 
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('订单');
             $content->description('修改');
@@ -44,7 +43,7 @@ class InputController extends Controller
 
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('订单');
             $content->description('录入');
@@ -55,12 +54,12 @@ class InputController extends Controller
 
     protected function grid()
     {
-        return Front::grid(Input::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id)->orderBy('id','desc');
+        return \Front::grid(Input::class, function (Grid $grid) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id)->orderBy('id','desc');
             $grid->column('customer','客户')->display(function(){
                 $customer_name =  Customer::where('id',$this->c_id)->value('name');
                 if ($customer_name) {
-                    return $customer_name;
+                    return '<a href=" '. \Front::url('customer') .'/'.$this->c_id .'/edit/"> '.$customer_name.'</a>';
                 } else {
                     return $this->customer_name. '(已删除)' ;
                 }
@@ -126,14 +125,14 @@ class InputController extends Controller
 
     protected function form()
     {
-        return Front::form(Input::class, function (Form $form) {
+        return \Front::form(Input::class, function (Form $form) {
             $form->tab('1.客户信息', function ($form) {
                 $form->select('c_id', '客户')->options(
-                    Customer::where('user_id', Front::user()->user_id)
+                    Customer::where('user_id', \Front::user()->user_id)
                         ->pluck('name', 'id')
                 )->rules('required')->setWidth('4');
                 $form->select('u_id', '销售')->options(
-                    Menber::where('user_id', Front::user()->user_id)
+                    Menber::where('user_id', \Front::user()->user_id)
                         ->pluck('name', 'id')
                 )->rules('required')->setWidth('4');
                 $form->text('fapiao','发票')->setWidth('4');
@@ -149,7 +148,7 @@ class InputController extends Controller
 
             })->tab('2.订单信息', function ($form) {
                 $form->select('p_id','刊物')->options(
-                    Periodical::where('user_id', Front::user()->user_id)
+                    Periodical::where('user_id', \Front::user()->user_id)
                         ->pluck('name', 'id')
                 )->setWidth('4')->rules('required');
                 $form->number('num','数量')->rules('required');
@@ -160,14 +159,14 @@ class InputController extends Controller
                 $form->number('money_paid', '已付款金额')->help('未付款填0');
                 $form->select('pay_status', '支付状态')->options([0 => '未支付',1 => '已支付', 2=> '部分付款'])->default($form->pay_status)->setWidth('4');
                 $form->select('pay_name', '支付方式')->options(
-                    Zhifu::where('user_id', Front::user()->user_id)
+                    Zhifu::where('user_id', \Front::user()->user_id)
                         ->orWhere('user_id', '=', 0)
                         ->pluck('name', 'id')
                 )->setWidth('4');
                 $form->text('liushui','流水号')->setWidth('4');
                 $form->text('pay_note', '付款备注');
                 $form->divide();
-                $form->hidden('user_id')->default(Front::user()->user_id);
+                $form->hidden('user_id')->default(\Front::user()->user_id);
                 $form->hidden('menber_name');
                 $form->hidden('customer_name');
                 $form->hidden('dis_per');

@@ -14,7 +14,6 @@ use App\Models\TargetD;
 use App\Models\TargetM;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Layout\Row;
 use Illuminate\Routing\Controller;
@@ -24,7 +23,7 @@ class TargetMController extends Controller
     public function index($target_id, $targetd_id)
     {
         $target_d = TargetD::find($targetd_id);
-        $target_m_u_ids = TargetM::where('user_id', Front::user()->user_id)
+        $target_m_u_ids = TargetM::where('user_id', \Front::user()->user_id)
             ->where('t_id', $target_id)
             ->where('t_d_id', $targetd_id)
             ->pluck('u_id');
@@ -36,7 +35,7 @@ class TargetMController extends Controller
         $diff_u_ids->each(function ($u_id, $key) use ($target_d, $target_id, $targetd_id,$menber_names) {
 
             TargetM::create([
-                'user_id' => Front::user()->user_id,
+                'user_id' => \Front::user()->user_id,
                 'user_name' => $menber_names[$key],
                 'u_id' => $u_id,
                 't_id' => $target_id,
@@ -44,7 +43,7 @@ class TargetMController extends Controller
             ]);
         });
 
-        return Front::content(function (Content $content) use ($target_id, $targetd_id) {
+        return \Front::content(function (Content $content) use ($target_id, $targetd_id) {
             $target_d = TargetD::find($targetd_id);
             $target = Target::find($target_id);
             $periodical_name = $target->periodical->name;
@@ -65,8 +64,8 @@ class TargetMController extends Controller
 
     protected function grid($target_id, $targetd_id)
     {
-        return Front::grid(TargetM::class, function (Grid $grid) use ($target_id, $targetd_id) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id)
+        return \Front::grid(TargetM::class, function (Grid $grid) use ($target_id, $targetd_id) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id)
                 ->where('t_id', '=', $target_id)
                 ->where('t_d_id', '=', $targetd_id);
 
@@ -100,7 +99,7 @@ class TargetMController extends Controller
 
     public function edit($target_id, $targetd_id,$id)
     {
-        return Front::content(function (Content $content) use ($target_id, $targetd_id,$id) {
+        return \Front::content(function (Content $content) use ($target_id, $targetd_id,$id) {
 
             $content->header('发行人目标');
             $content->description('修改');
@@ -117,7 +116,7 @@ class TargetMController extends Controller
 
     protected function form($target_id,$targetd_id)
     {
-        return Front::form(TargetM::class, function (Form $form) use ($target_id,$targetd_id) {
+        return \Front::form(TargetM::class, function (Form $form) use ($target_id,$targetd_id) {
             $target = Target::find($target_id);
             $target_d = TargetD::find($targetd_id);
             $form->display('p_name', '刊物')->setWidth(3)->default($target->periodical->name);

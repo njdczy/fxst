@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Zhenggg\Facades\Front;
 use Illuminate\Http\Request;
 
 class OperationLog
@@ -17,9 +16,9 @@ class OperationLog
      */
     public function handle(Request $request, \Closure $next)
     {
-        if (config('front.operation_log') && Front::user()) {
+        if (config('front.operation_log') && \Front::user()) {
             $log = [
-                'user_id' => Front::user()->id,
+                'user_id' => \Front::user()->id,
                 'path'    => $request->path(),
                 'method'  => $request->method(),
                 'ip'      => $request->getClientIp(),

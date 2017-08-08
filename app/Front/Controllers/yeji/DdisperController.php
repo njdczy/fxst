@@ -13,7 +13,6 @@ use App\Models\DPer;
 use App\Models\Periodical;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Controllers\ModelForm;
 use Illuminate\Routing\Controller;
@@ -24,7 +23,7 @@ class DdisperController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('设置');
             $content->description('部门比例');
@@ -35,11 +34,11 @@ class DdisperController extends Controller
 
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('设置');
             $content->description('部门比例');
-            $periodicals = Periodical::where('user_id', Front::user()->user_id)->get();
+            $periodicals = Periodical::where('user_id', \Front::user()->user_id)->get();
 
             $content->body($this->form($periodicals,$id)->edit($id));
         });
@@ -52,16 +51,16 @@ class DdisperController extends Controller
 
     protected function grid()
     {
-        return Front::grid(Department::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id);
+        return \Front::grid(Department::class, function (Grid $grid) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id);
             $grid->column('');
             $grid->name("部门");
             $grid->column('detail', "比例详情")->display(function () {
-                $periodicals = Periodical::where('user_id', Front::user()->user_id)->get();
+                $periodicals = Periodical::where('user_id', \Front::user()->user_id)->get();
                 if ($periodicals) {
                     $h = '';
                     foreach ($periodicals as $periodical) {
-                        $d_per = DPer::where('user_id', Front::user()->user_id)
+                        $d_per = DPer::where('user_id', \Front::user()->user_id)
                             ->where('d_id', $this->id)
                             ->where('p_id', $periodical['id'])
                             ->first();
@@ -91,12 +90,12 @@ class DdisperController extends Controller
 
     protected function form($periodicals = '',$id = '')
     {
-        return Front::form(Department::class, function (Form $form) use ($periodicals , $id) {
+        return \Front::form(Department::class, function (Form $form) use ($periodicals , $id) {
 
             $form->display('name', '部门');
             if ($periodicals) {
                 foreach ($periodicals as $key => $periodical) {
-                    $d_per = DPer::where('user_id', Front::user()->user_id)
+                    $d_per = DPer::where('user_id', \Front::user()->user_id)
                         ->where('p_id', $periodical->id)
                         ->where('d_id', $id)
                         ->first();
@@ -110,7 +109,7 @@ class DdisperController extends Controller
 
                 if (is_array($form->periodical)) {
                     foreach ($form->periodical as $p_id => $per) {
-                        $d_per = DPer::firstOrNew(['user_id'=>Front::user()->user_id,'p_id'=>$p_id,'d_id'=>$id]);
+                        $d_per = DPer::firstOrNew(['user_id'=>\Front::user()->user_id,'p_id'=>$p_id,'d_id'=>$id]);
                         $d_per->per = $per;
                         $d_per->save();
                     }

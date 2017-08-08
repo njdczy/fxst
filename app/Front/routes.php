@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Middleware\AddMenberTarget;
-use App\Zhenggg\Facades\Front;
 use Illuminate\Routing\Router;
 
-Front::registerHelpersRoutes();
+\Front::registerHelpersRoutes();
 
 Route::group([
     'prefix'        => config('front.prefix'),

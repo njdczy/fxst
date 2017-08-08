@@ -11,7 +11,6 @@ namespace App\Front\Controllers\Baoshe;
 use App\Models\Baoshe;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Controllers\ModelForm;
 
@@ -23,7 +22,7 @@ class BaosheController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('报社');
             $content->description('管理');
@@ -34,7 +33,7 @@ class BaosheController extends Controller
 
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('报社');
             $content->description('管理');
@@ -45,7 +44,7 @@ class BaosheController extends Controller
 
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('报社');
             $content->description('管理');
@@ -56,8 +55,8 @@ class BaosheController extends Controller
 
     protected function grid()
     {
-        return Front::grid(Baoshe::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id);
+        return \Front::grid(Baoshe::class, function (Grid $grid) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id);
             $grid->column('');
             $grid->column('');
             $grid->name('报社名称');
@@ -69,9 +68,9 @@ class BaosheController extends Controller
 
     protected function form()
     {
-        return Front::form(Baoshe::class, function (Form $form) {
+        return \Front::form(Baoshe::class, function (Form $form) {
 
-            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('user_id')->default(\Front::user()->user_id);
             $form->text('name','报社名称')->rules('required')->help('如：江苏经济报社');
         });
     }

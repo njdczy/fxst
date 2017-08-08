@@ -11,8 +11,6 @@ namespace App\Front\Controllers\Periodical;
 use App\Front\Controllers\ModelForm;
 use App\Models\Baoshe;
 use App\Models\Periodical;
-use App\Models\Target;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
@@ -24,7 +22,7 @@ class PeriodicalController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('刊物');
             $content->description('列表');
@@ -35,7 +33,7 @@ class PeriodicalController extends Controller
 
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('刊物');
             $content->description('修改');
@@ -46,7 +44,7 @@ class PeriodicalController extends Controller
 
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('刊物');
             $content->description('新建');
@@ -58,8 +56,8 @@ class PeriodicalController extends Controller
 
     protected function grid()
     {
-        return Front::grid(Periodical::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id);
+        return \Front::grid(Periodical::class, function (Grid $grid) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id);
             $grid->column('');
             $grid->name("刊物名称");
             $grid->baoshe()->name('所属报社');
@@ -78,7 +76,7 @@ class PeriodicalController extends Controller
 
                 $filter->like('name', '刊物名称');
 
-                $filter->is('baoshe_id', '所属报社')->select(Baoshe::where('user_id', Front::user()->user_id)->pluck('name', 'id'));
+                $filter->is('baoshe_id', '所属报社')->select(Baoshe::where('user_id', \Front::user()->user_id)->pluck('name', 'id'));
 
             });
         });
@@ -87,18 +85,18 @@ class PeriodicalController extends Controller
 
     protected function form()
     {
-        return Front::form(Periodical::class, function (Form $form) {
+        return \Front::form(Periodical::class, function (Form $form) {
             $form->text('name','刊物名称')->rules('required')->setWidth(4)->help('如：江苏经济报');
             $form->number('price','原价格/份')->rules('required');
             $form->number('c_price','优惠价格/份')->rules('required');
             $form->number('per','基准分成比例(百分比)')->help('填写0到100')->rules('required|between:0,100');
             $form->select('baoshe_id','所属报社')
                 ->options(
-                    Baoshe::where('user_id', Front::user()->user_id)
+                    Baoshe::where('user_id', \Front::user()->user_id)
                         ->pluck('name', 'id')
                 )->rules('required');
 
-            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('user_id')->default(\Front::user()->user_id);
 
         });
     }

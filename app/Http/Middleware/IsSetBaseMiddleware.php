@@ -11,7 +11,6 @@ namespace App\Http\Middleware;
 use App\Models\Baoshe;
 use App\Models\JituanConfig;
 use App\Models\Periodical;
-use App\Zhenggg\Facades\Front;
 use Closure;
 use Illuminate\Support\MessageBag;
 
@@ -26,15 +25,15 @@ class IsSetBaseMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Front::user()) {
+        if (\Front::user()) {
             //检查是否设置集团名称
             if (
-                !JituanConfig::where('user_id',Front::user()->user_id)->first()
+                !JituanConfig::where('user_id',\Front::user()->user_id)->first()
                 &&
                 !$this->passThrough($request,
                     [
-                        'get' =>  Front::url('system/jconfig/'),
-                        'post' =>Front::url('system/jconfig'),
+                        'get' =>  \Front::url('system/jconfig/'),
+                        'post' =>\Front::url('system/jconfig'),
                     ]
                 )
             )
@@ -47,15 +46,15 @@ class IsSetBaseMiddleware
             }
             //检查是否添加报社
             if (
-                JituanConfig::where('user_id',Front::user()->user_id)->first()
+                JituanConfig::where('user_id',\Front::user()->user_id)->first()
                 &&
-                !Baoshe::where('user_id',Front::user()->user_id)->first()
+                !Baoshe::where('user_id',\Front::user()->user_id)->first()
                 &&
                 !$this->passThrough($request,
                     [
 
-                        'get' =>  Front::url('system/baoshe/create'),
-                        'post' =>Front::url('system/baoshe'),
+                        'get' =>  \Front::url('system/baoshe/create'),
+                        'post' =>\Front::url('system/baoshe'),
                     ]
                 )
             )
@@ -64,18 +63,18 @@ class IsSetBaseMiddleware
                     'title'   => '请先添加一个报社',
                     'message' => '',
                 ]);
-                return redirect()->to(Front::url('system/baoshe/create'))->with(compact('error'));
+                return redirect()->to(\Front::url('system/baoshe/create'))->with(compact('error'));
             }
             //检查是否添加刊物
             if (
-                Baoshe::where('user_id',Front::user()->user_id)->first()
+                Baoshe::where('user_id',\Front::user()->user_id)->first()
                 &&
-                !Periodical::where('user_id',Front::user()->user_id)->first()
+                !Periodical::where('user_id',\Front::user()->user_id)->first()
                 &&
                 !$this->passThrough($request,
                     [
-                        'get' =>  Front::url('periodical/create'),
-                        'post' =>Front::url('periodical'),
+                        'get' =>  \Front::url('periodical/create'),
+                        'post' =>\Front::url('periodical'),
                     ]
                 )
             )
@@ -84,7 +83,7 @@ class IsSetBaseMiddleware
                     'title'   => '请先添加一个刊物',
                     'message' => '',
                 ]);
-                return redirect()->to(Front::url('periodical/create'))->with(compact('error'));
+                return redirect()->to(\Front::url('periodical/create'))->with(compact('error'));
             }
 //            //检查是否设置部门
         }

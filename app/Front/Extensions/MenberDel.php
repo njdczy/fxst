@@ -9,8 +9,6 @@
 namespace App\Front\Extensions;
 
 
-use App\Zhenggg\Facades\Front;
-
 class MenberDel
 {
     protected $id;
@@ -55,7 +53,7 @@ SCRIPT;
 
     protected function render()
     {
-        Front::script($this->script());
+        \Front::script($this->script());
         return <<<EOT
 <a href="javascript:void(0);" data-id="{$this->id}" class="grid-row-delete">
     <i class="fa fa-trash"></i>

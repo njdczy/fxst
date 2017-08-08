@@ -14,9 +14,8 @@ use App\Models\Menber;
 
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Content;
-//use App\Zhenggg\Controllers\ModelForm;
+
 use Illuminate\Routing\Controller;
 
 class CheckDetailsController extends Controller
@@ -25,7 +24,7 @@ class CheckDetailsController extends Controller
 
     public function index($u_id)
     {
-        return Front::content(function (Content $content) use ($u_id) {
+        return \Front::content(function (Content $content) use ($u_id) {
 
             $content->header('分成');
             $content->description('结算');
@@ -36,10 +35,10 @@ class CheckDetailsController extends Controller
 
     protected function grid($u_id)
     {
-        return Front::grid(Input::class, function (Grid $grid) use ($u_id) {
+        return \Front::grid(Input::class, function (Grid $grid) use ($u_id) {
             $grid->model()
                 ->where('pay_status', 1)
-                ->where('user_id', '=', Front::user()->user_id)
+                ->where('user_id', '=', \Front::user()->user_id)
                 ->where('u_id', '=', $u_id)
                 ->where('money_paid', '>', 0);
 
@@ -85,7 +84,7 @@ class CheckDetailsController extends Controller
 
     public function edit($u_id,$id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('分成');
             $content->description('结算');
@@ -101,7 +100,7 @@ class CheckDetailsController extends Controller
 
     protected function form()
     {
-        return Front::form(Input::class, function (Form $form)  {
+        return \Front::form(Input::class, function (Form $form)  {
 
             $states = [
                 'off' => ['text' => trans('app.j_status.0')],

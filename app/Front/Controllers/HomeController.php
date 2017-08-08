@@ -5,7 +5,6 @@ namespace App\Front\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Input;
 use App\Models\Periodical;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Column;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Layout\Row;
@@ -35,7 +34,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('发行管理系统');
             $content->description('发行管理系统');
@@ -47,7 +46,7 @@ class HomeController extends Controller
                 $day_datetime = ['created_at' => ['start' => $day_start, 'end' => $day_end]];
                 $day_order_url = '/front/finance/input?' . http_build_query($day_datetime);
 
-                $day_input_num = Input::where('user_id', Front::user()->user_id)
+                $day_input_num = Input::where('user_id', \Front::user()->user_id)
                     ->whereBetween('created_at', [$day_start, $day_end])
                     ->sum('num');
                 $row->column(3, new InfoBox('今日订单份数', 'shopping-cart', 'aqua', $day_order_url, $day_input_num));
@@ -57,17 +56,17 @@ class HomeController extends Controller
                     $month_datetime = ['created_at' => ['start' => $this->month_start, 'end' => $this->month_end]];
                 $month_order_url = '/front/finance/input?' . http_build_query($month_datetime);
 
-                $month_input_num = Input::where('user_id', Front::user()->user_id)
+                $month_input_num = Input::where('user_id', \Front::user()->user_id)
                     ->whereBetween('created_at', [$this->month_start, $this->month_end])
                     ->sum('num');
                 $row->column(3, new InfoBox('今月订单份数', 'shopping-cart', 'green', $month_order_url, $month_input_num));
 
                 $row->column(1,'');
-                
+
                 $year_datetime = ['created_at' => ['start' => $this->year_start, 'end' => $this->year_end]];
                 $year_order_url = '/front/finance/input?' . http_build_query($year_datetime);
 
-                $year_input_num = Input::where('user_id', Front::user()->user_id)
+                $year_input_num = Input::where('user_id', \Front::user()->user_id)
                     ->whereBetween('created_at', [$this->year_start, $this->year_end])
                     ->sum('num');
                 $row->column(3, new InfoBox('今年订单份数', 'shopping-cart', 'yellow', $year_order_url, $year_input_num));

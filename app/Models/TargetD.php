@@ -9,7 +9,6 @@
 namespace App\Models;
 
 
-use App\Zhenggg\Facades\Front;
 use Illuminate\Database\Eloquent\Model;
 
 class TargetD extends Model
@@ -86,7 +85,7 @@ class TargetD extends Model
         }
         return $self->orderByRaw($byOrder)
             ->where('p_id', $p_id)
-            ->where('user_id', Front::user()->user_id)->get()->toArray();
+            ->where('user_id', \Front::user()->user_id)->get()->toArray();
     }
 
 }

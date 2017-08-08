@@ -13,12 +13,9 @@ use App\Models\Department;
 use App\Models\Periodical;
 use App\Models\Target;
 use App\Models\TargetD;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
-use App\Zhenggg\Widgets\Box;
-use App\Zhenggg\Widgets\Table;
 use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\MessageBag;
@@ -31,11 +28,11 @@ class TargetController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
             $content->header('目标列表');
             $content->description('列表');
 
-            $targets = Target::where('user_id', Front::user()->user_id)->get();
+            $targets = Target::where('user_id', \Front::user()->user_id)->get();
             $p_targets = $targets->groupBy('p_id');
             $p_targets->each(function ($targets, $k) {
 
@@ -50,7 +47,7 @@ class TargetController extends Controller
         });
 
 
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $confirm = '该目标已完成的的数量将无法关联到之后添加的目标，确定要删除目标吗？';
             $script = <<<SCRIPT
@@ -101,7 +98,7 @@ SCRIPT;
 
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
 
             $content->header('目标');
             $content->description('修改');
@@ -112,7 +109,7 @@ SCRIPT;
 
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
 
             $content->header('目标');
             $content->description('新建');
@@ -124,8 +121,8 @@ SCRIPT;
 
     protected function grid()
     {
-        return Front::grid(Periodical::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id);
+        return \Front::grid(Periodical::class, function (Grid $grid) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id);
 
             $grid->name('刊物')->label();
             $grid->targets("部门&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -141,7 +138,7 @@ SCRIPT;
                 ->map(function ($target) {
                     $num = $target['num'];
                     $numed = $target['numed'];
-                    $name = Department::where('user_id', '=', Front::user()->user_id)->where('id', $target['d_id'])->value('name') ?: '总目标';
+                    $name = Department::where('user_id', '=', \Front::user()->user_id)->where('id', $target['d_id'])->value('name') ?: '总目标';
 
                     $date = Carbon::parse($target['s_time'])->format('Y-m-d') . '--' . Carbon::parse($target['e_time'])->format('Y-m-d');
                     return "<strong><i style='display:inline-block;width: 6rem;margin-left: 0.05rem;font-style: normal;'>$name</i></strong>
@@ -205,22 +202,22 @@ SCRIPT;
     {
 
 
-        return Front::form(Target::class, function (Form $form) {
+        return \Front::form(Target::class, function (Form $form) {
             $form->select('p_id', '刊物')->options(
-                Periodical::where('user_id', '=', Front::user()->user_id)
+                Periodical::where('user_id', '=', \Front::user()->user_id)
                     ->pluck('name', 'id')
             )->setWidth(4);
 
             $form->dateRange('s_time', 'e_time', '目标时间段');
             $form->number('num', '设置总目标份数');
             $form->display('numed', '总已完成数')->setWidth(1)->default($form->model()->numed ?: 0);
-            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('user_id')->default(\Front::user()->user_id);
 //            $form->hasMany('targetds', '设置部门目标', function (Form\NestedForm $form) {
 //                $form->select('d_id', '部门')->options(
 //                    Department::selectOptionsForNoroot()
 //                )->setWidth(4);
 //                $form->number('num', '设置部门目标份数');
-//                $form->hidden('user_id')->default(Front::user()->user_id);
+//                $form->hidden('user_id')->default(\Front::user()->user_id);
 //                $form->display('numed', '已完成')->setWidth(1)->default(0);
 //            });
             $form->creating(function (Form $form) {

@@ -6,7 +6,6 @@ use App\Front\Controllers\ModelForm;
 use App\Front\Extensions\MenberDel;
 use App\Models\Department;
 use App\Models\Menber;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
@@ -25,7 +24,7 @@ class MenberController extends Controller
      */
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
             $content->header(trans('front::lang.administrator'));
             $content->description(trans('front::lang.list'));
             $content->body($this->grid()->render());
@@ -41,7 +40,7 @@ class MenberController extends Controller
      */
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
             $content->header(trans('front::lang.administrator'));
             $content->description(trans('front::lang.edit'));
             $content->body($this->form()->edit($id));
@@ -55,7 +54,7 @@ class MenberController extends Controller
      */
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
             $content->header(trans('front::lang.administrator'));
             $content->description(trans('front::lang.create'));
             $content->body($this->form());
@@ -71,8 +70,8 @@ class MenberController extends Controller
     {
         return Menber::grid(function (Grid $grid) {
             $grid->model()
-                ->where('user_id', '=', Front::user()->user_id)
-                ->orWhere('id', '=', Front::user()->user_id);
+                ->where('user_id', '=', \Front::user()->user_id)
+                ->orWhere('id', '=', \Front::user()->user_id);
 
             $grid->name('姓名');
 
@@ -87,7 +86,7 @@ class MenberController extends Controller
                 return  '<img src="data:image/png;base64,'
                 .base64_encode(
                     QrCode::format("png")
-                        //->merge(asset('images/logo/logo'.Front::user()->id.'.png'), .28,true)
+                        //->merge(asset('images/logo/logo'.\Front::user()->id.'.png'), .28,true)
                         ->errorCorrection('H')
                         ->size(140)
                         ->generate(url("/form/".$this->id))
@@ -132,7 +131,7 @@ class MenberController extends Controller
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
-            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('user_id')->default(\Front::user()->user_id);
 
         });
     }

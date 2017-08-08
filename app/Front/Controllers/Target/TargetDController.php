@@ -11,7 +11,6 @@ namespace App\Front\Controllers\Target;
 use App\Models\Department;
 use App\Models\Target;
 use App\Models\TargetD;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Form;
 use Carbon\Carbon;
@@ -23,7 +22,7 @@ class TargetDController extends Controller
 
     public function create($target_id)
     {
-        return Front::content(function (Content $content) use ($target_id) {
+        return \Front::content(function (Content $content) use ($target_id) {
 
             $content->header('子目标');
             $content->description('新建');
@@ -39,7 +38,7 @@ class TargetDController extends Controller
 
     public function edit($target_id, $id)
     {
-        return Front::content(function (Content $content) use ($target_id, $id) {
+        return \Front::content(function (Content $content) use ($target_id, $id) {
 
             $content->header('子目标');
             $content->description('修改');
@@ -55,7 +54,7 @@ class TargetDController extends Controller
 
     protected function form($target_id)
     {
-        return Front::form(TargetD::class, function (Form $form) use ($target_id) {
+        return \Front::form(TargetD::class, function (Form $form) use ($target_id) {
             $target = Target::find($target_id);
             $form->display('p_name', '刊物')->setWidth(3)->default($target->periodical->name);
             $form->display('time', '目标时间段')->setWidth(3)
@@ -65,7 +64,7 @@ class TargetDController extends Controller
             $form->display('t_numed', '总已完成数')->setWidth(1)->default($target->numed);
             $form->divide();
 
-            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('user_id')->default(\Front::user()->user_id);
             $form->hidden('p_id')->default($target->periodical->id);
             $form->hidden('target_id')->default($target->id);
             $form->hidden('parent_d_id');
@@ -105,7 +104,7 @@ class TargetDController extends Controller
                     'title' => '编辑子目标成功',
                     'message' => '',
                 ]);
-                return redirect()->to(Front::url('target'))->with(compact('success'));
+                return redirect()->to(\Front::url('target'))->with(compact('success'));
             });
         });
     }
