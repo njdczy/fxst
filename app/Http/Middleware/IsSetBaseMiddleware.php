@@ -26,9 +26,13 @@ class IsSetBaseMiddleware
     public function handle($request, Closure $next)
     {
         if (\Front::user()) {
+            //set
+            $jituan_name = JituanConfig::where('user_id',\Front::user()->user_id)->value('jituan_name');
+            config(['front.name'=>$jituan_name]);
+            config(['front.logo'=>'<b>'.$jituan_name.'</b> ']);
             //检查是否设置集团名称
             if (
-                !JituanConfig::where('user_id',\Front::user()->user_id)->first()
+                !$jituan_name
                 &&
                 !$this->passThrough($request,
                     [

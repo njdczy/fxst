@@ -44,7 +44,7 @@
             <p> 目标时间段：{{ \Carbon::parse($target->s_time)->format('Y-m-d')  }} -- {{ \Carbon::parse($target->e_time)->format('Y-m-d')  }}</p>
         </div>
         <div class="btn-group pull-right" style="margin-right: 10px">
-            <a href="/front/target/{{$target->id}}/targetd/create" class="btn btn-sm btn-success">
+            <a href="{{url(\Front::url('target').'/'.$target->id.'/targetd/create')}}" class="btn btn-sm btn-success">
                 <i class="fa fa-save"></i>&nbsp;&nbsp;新增子目标
             </a>
         </div>
@@ -78,12 +78,12 @@
                     </div>
                     <span style="float: right;">{{$target->numed/$target->num*100}}%</span>
                 </td>
-                <td><a href="{{url('front/finance/input?pay_status=1')}}">点击查看</a></td>
+                <td><a href="{{url(\Front::url('finance/input').'/?pay_status=1')}}">点击查看</a></td>
                 <td>
-                    <a href="/front/target/{{$target->id}}/edit">
+                    <a href="{{url(\Front::url('target').'/'.$target->id.'/edit')}}">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a href="javascript:void(0);" data-url="/front/target/{{$target->id}}" class="grid-row-delete" >
+                    <a href="javascript:void(0);" data-url="{{url(\Front::url('target').'/'.$target->id)}}" class="grid-row-delete" >
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>
@@ -101,12 +101,12 @@
                     </div>
                     <span style="float: right;">{{$tree['numed']/$tree['num']*100}}%</span>
                 </td>
-                <td><a href="{{url('/front/target/'. $target->id .'/targetd/'. $tree["id"] . '/targetm')}}">点击查看</a></td>
+                <td><a href="{{url(\Front::url('target').'/'.$target->id.'/targetd/'.$tree["id"].'/targetm')}}">点击查看</a></td>
                 <td>
-                    <a href="{{url('/front/target/'.$target->id.'/targetd/'.$tree["id"].'/edit')}}">
+                    <a href="{{url(\Front::url('target').'/'.$target->id.'/targetd/'.$tree["id"].'/edit/')}}">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a href="javascript:void(0);" data-url="{{url('/front/target/'.$target->id.'/targetd/'.$tree["id"].'/')}}" class="grid-row-delete" >
+                    <a href="javascript:void(0);" data-url="{{url(\Front::url('target').'/'.$target->id.'/targetd/'.$tree["id"].'/')}}" class="grid-row-delete" >
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>

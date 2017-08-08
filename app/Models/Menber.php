@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Menber extends Model
 {
-    use AdminBuilder;
-
 
     /**
      * A menber belongs to d.

@@ -68,10 +68,9 @@ class MenberController extends Controller
      */
     protected function grid()
     {
-        return Menber::grid(function (Grid $grid) {
+        return \Front::grid(Menber::class, function (Grid $grid) {
             $grid->model()
-                ->where('user_id', '=', \Front::user()->user_id)
-                ->orWhere('id', '=', \Front::user()->user_id);
+                ->where('user_id', '=', \Front::user()->user_id);
 
             $grid->name('姓名');
 
@@ -103,7 +102,7 @@ class MenberController extends Controller
 
                 $filter->like('name', '姓名');
 
-                //$filter->is('d_id', '所属部门')->select(Department::selectOptions());
+                $filter->is('d_id', '所属部门')->select(Department::selectOptions());
 
             });
 
@@ -123,7 +122,7 @@ class MenberController extends Controller
      */
     public function form()
     {
-        return Menber::form(function (Form $form) {
+        return \Front::form(Menber::class, function (Form $form) {
 
             $form->text('name', '姓名')->rules('required');
             $select = Department::selectOptionsForNoroot();
