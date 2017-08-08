@@ -75,17 +75,17 @@ class InputController extends Controller
                 }
 
             });
-            $grid->fapiao('发票');
+            //$grid->fapiao('发票号');
 
             $grid->source('订单来源')->display(function(){
-                return trans('app.pay_source.' .$this->source. '');
+                return trans('app.source.' .$this->source. '');
             });
             $grid->column('input','订单状态/创建时间')->display(function(){
-                return trans('app.input_status.' .$this->input_status. '') . '/' . $this->created_at;
+                return trans('app.input_status.' .$this->input_status. '') . '/' . \Carbon::parse($this->created_at)->format('Y-m-d');
             });
 
             $grid->column('pay','支付状态/支付方式')->display(function(){
-                return trans('app.pay_status.' .$this->pay_status. '') . '/' .$this->pay_name;
+                return trans('app.pay_status.' .$this->pay_status. '') . '/' . Zhifu::where('id', $this->pay_name)->value('name');
             });
 
             $grid->column('input_ps','订单详情')->display(function(){
@@ -95,16 +95,20 @@ class InputController extends Controller
             $grid->p_amount('应付总金额');
 
             $grid->money_paid('已付款金额');
-            $grid->money_kou('做扣')->display(function(){
+            $grid->money_kou('坐扣')->display(function(){
                 return $this->money_kou == 0?'':$this->money_kou;
             });
-            $grid->liushui('流水号');
+            $grid->piao_status('开票状态')->display(function(){
+                return trans('app.piao_status.' .$this->piao_status. '');
+            });
+            //$grid->liushui('流水号');
             $grid->pay_note('付款备注');
 
             $grid->filter(function($filter){
                 $filter->useModal();
                 $filter->disableIdFilter();
 
+                $filter->is('piao_status', '开票状态')->select(trans('app.piao_status'));
                 $filter->like('customer_name', '客户');
                 $filter->like('fapiao', '发票');
                 $filter->like('menber_name', '销售人');
@@ -137,14 +141,14 @@ class InputController extends Controller
                 )->rules('required')->setWidth('4');
                 $form->text('fapiao','发票')->setWidth('4');
                 $form->select('source', '订单来源')->options(
-                    ['后台添加','微信']
+                    trans('app.source')
                 )->setWidth('4');
 
                 $form->select('input_status', '订单状态')->options(
-                    [0 => '未确认',1 => '已确认']
+                    trans('app.input_status')
                 )->default($form->input_status)->help('当订单状态设为已确认时，将计入目标数')->rules('required')->setWidth('4');
                 $form->divide();
-                $form->html(view('front::zhenggg.backandnext',['which'=>1,'max'=>3,'is_last'=>false]), '');
+                $form->html(view('front::zhenggg.backandnext',['which'=>1,'max'=>4,'is_last'=>false]), '');
 
             })->tab('2.订单信息', function ($form) {
                 $form->select('p_id','刊物')->options(
@@ -153,11 +157,11 @@ class InputController extends Controller
                 )->setWidth('4')->rules('required');
                 $form->number('num','数量')->rules('required');
                 $form->divide();
-                $form->html(view('front::zhenggg.backandnext',['which'=>2,'max'=>3,'is_last'=>false]), '');
+                $form->html(view('front::zhenggg.backandnext',['which'=>2,'max'=>4,'is_last'=>false]), '');
             })->tab('3.款项信息', function ($form) {
 
                 $form->number('money_paid', '已付款金额')->help('未付款填0');
-                $form->select('pay_status', '支付状态')->options([0 => '未支付',1 => '已支付', 2=> '部分付款'])->default($form->pay_status)->setWidth('4');
+                $form->select('pay_status', '支付状态')->options(trans('app.pay_status'))->default($form->pay_status)->setWidth('4');
                 $form->select('pay_name', '支付方式')->options(
                     Zhifu::where('user_id', \Front::user()->user_id)
                         ->orWhere('user_id', '=', 0)
@@ -174,7 +178,11 @@ class InputController extends Controller
                 $form->hidden('p_money');
                 $form->hidden('p_amount');
                 $form->divide();
-                $form->html(view('front::zhenggg.backandnext',['which'=>3,'max'=>3,'is_last'=>true]), '');
+                $form->html(view('front::zhenggg.backandnext',['which'=>3,'max'=>4,'is_last'=>false]), '');
+            })->tab('4.开票信息', function ($form) {
+                $form->select('piao_status', '开票状态')->options(trans('app.piao_status'))->default($form->piao_status)->setWidth('4');
+                $form->divide();
+                $form->html(view('front::zhenggg.backandnext',['which'=>4,'max'=>4,'is_last'=>true]), '');
             });
 
             $form->saving(function (Form $form){
