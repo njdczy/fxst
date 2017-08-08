@@ -6,7 +6,6 @@ use App\Front\Controllers\ModelForm;
 
 use App\Models\Department;
 use App\Models\Menber;
-use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Column;
@@ -23,7 +22,7 @@ class DepartmentController extends Controller
 
     public function index()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
             $content->header(trans('front::lang.roles'));
             $content->description(trans('front::lang.list'));
             $content->row(function (Row $row) {
@@ -34,7 +33,7 @@ class DepartmentController extends Controller
                     $form->action(front_url('department'));
                     $form->text('name', trans('front::lang.name'))->rules('required');
 
-                    $form->hidden('user_id')->default(Front::user()->user_id);
+                    $form->hidden('user_id')->default(\Front::user()->user_id);
 
                     $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
 
@@ -65,7 +64,7 @@ class DepartmentController extends Controller
     }
     public function edit($id)
     {
-        return Front::content(function (Content $content) use ($id) {
+        return \Front::content(function (Content $content) use ($id) {
             $content->header(trans('front::lang.roles'));
             $content->description(trans('front::lang.edit'));
             $content->body($this->form()->edit($id));
@@ -74,7 +73,7 @@ class DepartmentController extends Controller
 
     public function create()
     {
-        return Front::content(function (Content $content) {
+        return \Front::content(function (Content $content) {
             $content->header(trans('front::lang.roles'));
             $content->description(trans('front::lang.create'));
             $content->body($this->form());
@@ -83,8 +82,8 @@ class DepartmentController extends Controller
 
     protected function grid()
     {
-        return Front::grid(Department::class, function (Grid $grid) {
-            $grid->model()->where('user_id', '=', Front::user()->user_id);
+        return \Front::grid(Department::class, function (Grid $grid) {
+            $grid->model()->where('user_id', '=', \Front::user()->user_id);
 
             $grid->name(trans('front::lang.name'))->display(function () {
                 if ($this->parent_id) {
@@ -114,11 +113,11 @@ class DepartmentController extends Controller
 
     public function form()
     {
-        return Front::form(Department::class, function (Form $form) {
+        return \Front::form(Department::class, function (Form $form) {
 
             $form->text('name', trans('front::lang.name'))->rules('required');
 
-            $form->hidden('user_id')->default(Front::user()->user_id);
+            $form->hidden('user_id')->default(\Front::user()->user_id);
             $form->hidden('id');
 
             $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
