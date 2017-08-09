@@ -44,6 +44,7 @@ Route::group([
     ], function (Router $router) {
         //finance/finance
         $router->resource('/finance/input', 'Finance\\InputController');
+        $router->get('/selectp/', 'Finance\\InputController@selectp');
 
         //yeji
         $router->resource('/performance/checkout', 'Yeji\\CheckoutController',['except' => 'create','destroy']);

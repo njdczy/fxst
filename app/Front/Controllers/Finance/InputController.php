@@ -155,13 +155,18 @@ class InputController extends Controller
                     Periodical::where('user_id', \Front::user()->user_id)
                         ->pluck('name', 'id')
                 )->setWidth('4')->rules('required');
+
                 $form->number('num','数量')->rules('required');
+
+                $form->html(view('front::zhenggg.inputselect'));
+
+                $form->text('money_paid', '已付款金额')->help('未付款填0')->rules('required|numeric')->setWidth('4');
+                $form->select('pay_status', '支付状态')->options(trans('app.pay_status'))->default($form->pay_status)->setWidth('4');
                 $form->divide();
                 $form->html(view('front::zhenggg.backandnext',['which'=>2,'max'=>4,'is_last'=>false]), '');
+
             })->tab('3.款项信息', function ($form) {
 
-                $form->number('money_paid', '已付款金额')->help('未付款填0');
-                $form->select('pay_status', '支付状态')->options(trans('app.pay_status'))->default($form->pay_status)->setWidth('4');
                 $form->select('pay_name', '支付方式')->options(
                     Zhifu::where('user_id', \Front::user()->user_id)
                         ->orWhere('user_id', '=', 0)
@@ -198,5 +203,14 @@ class InputController extends Controller
             });
 
         });
+    }
+
+    public function selectp()
+    {
+        $p_id = request('p_id',0);
+        $periodical = Periodical::find($p_id)->toArray();
+        if ($periodical) {
+            return response()->json($periodical);
+        }
     }
 }
