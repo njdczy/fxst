@@ -156,9 +156,10 @@ class InputController extends Controller
                         ->pluck('name', 'id')
                 )->setWidth('4')->rules('required');
 
-                $form->number('num','数量')->rules('required');
+                $form->number('num','数量')->rules('required|min:1');
 
-                $form->html(view('front::zhenggg.inputselect'));
+                $html = '<div class="form-group selectp"><label class="col-sm-2 control-label">单价</label><div class="col-sm-2"><div class="box box-solid box-default no-margin"><div class="box-body">9999</div></div></div></div>';
+                $form->html(view('front::zhenggg.inputselect',['html'=>$html]));
 
                 $form->text('money_paid', '已付款金额')->help('未付款填0')->rules('required|numeric')->setWidth('4');
                 $form->select('pay_status', '支付状态')->options(trans('app.pay_status'))->default($form->pay_status)->setWidth('4');
