@@ -41,11 +41,9 @@ class TargetD extends Model
     }
 
 
-    public function toTree($p_id)
+    public function toTree($param)
     {
-        if (empty($nodes)) {
-            $nodes = $this->pNodes($p_id);
-        }
+        $nodes = $this->pNodes($param['p_id'],$param['target_id']);
         return $this->buildNestedArray($nodes);
     }
 
@@ -71,9 +69,11 @@ class TargetD extends Model
     /**
      * Get all elements.
      *
+     * @param $p_id
+     * @param $target_id
      * @return mixed
      */
-    public function pNodes($p_id)
+    public function pNodes($p_id,$target_id)
     {
         $orderColumn = \DB::getQueryGrammar()->wrap($this->orderColumn);
         $byOrder = $orderColumn.' = 0,'.$orderColumn;
@@ -85,6 +85,7 @@ class TargetD extends Model
         }
         return $self->orderByRaw($byOrder)
             ->where('p_id', $p_id)
+            ->where('p_id', $target_id)
             ->where('user_id', \Front::user()->user_id)->get()->toArray();
     }
 

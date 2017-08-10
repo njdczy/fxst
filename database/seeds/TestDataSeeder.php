@@ -28,6 +28,12 @@ class TestDataSeeder extends Seeder
         DB::transaction(function () {
             \App\Zhenggg\Auth\Database\OperationLog::truncate();
             \App\Models\Zhifu::where('user_id', '!=', 0)->delete();
+
+            $now = \Carbon::now();
+            $startOfYear = $now->startOfYear()->toDateTimeString();
+            $endOfYear = $now->endOfYear()->toDateTimeString();
+            $now = \Carbon::now();
+
             Administrator::whereColumn('id', '!=', 'user_id')->delete();
             $admin = Administrator::first();
 
@@ -43,10 +49,14 @@ class TestDataSeeder extends Seeder
                 [
                     'user_id' => $admin->user_id,
                     'name' => '江苏经济报社',
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
                 [
                     'user_id' => $admin->user_id,
                     'name' => '都市报社',
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             Department::truncate();
@@ -56,24 +66,32 @@ class TestDataSeeder extends Seeder
                     'name' => '江苏经济报社',
                     'parent_id' => 0,
                     'menber_count' => 1,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
                 [
                     'user_id' => $admin->user_id,
                     'name' => '都市报社',
                     'parent_id' => 0,
                     'menber_count' => 0,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
                 [
                     'user_id' => $admin->user_id,
                     'name' => '记者部',
                     'parent_id' => 1,
                     'menber_count' => 1,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
                 [
                     'user_id' => $admin->user_id,
                     'name' => '记者部',
                     'parent_id' => 0,
                     'menber_count' => 1,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             Periodical::truncate();
@@ -85,6 +103,8 @@ class TestDataSeeder extends Seeder
                     'c_price' => 1.00,
                     'per' => 3.00,
                     'baoshe_id' => 1,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
                 [
                     'user_id' => $admin->user_id,
@@ -93,6 +113,8 @@ class TestDataSeeder extends Seeder
                     'c_price' => 2.00,
                     'per' => 3.00,
                     'baoshe_id' => 2,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             Menber::truncate();
@@ -101,12 +123,16 @@ class TestDataSeeder extends Seeder
                     'user_id' => $admin->user_id,
                     'd_id' => 3,
                     'name' => '发行人1',
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
 
                 ],
                 [
                     'user_id' => $admin->user_id,
                     'd_id' => 4,
                     'name' => '发行人2',
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             Customer::truncate();
@@ -118,6 +144,8 @@ class TestDataSeeder extends Seeder
                     'type' => 0,
                     'contacts' => '客户1',
                     'mobile' => '123456789',
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
 
                 ],
                 [
@@ -127,6 +155,8 @@ class TestDataSeeder extends Seeder
                     'type' => 1,
                     'contacts' => '客户2',
                     'mobile' => '123456798',
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             CustomerPiao::truncate();
@@ -140,6 +170,8 @@ class TestDataSeeder extends Seeder
                     'phone' => '123456789',
                     'bank' => '工行',
                     'bank_account' => '66666123456789',
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
 
                 ],
                 [
@@ -151,24 +183,30 @@ class TestDataSeeder extends Seeder
                     'phone' => '123456789',
                     'bank' => '建行',
                     'bank_account' => '66666123456798',
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             Target::truncate();
-            $now = \Carbon::now();
+
             Target::insert([
                 [
                     'user_id' => $admin->user_id,
                     'p_id' => 1,
                     'num' => 30000,
-                    's_time' => $now->startOfYear()->toDateTimeString(),
-                    'e_time' => $now->endOfYear()->toDateTimeString(),
+                    's_time' => $startOfYear,
+                    'e_time' => $endOfYear,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
                 [
                     'user_id' => $admin->user_id,
                     'p_id' => 2,
                     'num' => 20000,
-                    's_time' => $now->startOfYear()->toDateTimeString(),
-                    'e_time' => $now->endOfYear()->toDateTimeString(),
+                    's_time' => $startOfYear,
+                    'e_time' => $endOfYear,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             TargetD::truncate();
@@ -181,6 +219,8 @@ class TestDataSeeder extends Seeder
                     'd_name' => '江苏经济报社',
                     'num' => 5000,
                     'parent_d_id' => 0,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
                 [
                     'user_id' => $admin->user_id,
@@ -190,6 +230,8 @@ class TestDataSeeder extends Seeder
                     'd_name' => '记者部',
                     'num' => 2000,
                     'parent_d_id' => 1,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             TargetM::truncate();
@@ -201,6 +243,8 @@ class TestDataSeeder extends Seeder
                     'num' => 500,
                     't_id' => 1,
                     't_d_id' => 2,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
             UCheckout::truncate();
@@ -228,6 +272,8 @@ class TestDataSeeder extends Seeder
                     'money_paid' => 0.00,
                     'money_kou' => 0.00,
                     'piao_money' => 0.00,
+                    'created_at' => $now->toDateTimeString(),
+                    'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
         });

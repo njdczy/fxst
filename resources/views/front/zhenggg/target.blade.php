@@ -38,7 +38,7 @@
         <h3 class="box-title"><strong>{{$p_target->first()->periodical->name}}</strong>
         </h3>
     </div>
-    @foreach($p_target as $target)
+    @foreach($p_target as  $target)
     <div class="box-header">
         <div class="pull-left">
             <p> 目标时间段：{{ \Carbon::parse($target->s_time)->format('Y-m-d')  }} -- {{ \Carbon::parse($target->e_time)->format('Y-m-d')  }}</p>
@@ -88,7 +88,8 @@
                     </a>
                 </td>
             </tr>
-        @foreach($trees[$loop->index] as $tree)
+        @foreach($trees[$target->id] as $tree)
+            @if($target->id == $tree['target_id'])
             <tr>
                 <td class="deviation{{$tree['depth']}}"><div>{{$tree['d_name']}}</div></td>
                 <td>{{$tree['num']}}</td>
@@ -111,6 +112,7 @@
                     </a>
                 </td>
             </tr>
+            @endif
         @endforeach
             </tbody>
         </table>

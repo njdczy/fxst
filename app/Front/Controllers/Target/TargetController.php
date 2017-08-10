@@ -38,7 +38,7 @@ class TargetController extends Controller
 
                 $targets->each(function ($target, $key) {
                     $target_d = new TargetD;
-                    $this->trees[$key] = $this->depth($target_d->toTree($target->periodical->id));
+                    $this->trees[$target->id] = $this->depth($target_d->toTree(['p_id'=>$target->periodical->id,'target_id'=>$target->id]));
                 });
 
             });
