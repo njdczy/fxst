@@ -158,7 +158,7 @@ class InputController extends Controller
 
                 $form->number('num','数量')->rules('required|min:1');
 
-                $html = '<div class="form-group selectp"><label class="col-sm-2 control-label">单价</label><div class="col-sm-2"><div class="box box-solid box-default no-margin"><div class="box-body">9999</div></div></div></div>';
+                $html = '<div class="form-group selectp"><label class="col-sm-2 control-label">单价</label><div class="col-sm-2"><div class="box box-solid box-default no-margin"><div class="box-body">thereplacestring</div></div></div></div>';
                 $form->html(view('front::zhenggg.inputselect',['html'=>$html]));
 
                 $form->text('money_paid', '已付款金额')->help('未付款填0')->rules('required|numeric')->setWidth('4');
