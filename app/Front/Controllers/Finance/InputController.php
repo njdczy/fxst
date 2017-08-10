@@ -115,12 +115,7 @@ class InputController extends Controller
                 $filter->between('created_at', '下单时间')->datetime();
                 $filter->like('d_id', '部门ID');
                 // 关系查询，查询对应关系`department`的字段
-                $filter->where(function ($query) {
-                    $input = $this->input;
-                    $query->whereHas('department', function ($query) use ($input) {
-                        $query->where('name', 'like', "%{$input}%");
-                    });
-                }, '部门');
+                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
                 $filter->like('liushui', '流水号');
                 $filter->is('pay_status', '支付状态')->select(trans('app.pay_status'));
             });

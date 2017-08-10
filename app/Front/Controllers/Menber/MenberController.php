@@ -25,7 +25,7 @@ class MenberController extends Controller
     public function index()
     {
         return \Front::content(function (Content $content) {
-            $content->header(trans('front::lang.administrator'));
+            $content->header('发行人');
             $content->description(trans('front::lang.list'));
             $content->body($this->grid()->render());
         });
@@ -41,7 +41,7 @@ class MenberController extends Controller
     public function edit($id)
     {
         return \Front::content(function (Content $content) use ($id) {
-            $content->header(trans('front::lang.administrator'));
+            $content->header('发行人');
             $content->description(trans('front::lang.edit'));
             $content->body($this->form()->edit($id));
         });
@@ -55,7 +55,7 @@ class MenberController extends Controller
     public function create()
     {
         return \Front::content(function (Content $content) {
-            $content->header(trans('front::lang.administrator'));
+            $content->header('发行人');
             $content->description(trans('front::lang.create'));
             $content->body($this->form());
         });
@@ -102,7 +102,7 @@ class MenberController extends Controller
 
                 $filter->like('name', '姓名');
 
-                $filter->is('d_id', '所属部门')->select(Department::selectOptions());
+                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
 
             });
 
