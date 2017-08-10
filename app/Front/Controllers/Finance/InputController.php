@@ -89,7 +89,7 @@ class InputController extends Controller
             });
 
             $grid->column('input_ps','订单详情')->display(function(){
-                $html =  Periodical::where('id',$this->p_id)->value('name') . ":" .$this->num .'份';
+                $html =  '<strong>'.Periodical::where('id',$this->p_id)->value('name') . ":<b style='font-size:17px'>" .$this->num .'</b>份'.'</strong>';
                 return $html;
             });;
             $grid->p_amount('应付总金额');
@@ -99,7 +99,7 @@ class InputController extends Controller
                 return $this->money_kou == 0?'':$this->money_kou;
             });
             $grid->piao_status('开票状态')->display(function(){
-                return trans('app.piao_status.' .$this->piao_status. '');
+                return '<a href=" '. \Front::url('finance/input') .'/'.$this->id .'/edit#tab-form-4"> '.trans('app.piao_status.' .$this->piao_status. '').'</a>';
             });
             //$grid->liushui('流水号');
             $grid->pay_note('付款备注');
@@ -126,6 +126,7 @@ class InputController extends Controller
     {
         return \Front::form(Input::class, function (Form $form) {
             $form->tab('1.客户信息', function ($form) {
+                $form->html(view('front::zhenggg.backandnextjs',['max'=>4]), '');
                 $form->select('c_id', '客户')->options(
                     Customer::where('user_id', \Front::user()->user_id)
                         ->pluck('name', 'id')
@@ -142,7 +143,7 @@ class InputController extends Controller
                     trans('app.input_status')
                 )->default($form->input_status)->help('当订单状态设为已确认时，将计入目标数')->rules('required')->setWidth('4');
                 $form->divide();
-                $form->html(view('front::zhenggg.backandnext',['which'=>1,'max'=>4,'is_last'=>false]), '');
+                $form->html(view('front::zhenggg.backandnext',['which'=>1,'is_last'=>false]), '');
 
             })->tab('2.订单信息', function ($form) {
                 $form->select('p_id','刊物')->options(
@@ -158,7 +159,7 @@ class InputController extends Controller
                 $form->text('money_paid', '已付款金额')->help('未付款填0')->rules('required|numeric')->setWidth('4');
                 $form->select('pay_status', '支付状态')->options(trans('app.pay_status'))->default($form->pay_status)->setWidth('4');
                 $form->divide();
-                $form->html(view('front::zhenggg.backandnext',['which'=>2,'max'=>4,'is_last'=>false]), '');
+                $form->html(view('front::zhenggg.backandnext',['which'=>2,'is_last'=>false]), '');
 
             })->tab('3.款项信息', function ($form) {
 
@@ -178,15 +179,14 @@ class InputController extends Controller
                 $form->hidden('p_money');
                 $form->hidden('p_amount');
                 $form->divide();
-                $form->html(view('front::zhenggg.backandnext',['which'=>3,'max'=>4,'is_last'=>false]), '');
+                $form->html(view('front::zhenggg.backandnext',['which'=>3,'is_last'=>false]), '');
             })->tab('4.开票信息', function ($form) {
                 $form->select('piao_status', '开票状态')->options(trans('app.piao_status'))->default($form->piao_status)->setWidth('4');
                 $form->text('fapiao','发票号')->setWidth('4');
                 $form->text('piao_money','开票金额')->rules('required|numeric')->setWidth('2');
                 $form->divide();
-                $form->html(view('front::zhenggg.backandnext',['which'=>4,'max'=>4,'is_last'=>true]), '');
+                $form->html(view('front::zhenggg.backandnext',['which'=>4,'is_last'=>true]), '');
             });
-
             $form->saving(function (Form $form){
                 $menber_name =  Menber::where('id',$form->u_id)->value('name');
                 $customer_name =  Customer::where('id',$form->c_id)->value('name');
