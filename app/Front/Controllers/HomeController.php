@@ -169,7 +169,7 @@ class HomeController extends Controller
 
                         $line = new Line($month_day_array, $line_array);
 
-                        $column->append((new Box($p_name . '——' . Carbon::now()->month . '月订单统计(份)', $line)));
+                        $column->append((new Box("<b>".$p_name."</b>" . '——' . Carbon::now()->month . '月订单统计(份)', $line)));
                     });
                 });
             }
