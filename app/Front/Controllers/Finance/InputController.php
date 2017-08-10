@@ -134,7 +134,6 @@ class InputController extends Controller
                     Menber::where('user_id', \Front::user()->user_id)
                         ->pluck('name', 'id')
                 )->rules('required')->setWidth('4');
-                $form->text('fapiao','发票')->setWidth('4');
                 $form->select('source', '订单来源')->options(
                     trans('app.source')
                 )->setWidth('4');
@@ -182,6 +181,8 @@ class InputController extends Controller
                 $form->html(view('front::zhenggg.backandnext',['which'=>3,'max'=>4,'is_last'=>false]), '');
             })->tab('4.开票信息', function ($form) {
                 $form->select('piao_status', '开票状态')->options(trans('app.piao_status'))->default($form->piao_status)->setWidth('4');
+                $form->text('fapiao','发票号')->setWidth('4');
+                $form->text('piao_money','开票金额')->rules('required|numeric')->setWidth('2');
                 $form->divide();
                 $form->html(view('front::zhenggg.backandnext',['which'=>4,'max'=>4,'is_last'=>true]), '');
             });
