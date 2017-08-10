@@ -93,8 +93,6 @@ class MenberController extends Controller
                 .'"/>';
             });
             $grid->money('余额');
-            $grid->created_at(trans('front::lang.created_at'));
-            $grid->updated_at(trans('front::lang.updated_at'));
 
             $grid->filter(function($filter){
 

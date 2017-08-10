@@ -76,7 +76,7 @@
                              aria-valuemin="0" aria-valuemax="{{$target->num}}" style="width:{{$target->numed/$target->num*100}}%">
                         </div>
                     </div>
-                    <span style="float: right;">{{$target->numed/$target->num*100}}%</span>
+                    <span style="float: right;">{{round($target->numed/$target->num*100,2)}}%</span>
                 </td>
                 <td><a href="{{url(\Front::url('finance/input').'/?pay_status=1')}}">点击查看</a></td>
                 <td>
@@ -100,7 +100,7 @@
                              aria-valuemin="0" aria-valuemax="{{$tree['num']}}" style="width: {{$tree['numed']/$tree['num']*100}}%">
                         </div>
                     </div>
-                    <span style="float: right;">{{$tree['numed']/$tree['num']*100}}%</span>
+                    <span style="float: right;">{{round($tree['numed']/$tree['num']*100,2)}}%</span>
                 </td>
                 <td><a href="{{url(\Front::url('target').'/'.$target->id.'/targetd/'.$tree["id"].'/targetm')}}">点击查看</a></td>
                 <td>
