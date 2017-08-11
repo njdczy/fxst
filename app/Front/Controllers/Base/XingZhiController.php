@@ -1,23 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017/8/1
- * Time: 9:11
- */
 
-namespace App\Front\Controllers\Base;
 
+namespace app\Front\Controllers\Base;
 
 use App\Models\Type;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Controllers\ModelForm;
-
 use Illuminate\Routing\Controller;
 
-class ZhifuController extends Controller
+class XingZhiController extends Controller
 {
     use ModelForm;
 
@@ -25,7 +18,7 @@ class ZhifuController extends Controller
     {
         return \Front::content(function (Content $content) {
 
-            $content->header('支付方式');
+            $content->header('客户性质');
             $content->description('管理');
 
             $content->body($this->grid());
@@ -36,7 +29,7 @@ class ZhifuController extends Controller
     {
         return \Front::content(function (Content $content) use ($id) {
 
-            $content->header('支付方式');
+            $content->header('客户性质');
             $content->description('管理');
 
             $content->body($this->form()->edit($id));
@@ -47,7 +40,7 @@ class ZhifuController extends Controller
     {
         return \Front::content(function (Content $content) {
 
-            $content->header('支付方式');
+            $content->header('客户性质');
             $content->description('管理');
 
             $content->body($this->form());
@@ -59,10 +52,10 @@ class ZhifuController extends Controller
         return \Front::grid(Type::class, function (Grid $grid) {
             $grid->model()
                 ->whereIn ('user_id', [\Front::user()->user_id,0])
-                ->where('type', '=', 'pay_type');
+                ->where('type', '=', 'customer_type');
             $grid->column('');
             $grid->column('');
-            $grid->name('支付方式名称');
+            $grid->name('客户性质');
             $grid->disableExport();
             $grid->disableFilter();
             $grid->disableRowSelector();
@@ -80,8 +73,8 @@ class ZhifuController extends Controller
         return \Front::form(Type::class, function (Form $form) {
 
             $form->hidden('user_id')->default(\Front::user()->user_id);
-            $form->hidden('type')->default('pay_type');
-            $form->text('name','支付方式名称')->rules('required');
+            $form->hidden('type')->default('customer_type');
+            $form->text('name','客户性质名称')->rules('required');
         });
     }
 }

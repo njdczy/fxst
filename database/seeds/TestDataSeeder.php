@@ -27,7 +27,7 @@ class TestDataSeeder extends Seeder
     {
         DB::transaction(function () {
             \App\Zhenggg\Auth\Database\OperationLog::truncate();
-            \App\Models\Zhifu::where('user_id', '!=', 0)->delete();
+            \App\Models\Type::where('user_id', '!=', 0)->delete();
 
             $now = \Carbon::now();
             $startOfYear = $now->startOfYear()->toDateTimeString();

@@ -26,6 +26,6 @@ class TSeeder extends Seeder
         \App\Models\UCheckout::truncate();
         \App\Models\CustomerPiao::truncate();
         \App\Zhenggg\Auth\Database\OperationLog::truncate();
-        \App\Models\Zhifu::where('user_id','!=',0)->delete();
+        \App\Models\Type::where('user_id','!=',0)->delete();
     }
 }

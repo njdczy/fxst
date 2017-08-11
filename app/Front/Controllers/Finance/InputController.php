@@ -8,7 +8,7 @@ use App\Models\Input;
 use App\Models\Menber;
 use App\Models\Periodical;
 
-use App\Models\Zhifu;
+use App\Models\Type;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
@@ -85,7 +85,7 @@ class InputController extends Controller
             });
 
             $grid->column('pay','支付状态/支付方式')->display(function(){
-                return trans('app.pay_status.' .$this->pay_status. '') . '/' . Zhifu::where('id', $this->pay_name)->value('name');
+                return trans('app.pay_status.' .$this->pay_status. '') . '/' . Type::where('id', $this->pay_name)->value('name');
             });
 
             $grid->column('input_ps','订单详情')->display(function(){
@@ -164,8 +164,8 @@ class InputController extends Controller
             })->tab('3.款项信息', function ($form) {
 
                 $form->select('pay_name', '支付方式')->options(
-                    Zhifu::where('user_id', \Front::user()->user_id)
-                        ->orWhere('user_id', '=', 0)
+                    Type::whereIn ('user_id', [\Front::user()->user_id,0])
+                        ->where('type', '=', 'pay_type')
                         ->pluck('name', 'id')
                 )->setWidth('4');
                 $form->text('liushui','流水号')->setWidth('4');

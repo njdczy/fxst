@@ -17,6 +17,7 @@ Route::group([
     $router->get('/system/jconfig','Base\\JConfigController@index')->name('jconfig');
     $router->post('/system/jconfig','Base\\JConfigController@storeAndUpdate')->name('store_and_update_jconfig');
     $router->resource('/system/zhifu','Base\\ZhifuController');
+    $router->resource('/system/customer_type','Base\\XingZhiController');
 
 
     //baoshe

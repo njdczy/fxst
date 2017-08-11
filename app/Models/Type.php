@@ -11,7 +11,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Zhifu extends Model
+class Type extends Model
 {
 
 }
