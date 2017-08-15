@@ -61,8 +61,10 @@ class PeriodicalController extends Controller
             $grid->column('');
             $grid->name("刊物名称");
             $grid->baoshe()->name('所属报社');
-            $grid->price("原价格");
-            $grid->c_price("优惠价格");
+            $grid->m_price("月价格");
+            $grid->j_price("季度价格");
+            $grid->b_price("半年价格");
+            $grid->y_price("一年价格");
             $grid->per('基准分成比例(百分比)')->display(function(){
                 return $this->per . "%";
             });

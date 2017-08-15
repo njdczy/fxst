@@ -4,13 +4,17 @@ namespace App\Front\Controllers\Menber;
 
 use App\Front\Controllers\ModelForm;
 use App\Front\Extensions\MenberDel;
+use App\Front\Extensions\MenberEdit;
 use App\Models\Department;
 use App\Models\Menber;
+use App\Models\MenberPer;
+use App\Models\Periodical;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use Illuminate\Routing\Controller;
 
+use Illuminate\Support\MessageBag;
 use QrCode;
 
 class MenberController extends Controller
@@ -76,25 +80,91 @@ class MenberController extends Controller
 
             $grid->department()->name('部门')->display(function () {
                 if ($this->department['parent_id'] > 0) {
-                    $parent_name = Department::where('id',$this->department['parent_id'] )->value('name');
+                    $parent_name = Department::where('id', $this->department['parent_id'])->value('name');
+
                     return $this->department['name'] . '(' . $parent_name . ')';
                 }
+
                 return $this->department['name'];
             })->label();
-            $grid->column('qrcode','二维码')->display(function () {
-                return  '<img src="data:image/png;base64,'
-                .base64_encode(
-                    QrCode::format("png")
-                        //->merge(asset('images/logo/logo'.\Front::user()->id.'.png'), .28,true)
-                        ->errorCorrection('H')
-                        ->size(140)
-                        ->generate(url("/form/".$this->id))
-                )
-                .'"/>';
+            $grid->column('qrcode', '二维码')->display(function () {
+                return '<img src="data:image/png;base64,'
+                    . base64_encode(
+                        QrCode::format("png")
+                            //->merge(asset('images/logo/logo'.\Front::user()->id.'.png'), .28,true)
+                            ->errorCorrection('H')
+                            ->size(140)
+                            ->generate(url("/form/" . $this->id))
+                    )
+                    . '"/>';
             });
             $grid->money('余额');
+            $ps = Periodical::all();
+            $grid->column('m_per', '月分成比例')->display(function () use ($ps) {
 
-            $grid->filter(function($filter){
+                $m_pers = MenberPer::where('user_id', '=', \Front::user()->user_id)
+                    ->where('menber_id', $this->id)->where('type', 'm')->pluck('per', 'p_id')->toArray();
+                $html = '';
+                foreach ($ps as $p_key => $p) {
+                    if (array_key_exists($p->id,$m_pers)) {
+                        $p_per = $m_pers[$p->id];
+                        $html .= "<p>" . $p->name . ":<a  onclick=\"setdata('$p->name','月','$this->id','$p->id','$p_per','m')\" data-toggle=\"modal\" data-target=\"#menberedit-modal\" >" . $p_per . "%</a></p>";
+
+                    } else {
+                        $html .= "<p>" . $p->name . ":<a  onclick=\"setdata('$p->name','月','$this->id','$p->id','$p->per','m')\" data-toggle=\"modal\" data-target=\"#menberedit-modal\" >" . $p->per . "%</a></p>";
+                    }
+                }
+                return $html;
+            });
+            $grid->column('j_per', '季分成比例')->display(function () use ($ps) {
+
+                $j_pers = MenberPer::where('user_id', '=', \Front::user()->user_id)
+                    ->where('menber_id', $this->id)->where('type', 'j')->pluck('per', 'p_id')->toArray();
+                $html = '';
+                foreach ($ps as $p_key => $p) {
+                    if (array_key_exists($p->id,$j_pers)) {
+                        $p_per = $j_pers[$p->id];
+                        $html .= "<p>" . $p->name . ":<a  onclick=\"setdata('$p->name','季','$this->id','$p->id','$p_per','j')\" data-toggle=\"modal\" data-target=\"#menberedit-modal\" >" . $p_per . "%</a></p>";
+
+                    } else {
+                        $html .= "<p>" . $p->name . ":<a  onclick=\"setdata('$p->name','季','$this->id','$p->id','$p->per','j')\" data-toggle=\"modal\" data-target=\"#menberedit-modal\" >" . $p->per . "%</a></p>";
+                    }
+                }
+                return $html;
+            });
+            $grid->column('b_per', '半年分成比例')->display(function () use ($ps) {
+
+                $b_pers = MenberPer::where('user_id', '=', \Front::user()->user_id)
+                    ->where('menber_id', $this->id)->where('type', 'b')->pluck('per', 'p_id')->toArray();
+                $html = '';
+                foreach ($ps as $p_key => $p) {
+                    if (array_key_exists($p->id,$b_pers)) {
+                        $p_per = $b_pers[$p->id];
+                        $html .= "<p>" . $p->name . ":<a  onclick=\"setdata('$p->name','半年','$this->id','$p->id','$p_per','b')\" data-toggle=\"modal\" data-target=\"#menberedit-modal\" >" . $p_per . "%</a></p>";
+
+                    } else {
+                        $html .= "<p>" . $p->name . ":<a  onclick=\"setdata('$p->name','半年','$this->id','$p->id','$p->per','b')\" data-toggle=\"modal\" data-target=\"#menberedit-modal\" >" . $p->per . "%</a></p>";
+                    }
+                }
+                return $html;
+            });
+            $grid->column('y_per', '年分成比例')->display(function () use ($ps) {
+
+                $y_pers = MenberPer::where('user_id', '=', \Front::user()->user_id)
+                    ->where('menber_id', $this->id)->where('type', 'y')->pluck('per', 'p_id')->toArray();
+                $html = '';
+                foreach ($ps as $p_key => $p) {
+                    if (array_key_exists($p->id,$y_pers)) {
+                        $p_per = $y_pers[$p->id];
+                        $html .= "<p>" . $p->name . ":<a  onclick=\"setdata('$p->name','年','$this->id','$p->id','$p_per','y')\" data-toggle=\"modal\" data-target=\"#menberedit-modal\" >" . $p_per . "%</a></p>";
+
+                    } else {
+                        $html .= "<p>" . $p->name . ":<a  onclick=\"setdata('$p->name','年','$this->id','$p->id','$p->per','y')\" data-toggle=\"modal\" data-target=\"#menberedit-modal\" >" . $p->per . "%</a></p>";
+                    }
+                }
+                return $html;
+            });
+            $grid->filter(function ($filter) {
 
                 $filter->disableIdFilter();
 
@@ -110,6 +180,9 @@ class MenberController extends Controller
                 $actions->append(new MenberDel($actions->getKey()));
             });
             $grid->disableExport();
+            $grid->tools(function ($tools) {
+                $tools->append(new MenberEdit());
+            });
         });
     }
 
@@ -124,12 +197,33 @@ class MenberController extends Controller
 
             $form->text('name', '姓名')->rules('required');
             $select = Department::selectOptionsForNoroot();
-            $form->select('d_id','部门')->options($select);
+            $form->select('d_id', '部门')->options($select);
 
             $form->display('created_at', trans('front::lang.created_at'));
             $form->display('updated_at', trans('front::lang.updated_at'));
             $form->hidden('user_id')->default(\Front::user()->user_id);
 
         });
+    }
+
+    public function editper()
+    {
+        $p_id = request('p_id');
+        $menber_id = request('menber_id');
+        $per = request('per');
+        $type = request('type');
+        $menber_per = MenberPer::firstOrNew([
+            'user_id' => \Front::user()->user_id,
+            'menber_id' => $menber_id,
+            'p_id' => $p_id,
+            'type' => $type
+        ]);
+        $menber_per->per = $per;
+        $menber_per->save();
+        $succeed = new MessageBag([
+            'title'   => '修改成功',
+            'message' => '',
+        ]);
+        return redirect()->back()->with(compact('succeed'));
     }
 }

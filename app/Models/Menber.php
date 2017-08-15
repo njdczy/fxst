@@ -9,7 +9,6 @@
 namespace App\Models;
 
 
-use App\Zhenggg\Traits\AdminBuilder;
 use Illuminate\Database\Eloquent\Model;
 
 class Menber extends Model
@@ -23,5 +22,11 @@ class Menber extends Model
     public function department()
     {
         return $this->belongsTo(Department::class,'d_id');
+    }
+
+
+    public function menberpers()
+    {
+        return $this->hasMany(MenberPer::class);
     }
 }

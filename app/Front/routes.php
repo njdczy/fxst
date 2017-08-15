@@ -31,6 +31,7 @@ Route::group([
 
     //menber
     $router->resource('/menber', 'Menber\\MenberController');
+    $router->post('/editper', 'Menber\\MenberController@editper');
 
     //target
     $router->resource('/target', 'Target\\TargetController');
