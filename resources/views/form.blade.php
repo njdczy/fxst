@@ -196,9 +196,9 @@
 <script type="text/javascript">
     //地址选择
     $(".city-picker2").citypicker({
-        province: "江苏省",
-        city: "南京市",
-        district: "鼓楼区"
+        province: "",
+        city: "",
+        district: ""
     });
     //个人订购-下一步
     $('.prev').on('click',function(){

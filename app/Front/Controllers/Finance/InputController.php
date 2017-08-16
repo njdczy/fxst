@@ -151,6 +151,7 @@ class InputController extends Controller
                         ->pluck('name', 'id')
                 )->setWidth('4')->rules('required');
 
+                $form->select('input_type','订阅时长')->options(trans('app.input_type'))->rules('required');
                 $form->number('num','数量')->rules('required|min:1');
 
                 $html = '<div class="form-group selectp"><label class="col-sm-2 control-label">单价</label><div class="col-sm-2"><div class="box box-solid box-default no-margin"><div class="box-body">thereplacestring</div></div></div></div>';

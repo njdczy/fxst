@@ -198,7 +198,6 @@
 </div>
 </body>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="/js/LAreaData1.js"></script>
 <script src="/js/LAreaData2.js"></script>
 <script src="/js/LArea.js"></script>
 <script type="text/javascript">
@@ -211,8 +210,8 @@
             id: 'id',
             name: 'name'
         }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
-        'type': 1, //数据源类型
-        'data': LAreaData //数据源
+        'type': 2, //数据源类型
+        'data': [provs_data, citys_data, dists_data]
     });
     //area1.value=[1,13,3];//控制初始位置，注意：该方法并不会影响到input的value
     var area2 = new LArea();

@@ -209,17 +209,16 @@ SCRIPT;
             )->setWidth(4);
 
             $form->dateRange('s_time', 'e_time', '目标时间段');
-            $form->number('num', '设置总目标份数');
-            $form->display('numed', '总已完成数')->setWidth(1)->default($form->model()->numed ?: 0);
+            $form->number('num', '设置总目标份数(按年订阅数)')->rules('required|numeric|min:1');
+            if (isset($form->model()->numed)) {
+                $form->display('numed', '总已完成数(按年订阅数)')->setWidth(1)->default($form->model()->numed);
+            }
+            $form->text('money', '设置总目标金额')->setWidth(3)->rules('required|numeric|min:1');
+            if (isset($form->model()->moneyed)) {
+                $form->display('moneyed', '总已完金额')->setWidth(1)->default($form->model()->moneyed);
+            }
             $form->hidden('user_id')->default(\Front::user()->user_id);
-//            $form->hasMany('targetds', '设置部门目标', function (Form\NestedForm $form) {
-//                $form->select('d_id', '部门')->options(
-//                    Department::selectOptionsForNoroot()
-//                )->setWidth(4);
-//                $form->number('num', '设置部门目标份数');
-//                $form->hidden('user_id')->default(\Front::user()->user_id);
-//                $form->display('numed', '已完成')->setWidth(1)->default(0);
-//            });
+
             $form->creating(function (Form $form) {
                 if (
                 Target::where('p_id', '=', $form->p_id)

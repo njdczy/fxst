@@ -59,24 +59,33 @@
         <table class="table">
             <thead><tr>
                 <th>部门级别</th>
-                <th>目标数</th>
-                <th>已完成</th>
-                <th>目标完成进度</th>
+                <th>目标数（按年订阅）完成进度</th>
+                <th>目标金额完成进度</th>
                 <th>完成详情</th>
                 <th>操作</th>
             </tr></thead>
             <tbody>
             <tr>
                 <td class="deviation0"><div>总目标</div></td>
-                <td>{{$target->num}}</td>
-                <td>{{$target->numed}}</td>
+                {{--<td>{{$target->num}}</td>--}}
+                {{--<td>{{$target->numed}}</td>--}}
                 <td>
-                    <div class="progress progress-sm" style="width: 80%;display: inline-block;">
+                    <span>{{$target->num}} / {{$target->numed}}</span>
+                    <div class="progress progress-sm" style="width: 47%;display: inline-block;margin-left: 1%;">
                         <div class="progress-bar primary" role="progressbar" aria-valuenow="{{$target->numed}}"
                              aria-valuemin="0" aria-valuemax="{{$target->num}}" style="width:{{$target->numed/$target->num*100}}%">
                         </div>
                     </div>
                     <span style="float: right;">{{round($target->numed/$target->num*100,2)}}%</span>
+                </td>
+                <td>
+                    <span>{{$target->money}} / {{$target->moneyed}}</span>
+                    <div class="progress progress-sm" style="width: 47%;display: inline-block;margin-left: 1%;">
+                        <div class="progress-bar primary" role="progressbar" aria-valuenow="{{$target->moneyed}}"
+                             aria-valuemin="0" aria-valuemax="{{$target->money}}" style="width:{{$target->moneyed/$target->money*100}}%">
+                        </div>
+                    </div>
+                    <span style="float: right;">{{round($target->moneyed/$target->money*100,2)}}%</span>
                 </td>
                 <td><a href="{{url(\Front::url('finance/input').'/?pay_status=1')}}">点击查看</a></td>
                 <td>
@@ -92,15 +101,25 @@
             @if($target->id == $tree['target_id'])
             <tr>
                 <td class="deviation{{$tree['depth']}}"><div>{{$tree['d_name']}}</div></td>
-                <td>{{$tree['num']}}</td>
-                <td>{{$tree['numed']}}</td>
+                {{--<td>{{$tree['num']}}</td>--}}
+                {{--<td>{{$tree['numed']}}</td>--}}
                 <td>
-                    <div class="progress progress-sm" style="width: 80%;display: inline-block;">
+                    <span>{{$tree['num']}} / {{$tree['numed']}}</span>
+                    <div class="progress progress-sm" style="width: 47%;display: inline-block;margin-left: 1%;">
                         <div class="progress-bar primary" role="progressbar" aria-valuenow="{{$tree['numed']}}"
-                             aria-valuemin="0" aria-valuemax="{{$tree['num']}}" style="width: {{$tree['numed']/$tree['num']*100}}%">
+                             aria-valuemin="0" aria-valuemax="{{$tree['num']}}" style="width:{{$tree['numed']/$tree['num']*100}}%">
                         </div>
                     </div>
                     <span style="float: right;">{{round($tree['numed']/$tree['num']*100,2)}}%</span>
+                </td>
+                <td>
+                    <span>{{$tree['money']}} / {{$tree['moneyed']}}</span>
+                    <div class="progress progress-sm" style="width: 47%;display: inline-block;margin-left: 1%;">
+                        <div class="progress-bar primary" role="progressbar" aria-valuenow="{{$tree['moneyed']}}"
+                             aria-valuemin="0" aria-valuemax="{{$tree['money']}}" style="width:{{$tree['moneyed']/$tree['money']*100}}%">
+                        </div>
+                    </div>
+                    <span style="float: right;">{{round($tree['moneyed']/$tree['money']*100,2)}}%</span>
                 </td>
                 <td><a href="{{url(\Front::url('target').'/'.$target->id.'/targetd/'.$tree["id"].'/targetm')}}">点击查看</a></td>
                 <td>
