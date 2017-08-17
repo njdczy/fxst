@@ -65,21 +65,43 @@ class InputController extends Controller
                 }
             });
 
-            $grid->column('sale','销售人/所属部门')->display(function(){
-                $menber_name =  Menber::where('id',$this->u_id)->value('name');
-
-                if ($menber_name) {
-                    return $menber_name. '/' . Department::where('id',$this->d_id)->value('name');
-                } else {
-                    return $this->menber_name. '(已删除)' ;
-                }
-
+            $grid->created_at('创建时间')->display(function(){
+                return \Carbon::parse($this->created_at)->format('Y-m-d');
             });
-            //$grid->fapiao('发票号');
-
             $grid->source('订单来源')->display(function(){
                 return trans('app.source.' .$this->source. '');
             });
+            $grid->u_id('发行人')->display(function(){
+                $menber_name =  Menber::where('id',$this->u_id)->value('name');
+                return $menber_name ? $menber_name : $this->menber_name. '(已删除)' ;
+            });
+            $grid->column('d_id','部门')->display(function(){
+                $department_name =  Department::where('id',$this->d_id)->value('name');
+                return $department_name ? $department_name : $this->department_name. '(已删除)' ;
+            });
+            $grid->p_id('报刊名称')->display(function(){
+                $periodical_name =  Periodical::where('id',$this->p_id)->value('name');
+                return $periodical_name ? $periodical_name : $this->periodical_name. '(已删除)' ;
+            });
+            $grid->num('数量')->display(function(){
+                return $this->num . '份';
+            });
+            $grid->input_type('订阅类别')->display(function(){
+                return trans('app.input_type.' .$this->input_type. '');
+            });
+            $grid->p_amount('应付金额');
+            $grid->money_paid('实付金额');
+            $grid->piao_status('开票状态')->display(function(){
+                return '<a href=" '. \Front::url('finance/input') .'/'.$this->id .'/edit#tab-form-4"> '.trans('app.piao_status.' .$this->piao_status. '').'</a>';
+            });
+            $grid->column('pay','支付状态')->display(function(){
+                return trans('app.pay_status.' .$this->pay_status. '');
+            });
+
+            $grid->column('input','订单状态')->display(function(){
+                return trans('app.input_status.' .$this->input_status. '');
+            });
+
             $grid->column('input','订单状态/创建时间')->display(function(){
                 return trans('app.input_status.' .$this->input_status. '') . '/' . \Carbon::parse($this->created_at)->format('Y-m-d');
             });
@@ -88,21 +110,6 @@ class InputController extends Controller
                 return trans('app.pay_status.' .$this->pay_status. '') . '/' . Type::where('id', $this->pay_name)->value('name');
             });
 
-            $grid->column('input_ps','订单详情')->display(function(){
-                $html =  '<strong>'.Periodical::where('id',$this->p_id)->value('name') . ":<b style='font-size:17px'>" .$this->num .'</b>份'.'</strong>';
-                return $html;
-            });;
-            $grid->p_amount('应付总金额');
-
-            $grid->money_paid('已付款金额');
-            $grid->money_kou('坐扣')->display(function(){
-                return $this->money_kou == 0?'':$this->money_kou;
-            });
-            $grid->piao_status('开票状态')->display(function(){
-                return '<a href=" '. \Front::url('finance/input') .'/'.$this->id .'/edit#tab-form-4"> '.trans('app.piao_status.' .$this->piao_status. '').'</a>';
-            });
-            //$grid->liushui('流水号');
-            $grid->pay_note('付款备注');
 
             $grid->filter(function($filter){
                 $filter->useModal();

@@ -20,8 +20,8 @@ class Input extends Model
         return $this->belongsTo(Department::class, 'd_id');
     }
 
-    public function input_ps()
+    public function fapiaos()
     {
-        return $this->hasOne(InputP::class, 'input_id');
+        return $this->hasMany(PiaoLog::class, 'input_id');
     }
 }
