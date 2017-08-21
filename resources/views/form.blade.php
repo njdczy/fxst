@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/reset.css"/>
     <link rel="stylesheet" type="text/css" href="/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/city-picker.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/scs.min.css"/>
     <title></title>
 </head>
 <body>
@@ -37,14 +37,7 @@
                             <input type="tel" onkeyup="value=value.replace(/[^\d.]/g,'')" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
-                    {{--<p class="price">--}}
-                        {{--<span>选择报纸<span style="color:red;">*</span></span>--}}
-                        {{--<select class="form-control select-box" name="baozi">--}}
-                            {{--@foreach ($p as $pp)--}}
-                                {{--<option value="{{ $pp->id }}">{{ $pp->name }}</option>--}}
-                            {{--@endforeach--}}
-                        {{--</select>--}}
-                    {{--</p>--}}
+
                     <div class="form-group">
                         <label for="" class="col-sm-2 col-xs-4 control-label">选择报纸<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
@@ -63,8 +56,9 @@
                     </div>
                     <div class="form-group">
                         <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
-                        <div class="col-sm-7 col-xs-2">
-                            <input id="city-picker2" class="city-picker2" readonly type="text">
+                        <div class="col-sm-7 col-xs-7">
+
+                            <input type="text" class="form-control" readonly placeholder="选择城市" id="myAddrs" name="region" data-key="" value="" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -150,15 +144,17 @@
                             <input type="tel" onkeyup="value=value.replace(/[^\d.]/g,'')" name="mobile" class="form-control" id="tel" placeholder="">
                         </div>
                     </div>
-                    <p class="price">
-                        <span>选择报纸<span style="color:red;">*</span></span>
-                        <select class="form-control select-box" name="baozi">
-                            @foreach ($p as $pp)
-                                <option value="{{ $pp->id }}">{{ $pp->name }}</option>
-                            @endforeach
-                        </select>
 
-                    </p>
+                    <div class="form-group">
+                        <label for="tel" class="col-sm-2 col-xs-4 control-label">选择报纸<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <select class="form-control select-box" name="baozi">
+                                @foreach ($p as $pp)
+                                    <option value="{{ $pp->id }}">{{ $pp->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="nums" class="col-sm-2 col-xs-4 control-label">填写份数<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
@@ -168,7 +164,7 @@
                     <div class="form-group">
                         <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
                         <div class="col-sm-10 col-xs-7">
-                            <input id="city-picker2" class="city-picker2" readonly type="text">
+                            <input type="text" class="form-control" readonly placeholder="选择城市" id="myAddrss" name="region" data-key="" value="" />
                         </div>
                     </div>
 
@@ -178,8 +174,6 @@
                             <input type="text" name="address" class="form-control" id="address" placeholder="">
                         </div>
                     </div>
-
-
 
                     <input type="submit" name="" id="" value="提交" class="next"/>
                 </form>
@@ -191,15 +185,12 @@
 </div>
 </body>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="/js/city-picker.data.min.js"></script>
-<script src="/js/city-picker.min.js"></script>
+<script src="/js/CNAddrArr.min.js"></script>
+<script src="/js/jquery.scs.min.js"></script>
+<script src="/js/city.js"></script>
 <script type="text/javascript">
     //地址选择
-    $(".city-picker2").citypicker({
-        province: "",
-        city: "",
-        district: ""
-    });
+
     //个人订购-下一步
     $('.prev').on('click',function(){
         $('.one').css('display','block');

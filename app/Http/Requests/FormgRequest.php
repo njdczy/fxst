@@ -1,17 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017/8/2
- * Time: 18:51
- */
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
-class FormmqRequest extends FormRequest
+class FormgRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,6 +15,7 @@ class FormmqRequest extends FormRequest
     {
         return true;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -41,7 +35,6 @@ class FormmqRequest extends FormRequest
     public function messages()
     {
         return [
-            'contacts.required' => '请输入联系人',
             'name.required' => '请输入联系人',
             'mobile.required' => '请输入联系方式',
             'baozi.required' => '请选择报纸',

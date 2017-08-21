@@ -11,12 +11,11 @@
 |
 */
 
-Route::get('/form/{u_id}', 'IndexController@formm');
-Route::get('/formpc/{u_id}', 'IndexController@formpc');
+Route::get('/form/{u_id}', 'IndexController@form');
 
 
-Route::post('/formg/{u_id}', 'IndexController@doFormmg');
-Route::post('/formq/{u_id}', 'IndexController@doFormmq');
+Route::post('/formg/{u_id}', 'IndexController@doFormg');
+Route::post('/formq/{u_id}', 'IndexController@doFormq');
 
 Route::get('/formm/s', function(){
     return view('/formm/s');

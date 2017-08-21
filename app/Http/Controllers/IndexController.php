@@ -2,36 +2,40 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\FormmgRequest;
-use App\Http\Requests\FormmqRequest;
+use App\Http\Requests\FormgRequest;
+use App\Http\Requests\FormqRequest;
 use App\Models\Customer;
 use App\Models\Input;
 use App\Models\Menber;
 use App\Models\Periodical;
+use App\Models\Region;
 
 
 class IndexController extends Controller
 {
-    public function formm($u_id)
+
+    public function form($u_id)
     {
-        $periodical = Periodical::all();
-        return view('formm',['u_id' => $u_id])->with('p', $periodical);
+        $menber = Menber::find($u_id);
+        if ($menber) {
+            $periodical = Periodical::where('user_id',$menber->user_id)->get();
+            return view('form',['u_id' => $u_id])->with('p', $periodical);
+        }
+        return '404';
     }
 
-    public function formpc($u_id)
+    public function doFormg($u_id,FormgRequest $request)
     {
-        $periodical = Periodical::all();
-        return view('form',['u_id' => $u_id])->with('p', $periodical);
-    }
-
-    public function doFormmg($u_id,FormmgRequest $request)
-    {
-
         $name = $request->input('name');
         $mobile = $request->input('mobile');
         $baozi_id = $request->input('baozi');
         $num = $request->input('num');
         $address = $request->input('address');
+        $region = $request->input('region');
+        $region = explode(" ",$region);
+        $province = Region::where('name',$region[0])->value('code');
+        $city = Region::where('name',$region[1])->value('code');
+        $distric = Region::where('name',$region[2])->value('code');
         $menber = Menber::find($u_id);//销售实例
         if ($menber) {
             $customer = new Customer;
@@ -41,6 +45,11 @@ class IndexController extends Controller
             $customer->address =  $address;
             $customer->source =  '微信';
             $customer->user_id =  $menber->user_id;
+
+            $customer->province = $province;
+            $customer->city = $city;
+            $customer->district = $distric;
+
             $customer->save();
 
             //添加订单
@@ -68,7 +77,7 @@ class IndexController extends Controller
     }
 
 
-    public function doFormmq($u_id,FormmqRequest $request)
+    public function doFormq($u_id,FormqRequest $request)
     {
         $contacts = $request->input('contacts');//q
         $name = $request->input('name');
@@ -76,6 +85,11 @@ class IndexController extends Controller
         $baozi_id = $request->input('baozi');
         $num = $request->input('num');
         $address = $request->input('address');
+        $region = $request->input('region');
+        $region = explode(" ",$region);
+        $province = Region::where('name',$region[0])->value('code');
+        $city = Region::where('name',$region[1])->value('code');
+        $distric = Region::where('name',$region[2])->value('code');
         $menber = Menber::find($u_id);//销售实例
         if ($menber) {
             $customer = new Customer;
@@ -85,6 +99,11 @@ class IndexController extends Controller
             $customer->address = $address;
             $customer->source = '微信';
             $customer->user_id = $menber->user_id;
+
+            $customer->province = $province;
+            $customer->city = $city;
+            $customer->district = $distric;
+
             $customer->save();
 
             //添加订单
