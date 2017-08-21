@@ -1,12 +1,14 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2017/8/18
+ * Time: 13:16
+ */
 
 namespace App\Front\Controllers\Finance;
 
-
-use App\Front\Extensions\Action\KaiPiaoAction;
-
-
+use App\Front\Extensions\Action\PayAction;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Input;
@@ -19,7 +21,7 @@ use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use Illuminate\Routing\Controller;
 
-class FapiaoController extends Controller
+class PayController extends Controller
 {
     public function index()
     {
@@ -66,22 +68,14 @@ class FapiaoController extends Controller
                 return $this->num . '份';
             });
             $grid->p_amount('应付金额');
-            $grid->piao_money('已开金额');
-            $grid->column('not_piao_money', '未开金额')->display(function () {
-                return ($this->p_amount - $this->piao_money);
+            $grid->money_paid('实付金额');
+            $grid->money_kou('坐扣');
+            $grid->column('not_pay_money', '未付金额')->display(function () {
+                return ($this->p_amount - $this->money_kou - $this->money_paid);
             });
-            $grid->column('fapiao', '发票号')->display(function () {
-                $piao_logs =  PiaoLog::where('user_id', \Front::user()->user_id)
-                    ->where('input_id',$this->id)
-                    ->pluck('name', 'id');
-                $html = '';
-                foreach ($piao_logs as $piao_log) {
-                    $html .= $piao_log .',';
-                }
-                return $html;
-            });
-            $grid->piao_status('开票状态')->display(function () {
-                return trans('app.piao_status.' . $this->piao_status . '');
+
+            $grid->piao_status('支付状态')->display(function () {
+                return trans('app.pay_status.' . $this->pay_status . '');
             });
 
             //grid actions
@@ -89,7 +83,7 @@ class FapiaoController extends Controller
                 $actions->disableDelete();
                 $actions->disableEdit();
 
-                $actions->append(new KaiPiaoAction($actions->getKey(),$actions->row->piao_status));
+                $actions->append(new PayAction($actions->getKey(),$actions->row->pay_status));
 
             });
 
@@ -106,16 +100,16 @@ class FapiaoController extends Controller
 
                 $filter->disableIdFilter();
 
-                $filter->is('piao_status', '开票状态')->select(trans('app.piao_status'));
+                $filter->is('pay_status', '支付状态')->select(trans('app.pay_status'));
                 $filter->like('customer_name', '客户');
                 $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
 
                 $filter->where(function ($query) {
                     $input = $this->input;
-                    $query->whereHas('fapiaos', function ($query) use ($input) {
-                        $query->where('fapiaohao', 'like', "%{$input}%");
+                    $query->whereHas('liushuis', function ($query) use ($input) {
+                        $query->where('liushuihao', 'like', "%{$input}%");
                     });
-                }, '发票号');
+                }, '流水号');
             });
         });
     }

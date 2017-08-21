@@ -21,11 +21,6 @@ class MenberController extends Controller
 {
     use ModelForm;
 
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
     public function index()
     {
         return \Front::content(function (Content $content) {
@@ -35,13 +30,6 @@ class MenberController extends Controller
         });
     }
 
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     *
-     * @return Content
-     */
     public function edit($id)
     {
         return \Front::content(function (Content $content) use ($id) {
@@ -51,11 +39,6 @@ class MenberController extends Controller
         });
     }
 
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
     public function create()
     {
         return \Front::content(function (Content $content) {
@@ -65,11 +48,6 @@ class MenberController extends Controller
         });
     }
 
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
     protected function grid()
     {
         return \Front::grid(Menber::class, function (Grid $grid) {
@@ -186,11 +164,6 @@ class MenberController extends Controller
         });
     }
 
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
     public function form()
     {
         return \Front::form(Menber::class, function (Form $form) {

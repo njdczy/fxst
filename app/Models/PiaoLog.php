@@ -12,14 +12,4 @@ class PiaoLog extends Model
     {
         return $this->belongsTo(Input::class, 'input_id');
     }
-
-    public function belongs()
-    {
-        return $this->where('user_id', \Front::user()->user_id);
-    }
-
-    public function getNamesByInputId($input_id)
-    {
-        return $this->where('input_id', $input_id)->pluck('name', 'id');;
-    }
 }

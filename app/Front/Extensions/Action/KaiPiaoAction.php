@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\Front\Extensions\Action;
+namespace App\Front\Extensions\Action;
 
 
 class KaiPiaoAction
@@ -42,11 +42,11 @@ SCRIPT;
         \Front::script($this->script());
         return <<<EOT
 
-<button class="btn btn-xs btn-default kaipiao" data-id="{$this->id}"  data-toggle="modal" data-target="#grid-modal-kaipiao-{$this->id}">
+<button class="btn btn-sm btn-primary kaipiao" data-id="{$this->id}"  data-toggle="modal" data-target="#grid-modal-kaipiao-{$this->id}">
    {$this->button_name}
 </button>
 
-<div class="modal" id="#grid-modal-kaipiao-{$this->id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="grid-modal-kaipiao-{$this->id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -55,7 +55,17 @@ SCRIPT;
         <h4 class="modal-title">{$this->button_name}</h4>
       </div>
       <div class="modal-body">
-        <div style="height:450px;"></div>
+        <div style="height:450px;">
+            <div class="form-group 1">
+                <label for="baoshe_id" class="col-sm-2 control-label">开票信息</label>
+                    <div class="col-sm-8">
+                        <select class="form-control baoshe_id " style="width: 100%;" name="baoshe_id">
+                            <option value="1" selected="">-------------------------------------</option>
+                            <option value="2">-------------------------------------</option>
+                        </select>
+                    </div>
+            </div>
+        </div>
       </div>
     </div>
     <!-- /.modal-content -->

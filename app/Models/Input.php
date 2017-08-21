@@ -24,4 +24,9 @@ class Input extends Model
     {
         return $this->hasMany(PiaoLog::class, 'input_id');
     }
+
+    public function liushuis()
+    {
+        return $this->hasMany(LiushuiLog::class, 'input_id');
+    }
 }

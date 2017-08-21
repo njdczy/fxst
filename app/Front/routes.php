@@ -41,17 +41,22 @@ Route::group([
 
     //customer
     $router->resource('/customer', 'Customer\\CustomerController');
+    $router->get('/api/region/city', 'Api\\ReController@city');
+    $router->get('/api/region/district', 'Api\\ReController@district');
+
     Route::group([
         'middleware'    => AddMenberTarget::class,
     ], function (Router $router) {
         //finance/finance
         $router->resource('/finance/input', 'Finance\\InputController');
+        $router->get('/finance/fapiao', 'Finance\\FapiaoController@index');
+        $router->get('/finance/pay', 'Finance\\PayController@index');
         $router->get('/selectp/', 'Finance\\InputController@selectp');
 
         //yeji
-        $router->resource('/performance/checkout', 'Yeji\\CheckoutController',['except' => 'create','destroy']);
+        $router->resource('/checkout', 'Yeji\\CheckoutController',['except' => 'create','destroy']);
 
-        $router->resource('/performance/checkout/{u_id}/details', 'Yeji\\CheckDetailsController',['except' => 'create','destroy']);
+        $router->resource('/checkout/{u_id}/details', 'Yeji\\CheckDetailsController',['except' => 'create','destroy']);
     });
 
 
@@ -60,7 +65,8 @@ Route::group([
 
     $router->resource('/permissions', 'PermissionController');
 
-
+    //Chart
+    $router->get('/user_chart', 'Chart\\UserChartController@index');
 
 
 

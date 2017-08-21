@@ -92,7 +92,7 @@ class InputController extends Controller
             $grid->p_amount('应付金额');
             $grid->money_paid('实付金额');
             $grid->piao_status('开票状态')->display(function(){
-                return '<a href=" '. \Front::url('finance/input') .'/'.$this->id .'/edit#tab-form-4"> '.trans('app.piao_status.' .$this->piao_status. '').'</a>';
+                return trans('app.piao_status.' .$this->piao_status. '');
             });
             $grid->column('pay','支付状态')->display(function(){
                 return trans('app.pay_status.' .$this->pay_status. '');
@@ -100,14 +100,6 @@ class InputController extends Controller
 
             $grid->column('input','订单状态')->display(function(){
                 return trans('app.input_status.' .$this->input_status. '');
-            });
-
-            $grid->column('input','订单状态/创建时间')->display(function(){
-                return trans('app.input_status.' .$this->input_status. '') . '/' . \Carbon::parse($this->created_at)->format('Y-m-d');
-            });
-
-            $grid->column('pay','支付状态/支付方式')->display(function(){
-                return trans('app.pay_status.' .$this->pay_status. '') . '/' . Type::where('id', $this->pay_name)->value('name');
             });
 
 
@@ -158,11 +150,11 @@ class InputController extends Controller
                         ->pluck('name', 'id')
                 )->setWidth('4')->rules('required');
 
-                $form->select('input_type','订阅时长')->options(trans('app.input_type'))->rules('required');
+                $form->select('input_type','订阅时长')->options(trans('app.input_type'))->rules('required')->setWidth('4');
                 $form->number('num','数量')->rules('required|min:1');
+                $form->text('p_money','单价')->attribute(['readonly' => 'readonly'])->placeholder(' ')->setWidth('4');
 
-                $html = '<div class="form-group selectp"><label class="col-sm-2 control-label">单价</label><div class="col-sm-2"><div class="box box-solid box-default no-margin"><div class="box-body">thereplacestring</div></div></div></div>';
-                $form->html(view('front::zhenggg.inputselect',['html'=>$html]));
+                $form->html(view('front::zhenggg.inputselect'));
 
                 $form->text('money_paid', '已付款金额')->help('未付款填0')->rules('required|numeric')->setWidth('4');
                 $form->select('pay_status', '支付状态')->options(trans('app.pay_status'))->default($form->pay_status)->setWidth('4');

@@ -11,7 +11,9 @@ namespace App\Http\Middleware;
 use App\Models\Baoshe;
 use App\Models\JituanConfig;
 use App\Models\Periodical;
+use App\Models\Region;
 use Closure;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\MessageBag;
 
 class IsSetBaseMiddleware
@@ -90,6 +92,10 @@ class IsSetBaseMiddleware
                 return redirect()->to(\Front::url('periodical/create'))->with(compact('error'));
             }
 //            //检查是否设置部门
+
+            Cache::remember('regions', '60', function () {
+                return Region::all()->pluck('name','code')->toArray();
+            });
         }
 
         return $next($request);
