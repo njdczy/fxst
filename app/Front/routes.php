@@ -49,8 +49,14 @@ Route::group([
     ], function (Router $router) {
         //finance/finance
         $router->resource('/finance/input', 'Finance\\InputController');
+
         $router->get('/finance/fapiao', 'Finance\\FapiaoController@index');
+        $router->post('/finance/fapiao/getdetail/{input_id}', 'Finance\\FapiaoController@getDetail');
+        $router->post('/finance/fapiao/setdetail/{input_id}', 'Finance\\FapiaoController@setDetail');
+
+
         $router->get('/finance/pay', 'Finance\\PayController@index');
+
         $router->get('/selectp/', 'Finance\\InputController@selectp');
 
         //yeji

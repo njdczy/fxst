@@ -20,6 +20,11 @@ class Input extends Model
         return $this->belongsTo(Department::class, 'd_id');
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'c_id');
+    }
+
     public function fapiaos()
     {
         return $this->hasMany(PiaoLog::class, 'input_id');
