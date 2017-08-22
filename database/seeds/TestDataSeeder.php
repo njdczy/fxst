@@ -7,8 +7,10 @@ use App\Models\CustomerPiao;
 use App\Models\Department;
 use App\Models\Input;
 use App\Models\JituanConfig;
+use App\Models\LiushuiLog;
 use App\Models\Menber;
 use App\Models\Periodical;
+use App\Models\PiaoLog;
 use App\Models\Target;
 use App\Models\TargetD;
 use App\Models\TargetM;
@@ -329,6 +331,9 @@ class TestDataSeeder extends Seeder
                     'updated_at' => $now->toDateTimeString(),
                 ],
             ]);
+            PiaoLog::truncate();
+            LiushuiLog::truncate();
+            //FenChengLog::truncate();
         });
     }
 }
