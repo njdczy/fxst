@@ -4,11 +4,13 @@ namespace App\Providers;
 
 
 use App\Models\Baoshe;
+use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Input;
 use App\Models\Menber;
 use App\Models\TargetD;
 use App\Observer\BaosheObserver;
+use App\Observer\CustomerObserver;
 use App\Observer\TargetDObserver;
 use App\Zhenggg\Auth\Database\Menu;
 use App\Models\Periodical;
@@ -51,6 +53,7 @@ class EventServiceProvider extends ServiceProvider
         Menu::observe(new MenuObserver);
         Periodical::observe(new PeriodicalObserver);
         TargetD::observe(new TargetDObserver);
+        Customer::observe(new CustomerObserver);
 
     }
 }

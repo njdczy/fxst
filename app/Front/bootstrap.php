@@ -19,11 +19,16 @@
  */
 
 
+use App\Front\Extensions\Column\ExpandRow;
 use App\Front\Extensions\PSelect;
+use App\Zhenggg\Grid\Column;
 
 App\Zhenggg\Form::forget(['map', 'editor']);
 
 App\Zhenggg\Form::extend('pSelect', PSelect::class);
+
+Column::extend('expand', ExpandRow::class);
+
 //更改后台视图文件位置
 app('view')->prependNamespace('front', resource_path('views/front'));
 

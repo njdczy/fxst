@@ -15,6 +15,9 @@ class CustomerPiao extends Model
 {
     protected $fillable = ['user_id','name','hao','addr','phone','bank','bank_account'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function customer()
     {
         return  $this->belongsTo(Customer::class,'c_id');

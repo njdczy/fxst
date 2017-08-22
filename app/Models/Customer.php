@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    public function customer_piaos()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function customer_piao()
     {
-        return $this->hasMany(CustomerPiao::class,'c_id');
+        return $this->hasOne(CustomerPiao::class,'c_id');
     }
 }
