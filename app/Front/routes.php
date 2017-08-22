@@ -69,15 +69,6 @@ Route::group([
     $router->get('/user_chart', 'Chart\\UserChartController@index');
 
 
-
-
-
-
-
-
-
-
-
     $router->resource('/api/input/u', 'Api\\UController');
 
 
