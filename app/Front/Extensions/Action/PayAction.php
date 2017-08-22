@@ -26,7 +26,11 @@ class PayAction
 $('.pay').on('click', function () {
     
     // Your code.
-    console.log($(this).data('id'));
+    if('xianjin' == $(this).data('type')) {
+        $(".liushuihao").hide();
+    } else {
+         $(".liushuihao").show();
+    }
     
 });
 
@@ -38,7 +42,7 @@ SCRIPT;
         \Front::script($this->script());
         return <<<EOT
 
-<button class="btn btn-sm btn-primary pay" data-id="{$this->id}"  data-toggle="modal" data-target="#grid-modal-pay-{$this->id}">
+<button class="btn btn-sm btn-primary pay" data-type="xianjin" data-id="{$this->id}"  data-toggle="modal" data-target="#grid-modal-pay-{$this->id}">
    现金收款
 </button>
 
@@ -215,7 +219,7 @@ SCRIPT;
                     </div>                               
                 </div>
            </div>
-           <div class="form-group 1" style="overflow: hidden;">
+           <div class="form-group liushuihao" style="overflow: hidden;">
                 <label for="" class="col-sm-2 control-label">流水号</label>   
                 <div class="col-sm-4">                                
                     <div class="input-group">                                           

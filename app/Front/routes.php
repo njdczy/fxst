@@ -47,27 +47,27 @@ Route::group([
     Route::group([
         'middleware'    => AddMenberTarget::class,
     ], function (Router $router) {
-        //finance/finance
+        //input
         $router->resource('/finance/input', 'Finance\\InputController');
 
+        //fapiao
         $router->get('/finance/fapiao', 'Finance\\FapiaoController@index');
         $router->post('/finance/fapiao/getdetail/{input_id}', 'Finance\\FapiaoController@getDetail');
         $router->post('/finance/fapiao/setdetail/{input_id}', 'Finance\\FapiaoController@setDetail');
 
-
+        //pay
         $router->get('/finance/pay', 'Finance\\PayController@index');
+        $router->post('/finance/pay/getdetail/{input_id}', 'Finance\\PayController@getDetail');
+        $router->post('/finance/pay/setdetail/{input_id}', 'Finance\\PayController@setDetail');
+
+        //yeji
+        $router->get('/checkout', 'Yeji\\CheckoutController@index');
+        $router->post('/checkout/getdetail/{u_id}', 'Yeji\\CheckoutController@getDetail');
+        $router->post('/checkout/setdetail/{u_id}', 'Yeji\\CheckoutController@setDetail');
 
         $router->get('/selectp/', 'Finance\\InputController@selectp');
 
-        //yeji
-        $router->resource('/checkout', 'Yeji\\CheckoutController',['except' => 'create','destroy']);
-
-        $router->resource('/checkout/{u_id}/details', 'Yeji\\CheckDetailsController',['except' => 'create','destroy']);
     });
-
-
-
-
 
     $router->resource('/permissions', 'PermissionController');
 
