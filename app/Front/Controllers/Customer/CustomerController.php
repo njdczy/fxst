@@ -103,7 +103,7 @@ class CustomerController extends Controller
             $grid->contacts("联系人");
             $grid->mobile("电话/手机");
             $grid->source('来源')->display(function(){
-                return trans('app.source.' .$this->source. '');
+                return trans('front::lang.source.' .$this->source. '');
             });
             $grid->customer_piao()->column('开票信息')->expand(function () {
                 $piao = (array) $this->customer_piao;

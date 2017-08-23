@@ -31,11 +31,8 @@ $('.kaipiao').on('click', function () {
             var id =  $(this).data('id');
             $(".head-piao").nextAll().remove();
              $.ajax({
-                method: 'post',
+                method: 'get',
                 url: $(this).data('url'),
-                data: {
-                    _token:LA.token,
-                },
                 success: function (data) {
                     
                     if (typeof data === 'object') {

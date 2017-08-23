@@ -48,15 +48,15 @@ class CheckDetailsController extends Controller
             });
             $grid->created_at('订单创建时间');
             $grid->column('i_status','订单状态')->display(function () {
-                return trans('app.input_status.' .$this->input_status. '');
+                return trans('front::lang.input_status.' .$this->input_status. '');
             });
 
             $grid->p_amount('有效金额');
             $grid->money_paid('应结算佣金');
 
             $states = [
-                'off' => ['text' => trans('app.j_status.0')],
-                'on' => ['text' => trans('app.j_status.1'), 'disabled' => true],
+                'off' => ['text' => trans('front::lang.j_status.0')],
+                'on' => ['text' => trans('front::lang.j_status.1'), 'disabled' => true],
             ];
 
             $grid->dis_status('操作')->switch($states);
@@ -103,8 +103,8 @@ class CheckDetailsController extends Controller
         return \Front::form(Input::class, function (Form $form)  {
 
             $states = [
-                'off' => ['text' => trans('app.j_status.0')],
-                'on' => ['text' => trans('app.j_status.1'), 'disabled' => true],
+                'off' => ['text' => trans('front::lang.j_status.0')],
+                'on' => ['text' => trans('front::lang.j_status.1'), 'disabled' => true],
             ];
 
             $form->switch('dis_status')->states($states);

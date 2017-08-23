@@ -13,12 +13,13 @@ use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Input;
 
+use App\Models\LiushuiLog;
 use App\Models\Menber;
 use App\Models\Periodical;
-use App\Models\PiaoLog;
 
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class PayController extends Controller
@@ -75,7 +76,7 @@ class PayController extends Controller
             });
 
             $grid->piao_status('支付状态')->display(function () {
-                return trans('app.pay_status.' . $this->pay_status . '');
+                return trans('front::lang.pay_status.' . $this->pay_status . '');
             });
 
             //grid actions
@@ -100,7 +101,7 @@ class PayController extends Controller
 
                 $filter->disableIdFilter();
 
-                $filter->is('pay_status', '支付状态')->select(trans('app.pay_status'));
+                $filter->is('pay_status', '支付状态')->select(trans('front::lang.pay_status'));
                 $filter->like('customer_name', '客户');
                 $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
 
@@ -111,6 +112,66 @@ class PayController extends Controller
                     });
                 }, '流水号');
             });
+        });
+    }
+
+    public function getDetail($input_id)
+    {
+        $input = Input::find($input_id);
+        if ($input) {
+
+            $liushuis = $input->liushuis->toArray();
+            foreach ($liushuis as $key => $liushui)
+            {
+                $liushuis[$key]['key'] = "第".($key+1)."次收款";
+                $liushuis[$key]['should_pay_money'] = $input->p_amount;
+                $liushuis[$key]['pay_type'] = trans('front::lang.pay_name.' . $liushui['pay_type'] . '');
+                $liushuis[$key]['liushuihao'] = $liushui['liushuihao']?:'';
+            }
+            $not_pay_money = ($input->p_amount-$input->money_kou-$input->money_paid);
+
+            return response()->json([
+                'status'  => true,
+                'liushuis' => $liushuis,
+                'not_pay_money' => $not_pay_money,
+            ]);
+        }
+    }
+
+    public function setDetail($input_id,Request $request)
+    {
+        $shi_pay_money_key = 'shi_pay_money' . $input_id;
+        $kou_key = 'kou' . $input_id;
+        $liushuihao_key = 'liushuihao' . $input_id;
+        $paytype_key = 'paytype' . $input_id;
+
+        $shi_pay_money = $request->{$shi_pay_money_key};
+        $kou = $request->{$kou_key};
+        $liushuihao = $request->{$liushuihao_key};
+        $paytype = $request->{$paytype_key};
+
+        $input = Input::find($input_id);
+        \DB::transaction(function () use ($shi_pay_money,$kou,$liushuihao,$paytype,$input) {
+            $piao_log = new LiushuiLog;
+            $piao_log->user_id = $input->user_id;
+            $piao_log->input_id = $input->id;
+            $piao_log->c_id = $input->c_id;
+            $piao_log->menber_id = $input->u_id;
+            $piao_log->money = $shi_pay_money;
+            $piao_log->kou = $kou;
+            $piao_log->liushuihao = $liushuihao;
+            $piao_log->pay_type = $paytype;
+            $piao_log->save();
+
+            $input->money_paid = $input->money_paid + $shi_pay_money;
+            $input->money_kou = $input->money_kou + $kou;
+
+            if ($input->money_paid == ($input->p_amount-$input->money_kou)) {
+                $input->pay_status = 1;
+            } else {
+                $input->pay_status = 2;
+            }
+            $input->save();
         });
     }
 }

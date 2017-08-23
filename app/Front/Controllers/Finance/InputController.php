@@ -69,7 +69,7 @@ class InputController extends Controller
                 return \Carbon::parse($this->created_at)->format('Y-m-d');
             });
             $grid->source('订单来源')->display(function(){
-                return trans('app.source.' .$this->source. '');
+                return trans('front::lang.source.' .$this->source. '');
             });
             $grid->u_id('发行人')->display(function(){
                 $menber_name =  Menber::where('id',$this->u_id)->value('name');
@@ -87,19 +87,19 @@ class InputController extends Controller
                 return $this->num . '份';
             });
             $grid->input_type('订阅类别')->display(function(){
-                return trans('app.input_type.' .$this->input_type. '');
+                return trans('front::lang.input_type.' .$this->input_type. '');
             });
             $grid->p_amount('应付金额');
             $grid->money_paid('实付金额');
             $grid->piao_status('开票状态')->display(function(){
-                return trans('app.piao_status.' .$this->piao_status. '');
+                return trans('front::lang.piao_status.' .$this->piao_status. '');
             });
             $grid->column('pay','支付状态')->display(function(){
-                return trans('app.pay_status.' .$this->pay_status. '');
+                return trans('front::lang.pay_status.' .$this->pay_status. '');
             });
 
             $grid->column('input','订单状态')->display(function(){
-                return trans('app.input_status.' .$this->input_status. '');
+                return trans('front::lang.input_status.' .$this->input_status. '');
             });
 
 
@@ -107,7 +107,7 @@ class InputController extends Controller
                 $filter->useModal();
                 $filter->disableIdFilter();
 
-                $filter->is('piao_status', '开票状态')->select(trans('app.piao_status'));
+                $filter->is('piao_status', '开票状态')->select(trans('front::lang.piao_status'));
                 $filter->like('customer_name', '客户');
                 $filter->like('fapiao', '发票');
                 $filter->like('menber_name', '销售人');
@@ -116,7 +116,7 @@ class InputController extends Controller
                 // 关系查询，查询对应关系`department`的字段
                 $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
                 $filter->like('liushui', '流水号');
-                $filter->is('pay_status', '支付状态')->select(trans('app.pay_status'));
+                $filter->is('pay_status', '支付状态')->select(trans('front::lang.pay_status'));
             });
         });
     }
@@ -135,11 +135,11 @@ class InputController extends Controller
                         ->pluck('name', 'id')
                 )->rules('required')->setWidth('4');
                 $form->select('source', '订单来源')->options(
-                    trans('app.source')
+                    trans('front::lang.source')
                 )->setWidth('4');
 
                 $form->select('input_status', '订单状态')->options(
-                    trans('app.input_status')
+                    trans('front::lang.input_status')
                 )->default($form->input_status)->help('当订单状态设为已确认时，将计入目标数')->rules('required')->setWidth('4');
                 $form->divide();
                 $form->html(view('front::zhenggg.backandnext',['which'=>1,'is_last'=>false]), '');
@@ -150,14 +150,14 @@ class InputController extends Controller
                         ->pluck('name', 'id')
                 )->setWidth('4')->rules('required');
 
-                $form->select('input_type','订阅时长')->options(trans('app.input_type'))->rules('required')->setWidth('4');
+                $form->select('input_type','订阅时长')->options(trans('front::lang.input_type'))->rules('required')->setWidth('4');
                 $form->number('num','数量')->rules('required|min:1');
                 $form->text('p_money','单价')->attribute(['readonly' => 'readonly'])->placeholder(' ')->setWidth('4');
 
                 $form->html(view('front::zhenggg.inputselect'));
 
                 $form->text('money_paid', '已付款金额')->help('未付款填0')->rules('required|numeric')->setWidth('4');
-                $form->select('pay_status', '支付状态')->options(trans('app.pay_status'))->default($form->pay_status)->setWidth('4');
+                $form->select('pay_status', '支付状态')->options(trans('front::lang.pay_status'))->default($form->pay_status)->setWidth('4');
                 $form->divide();
                 $form->html(view('front::zhenggg.backandnext',['which'=>2,'is_last'=>false]), '');
 
@@ -181,7 +181,7 @@ class InputController extends Controller
                 $form->divide();
                 $form->html(view('front::zhenggg.backandnext',['which'=>3,'is_last'=>false]), '');
             })->tab('4.开票信息', function ($form) {
-                $form->select('piao_status', '开票状态')->options(trans('app.piao_status'))->default($form->piao_status)->setWidth('4');
+                $form->select('piao_status', '开票状态')->options(trans('front::lang.piao_status'))->default($form->piao_status)->setWidth('4');
                 $form->text('fapiao','发票号')->setWidth('4');
                 $form->text('piao_money','开票金额')->rules('required|numeric')->setWidth('2');
                 $form->divide();

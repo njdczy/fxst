@@ -8,7 +8,7 @@
         <i class="fa fa-{{ $icon }}"></i>
     </div>
     <a href="{{ $link }}" class="small-box-footer">
-        {{ trans('front::lang.more') }}&nbsp;
+        {{ $more }}&nbsp;
         <i class="fa fa-arrow-circle-right"></i>
     </a>
 </div>

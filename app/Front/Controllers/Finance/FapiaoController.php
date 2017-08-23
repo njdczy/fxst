@@ -82,7 +82,7 @@ class FapiaoController extends Controller
                 return $html;
             });
             $grid->piao_status('开票状态')->display(function () {
-                return trans('app.piao_status.' . $this->piao_status . '');
+                return trans('front::lang.piao_status.' . $this->piao_status . '');
             });
 
             //grid actions
@@ -107,7 +107,7 @@ class FapiaoController extends Controller
 
                 $filter->disableIdFilter();
 
-                $filter->is('piao_status', '开票状态')->select(trans('app.piao_status'));
+                $filter->is('piao_status', '开票状态')->select(trans('front::lang.piao_status'));
                 $filter->like('customer_name', '客户');
                 $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
 
@@ -136,7 +136,7 @@ class FapiaoController extends Controller
             $fapiaos = $input->fapiaos->toArray();
             foreach ($fapiaos as $key => $fapiao)
             {
-                $fapiaos[$key]['key'] = "第".($key+1)."开票";
+                $fapiaos[$key]['key'] = "第".($key+1)."次开票";
                 $fapiaos[$key]['should_kai_money'] = $input->p_amount;
             }
             $not_kai_money = ($input->p_amount-$input->piao_money);
@@ -158,23 +158,24 @@ class FapiaoController extends Controller
         $fapiaohao = $request->{$fapiaohao_key};
 
         $input = Input::find($input_id);
+        \DB::transaction(function () use ($shi_kai_money,$fapiaohao,$input) {
+            $piao_log = new PiaoLog;
+            $piao_log->user_id = $input->user_id;
+            $piao_log->input_id = $input->id;
+            $piao_log->c_id = $input->c_id;
+            $piao_log->admin_id = \Front::user()->id;
+            $piao_log->kai_money = $shi_kai_money;
+            $piao_log->haoma = $fapiaohao;
+            $piao_log->save();
 
-        $piao_log = new PiaoLog;
-        $piao_log->user_id = $input->user_id;
-        $piao_log->input_id = $input_id;
-        $piao_log->c_id = $input->c_id;
-        $piao_log->admin_id = \Front::user()->id;
-        $piao_log->kai_money = $shi_kai_money;
-        $piao_log->haoma = $fapiaohao;
-        $piao_log->save();
+            $input->piao_money = $input->piao_money + $shi_kai_money;
 
-        $input->piao_money = $input->piao_money + $shi_kai_money;
-
-        if ($input->piao_money == $input->p_amount) {
-            $input->piao_status = 1;
-        } else {
-            $input->piao_status = 3;
-        }
-        $input->save();
+            if ($input->piao_money == $input->p_amount) {
+                $input->piao_status = 1;
+            } else {
+                $input->piao_status = 3;
+            }
+            $input->save();
+        });
     }
 }
