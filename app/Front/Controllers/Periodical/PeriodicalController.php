@@ -89,9 +89,11 @@ class PeriodicalController extends Controller
     {
         return \Front::form(Periodical::class, function (Form $form) {
             $form->text('name','刊物名称')->rules('required')->setWidth(4)->help('如：江苏经济报');
-            $form->number('price','原价格/份')->rules('required');
-            $form->number('c_price','优惠价格/份')->rules('required');
-            $form->number('per','基准分成比例(百分比)')->help('填写0到100')->rules('required|between:0,100');
+            $form->number('m_price','月价格/份')->rules('required|numeric');
+            $form->number('j_price','季度价格/份')->rules('required|numeric');
+            $form->number('b_price','半年价格/份')->rules('required|numeric');
+            $form->number('y_price','一年价格/份')->rules('required|numeric');
+            $form->text('per','基准分成比例(百分比)')->rules('required|numeric|between:0,100')->setWidth(4)->help('填写0到100');
             $form->select('baoshe_id','所属报社')
                 ->options(
                     Baoshe::where('user_id', \Front::user()->user_id)

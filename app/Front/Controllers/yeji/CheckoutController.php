@@ -16,6 +16,7 @@ use App\Models\Menber;
 
 use App\Models\MenberPer;
 use App\Models\Periodical;
+use App\Models\Target;
 use App\Models\UCheckout;
 use App\Zhenggg\Grid;
 
@@ -33,37 +34,48 @@ class CheckoutController extends  Controller
 
             $content->header('业绩');
             $content->description('结算');
+            $targets = Target::all();
 
-            $content->row(function ($row) {
-                $row->column(2,'');
-                $row->column(3, new InfoBox('发行人数', 'users', 'aqua', \Front::url('checkout/p/1'), '100','详细'));
-                $row->column(1,'');
-                $row->column(3, new InfoBox('发行人数', 'users', 'green', \Front::url('checkout/p/2'), '100','详细'));
-                $row->column(2,'');
-            });
+            foreach ($targets as $key => $target) {
+
+                if ($key%2==0) {
+                    $content->row(function ($row) use ($target,$targets,$key) {
+                        $row->column(2,'');
+                        $row->column(3, new InfoBox($target->periodical->name, 'users', 'aqua',
+                            \Front::url('checkout/p/'.$target->getKey()), '&nbsp;','详细'));
+                        $row->column(1,'');
+                        if ($targets->get($key+1)){
+                            $row->column(3, new InfoBox($targets->get($key+1)->periodical->name, 'users', 'green',
+                                \Front::url('checkout/p/'.$targets->get($key+1)->getKey()), '&nbsp;','详细'));
+                        }
+                        $row->column(2,'');
+                    });
+                }
+            }
         });
     }
 
-    public function checkoutIndex($p_id)
+    public function checkoutIndex($t_id)
     {
-        return \Front::content(function (Content $content) use ($p_id) {
+        return \Front::content(function (Content $content) use ($t_id) {
 
             $content->header('业绩');
             $content->description('结算');
-            $content->body($this->grid($p_id));
+            $content->body($this->grid($t_id));
         });
     }
 
-    protected function grid($p_id)
+    protected function grid($t_id)
     {
-        return \Front::grid(UCheckout::class, function (Grid $grid) use ($p_id) {
+        return \Front::grid(Menber::class, function (Grid $grid) use ($t_id) {
+            $target = Target::find($t_id);
+
             //grid model filters
-            $grid->model()->where('user_id', '=', \Front::user()->user_id)
-                ->where('p_id', '=', $p_id);
+            $grid->model()->where('user_id', '=', \Front::user()->user_id);
 
             //grid columns
-            $grid->column('menber.name','发行人')->display(function(){
-                $menber_name =  Menber::where('id',$this->u_id)->value('name');
+            $grid->column('name','发行人')->display(function(){
+                $menber_name =  Menber::where('id',$this->id)->value('name');
                 return $menber_name ? $menber_name : $this->menber_name. '(已删除)' ;
             });
 
@@ -77,12 +89,14 @@ class CheckoutController extends  Controller
             })->label();
 
             $inputs = Input::where('user_id', '=', \Front::user()->user_id)
-                ->where('p_id', $p_id)
+                ->where('p_id', $target->p_id)
+                ->where('created_at', '>=', $target->s_time)
+                ->where('created_at', '<=', $target->e_time)
                 ->get();
 
             $grid->column('num','数量')->display(function () use ($inputs) {
                 $filtered_inputs = $inputs->filter(function ($input, $key) {
-                    return $input->u_id == $this->u_id;
+                    return $input->u_id == $this->id;
                 });
                 $nums = ['m'=>0,'j'=>0,'b'=>0,'y'=>0];
                 foreach ($filtered_inputs as $input) {
@@ -95,12 +109,12 @@ class CheckoutController extends  Controller
                 return $html;
             });
 
-            $p = Periodical::find($p_id);
+            $p = $target->periodical;
 
             $grid->column('per','提成比例')->display(function () use ($p) {
                 $p_pers = ['m'=>$p->per,'j'=>$p->per,'b'=>$p->per,'y'=>$p->per,];
                 $pers = MenberPer::where('user_id', '=', \Front::user()->user_id)
-                    ->where('menber_id', $this->u_id)
+                    ->where('menber_id', $this->id)
                     ->where('p_id', $p->id)
                     ->pluck('per', 'type')->toArray();
                 $res_pers = array_merge($p_pers,$pers);
@@ -110,10 +124,10 @@ class CheckoutController extends  Controller
                 }
                 return $html;
             });
-            
+
             $grid->column('should_shou_money','应收金额')->display(function () use ($inputs) {
                 $filtered_inputs = $inputs->filter(function ($input, $key) {
-                    return $input->u_id == $this->u_id;
+                    return $input->u_id == $this->id;
                 });
                 $should_shou_money = 0;
                 foreach ($filtered_inputs as $input) {
@@ -123,7 +137,7 @@ class CheckoutController extends  Controller
             });
             $grid->column('fact_shou_money','实收金额')->display(function () use ($inputs) {
                 $filtered_inputs = $inputs->filter(function ($input, $key) {
-                    return $input->u_id == $this->u_id;
+                    return $input->u_id == $this->id;
                 });
                 $money_paid = 0;
                 foreach ($filtered_inputs as $input) {
@@ -133,7 +147,7 @@ class CheckoutController extends  Controller
             });
             $grid->column('piao_money','开票金额')->display(function () use ($inputs) {
                 $filtered_inputs = $inputs->filter(function ($input, $key) {
-                    return $input->u_id == $this->u_id;
+                    return $input->u_id == $this->id;
                 });
                 $piao_money = 0;
                 foreach ($filtered_inputs as $input) {
@@ -143,7 +157,7 @@ class CheckoutController extends  Controller
             });
             $grid->column('kou_money','坐扣')->display(function () use ($inputs) {
                 $filtered_inputs = $inputs->filter(function ($input, $key) {
-                    return $input->u_id == $this->u_id;
+                    return $input->u_id == $this->id;
                 });
                 $money_kou = 0;
                 foreach ($filtered_inputs as $input) {
@@ -153,7 +167,7 @@ class CheckoutController extends  Controller
             });
             $grid->column('not_shou_money','未收金额')->display(function () use ($inputs) {
                 $filtered_inputs = $inputs->filter(function ($input, $key) {
-                    return $input->u_id == $this->u_id;
+                    return $input->u_id == $this->id;
                 });
                 $money_weishou = 0;
                 foreach ($filtered_inputs as $input) {
@@ -162,9 +176,20 @@ class CheckoutController extends  Controller
                 return $money_weishou;
             });
 
-            $grid->column('jishuan_money','结算金额');
+            /**某个发行人某一种刊物应结算金额
+             *  0.已经确认
+             *  1.已经全部开票
+             *  2.已经全部收款
+             *    的订单
+             * 每种时长的单价*每种时长的份数*每种时长的比例 - 坐扣之和
+             *
+             */
+
+            $grid->column('jishuan_money','应结算金额');
             $grid->column('not_jishuan_money','未结算金额');
-            $grid->column('j_status','发放状态');
+            $grid->column('j_status','发放状态')->display(function (){
+                //return trans('front::lang.j_status.' .$j_status. '');
+            });
 
             //grid actions
             $grid->actions(function ($actions) {

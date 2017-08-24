@@ -62,7 +62,7 @@ Route::group([
 
         //yeji
         $router->get('/checkout', 'Yeji\\CheckoutController@index');
-        $router->get('/checkout/p/{p_id}', 'Yeji\\CheckoutController@checkoutIndex');
+        $router->get('/checkout/p/{t_id}', 'Yeji\\CheckoutController@checkoutIndex');
 
         $router->get('/selectp/', 'Finance\\InputController@selectp');
 
