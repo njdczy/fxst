@@ -19,6 +19,7 @@ use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\MessageBag;
 
 class FapiaoController extends Controller
 {
@@ -138,6 +139,7 @@ class FapiaoController extends Controller
             {
                 $fapiaos[$key]['key'] = "第".($key+1)."次开票";
                 $fapiaos[$key]['should_kai_money'] = $input->p_amount;
+                $fapiaos[$key]['haoma'] = $fapiao['haoma']?:'';
             }
             $not_kai_money = ($input->p_amount-$input->piao_money);
             return response()->json([
@@ -170,12 +172,23 @@ class FapiaoController extends Controller
 
             $input->piao_money = $input->piao_money + $shi_kai_money;
 
+            $input->input_status = 2;
+
             if ($input->piao_money == $input->p_amount) {
                 $input->piao_status = 1;
+                if ($input->pay_status == 1) {
+                    $input->input_status = 3;
+                }
             } else {
                 $input->piao_status = 3;
             }
             $input->save();
         });
+        $info = new MessageBag([
+            'title'   => '开票成功',
+            'message' => '',
+        ]);
+        return back()->with(compact('info'));
+
     }
 }

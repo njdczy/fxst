@@ -36,14 +36,12 @@ $('.pay').on('click', function () {
     }
     $("#paytype"+id).val(paytype);
     $(".head-pay").nextAll().remove();
-      console.log(111111);  
              $.ajax({
                 method: 'get',
                 url: $(this).data('url'),
                 success: function (data) {
-                   console.log(111111);     
                     if (typeof data === 'object') {
-                        $("#not_pay_money"+id).val(data.not_pay_money + '￥');
+                        $("#not_pay_money"+id).val(data.not_pay_money);
 
                                                           
                         if ( !$.isEmptyObject(data.liushuis) ) {

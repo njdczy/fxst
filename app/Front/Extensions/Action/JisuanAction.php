@@ -50,9 +50,6 @@ $('.fafang').on('click', function () {
             });
 });
 
-function jiesuan(u_id){
-    
-}
 SCRIPT;
     }
 

@@ -21,6 +21,7 @@ use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\MessageBag;
 
 class PayController extends Controller
 {
@@ -166,12 +167,22 @@ class PayController extends Controller
             $input->money_paid = $input->money_paid + $shi_pay_money;
             $input->money_kou = $input->money_kou + $kou;
 
+            $input->input_status = 2;
+
             if ($input->money_paid == ($input->p_amount-$input->money_kou)) {
                 $input->pay_status = 1;
+                if ($input->piao_status == 1) {
+                    $input->input_status = 3;
+                }
             } else {
                 $input->pay_status = 2;
             }
             $input->save();
         });
+        $info = new MessageBag([
+            'title'   => '收款成功',
+            'message' => '',
+        ]);
+        return back()->with(compact('info'));
     }
 }

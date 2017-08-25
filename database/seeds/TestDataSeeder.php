@@ -333,7 +333,7 @@ class TestDataSeeder extends Seeder
             ]);
             PiaoLog::truncate();
             LiushuiLog::truncate();
-            //FenChengLog::truncate();
+            UCheckout::truncate();
         });
     }
 }

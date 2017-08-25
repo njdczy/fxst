@@ -58,13 +58,14 @@
                         </div>
                     </div>
                     @if($piao_status !=1)
-                    <form id="kaipiao_form" method="post" action="$form_url">
+                    <form id="kaipiao_form{{$id}}" method="post" action="{{$form_url}}" onsubmit="return kaipiao({{$id}})">
                         {{csrf_field()}}
                         <div class="form-group" style="overflow: hidden;">
                             <label for="" class="col-sm-2 control-label">实开金额</label>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" name="shi_kai_money{{$id}}" class="form-control" placeholder="输入 已付款金额">
+                                    <input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                           id="shi_kai_money{{$id}}" name="shi_kai_money{{$id}}"  class="form-control" placeholder="输入 已付款金额">
                                 </div>
                             </div>
                         </div>
@@ -85,7 +86,21 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                        </form>
+                        <script>
+                            function kaipiao(u_id){
+                                var not_kai_money = $("#not_kai_money"+u_id).val();
+                                var shi_kai_money = $("#shi_kai_money"+u_id).val()?$("#shi_kai_money"+u_id).val():0;
+
+                                if(parseFloat(shi_kai_money) > parseFloat(not_kai_money) || parseFloat(shi_kai_money) == 0) {
+                                    alert('金额不能为0或大于最大金额');
+                                    $("#shi_kai_money"+u_id).val('');
+                                    return false;
+                                } else {
+                                    $("#kaipiao_form"+u_id).submit();
+                                }
+                            }
+                        </script>
                     @endif
             </div>
         </div>

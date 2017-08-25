@@ -85,6 +85,12 @@ return [
     'admin_name' => '管理员名称',
     'admin_roles' => '管理员级别',
 
+
+    'input_edit_status' => [
+        0 => '未确认',
+        1 => '已确认',
+    ],
+
     'input_status' => [
         0 => '未确认',
         1 => '待处理',

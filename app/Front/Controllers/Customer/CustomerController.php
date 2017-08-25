@@ -180,6 +180,7 @@ class CustomerController extends Controller
             $form->html("<div class=\"col-md-2\"><h4 class=\"pull-right\">开票信息</h4></div>");
             $form->divide();
 
+            $form->hidden('customer_piao.user_id')->default(\Front::user()->user_id)->setWidth('4');
             $form->text('customer_piao.name','名称')->setWidth('4');
             $form->text('customer_piao.hao','纳税识别号')->setWidth('4');
             $form->text('customer_piao.addr','地址')->setWidth('4');

@@ -124,6 +124,9 @@ class InputController extends Controller
     protected function form()
     {
         return \Front::form(Input::class, function (Form $form) {
+
+
+            /*
             $form->tab('1.客户信息', function ($form) {
                 $form->html(view('front::zhenggg.backandnextjs',['max'=>4]), '');
                 $form->select('c_id', '客户')->options(
@@ -186,7 +189,43 @@ class InputController extends Controller
                 $form->text('piao_money','开票金额')->rules('required|numeric')->setWidth('2');
                 $form->divide();
                 $form->html(view('front::zhenggg.backandnext',['which'=>4,'is_last'=>true]), '');
-            });
+            });*/
+
+            $form->select('c_id', '客户')->options(
+                Customer::where('user_id', \Front::user()->user_id)
+                    ->pluck('name', 'id')
+            )->rules('required')->setWidth('4');
+            $form->select('u_id', '销售')->options(
+                Menber::where('user_id', \Front::user()->user_id)
+                    ->pluck('name', 'id')
+            )->rules('required')->setWidth('4');
+            $form->select('source', '订单来源')->options(
+                trans('front::lang.source')
+            )->setWidth('4');
+
+            $form->select('input_status', '订单状态')->options(
+                trans('front::lang.input_edit_status')
+            )->default($form->input_status)->help('当订单状态设为已确认时，将计入目标数')->rules('required')->setWidth('4');
+            $form->divide();
+
+            $form->select('p_id','刊物')->options(
+                Periodical::where('user_id', \Front::user()->user_id)
+                    ->pluck('name', 'id')
+            )->setWidth('4')->rules('required');
+
+            $form->select('input_type','订阅时长')->options(trans('front::lang.input_type'))->rules('required')->setWidth('4');
+            $form->number('num','数量')->rules('required|min:1');
+
+            $form->divide();
+            $form->hidden('user_id')->default(\Front::user()->user_id);
+            $form->hidden('menber_name');
+            $form->hidden('customer_name');
+            $form->hidden('dis_per');
+            $form->hidden('p_name');
+            $form->hidden('p_money');
+            $form->hidden('p_amount');
+            $form->hidden('d_id');
+            $form->divide();
             $form->saving(function (Form $form){
                 $menber_name =  Menber::where('id',$form->u_id)->value('name');
                 $customer_name =  Customer::where('id',$form->c_id)->value('name');
@@ -195,8 +234,13 @@ class InputController extends Controller
                 $form->customer_name = $customer_name;
                 $form->p_name = $periodical->name;
                 $form->dis_per = $periodical->per;
-                $form->p_money = $periodical->c_price != 0? $periodical->c_price:$periodical->price;
+                $p_key = $form->input_type . '_price';
+                $form->p_money = $periodical->{$p_key};
                 $form->p_amount = ($form->num * $form->p_money);
+
+                //当input save ，如果订单的销售改变，更新订单的部门
+                $department = Menber::find($form->u_id)->department;
+                $form->d_id = $department->id;
             });
 
         });

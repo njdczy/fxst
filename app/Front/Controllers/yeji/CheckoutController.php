@@ -13,9 +13,7 @@ use App\Models\Department;
 use App\Models\Input;
 use App\Models\Menber;
 
-
 use App\Models\MenberPer;
-use App\Models\Periodical;
 use App\Models\Target;
 use App\Models\UCheckout;
 use App\Zhenggg\Grid;
@@ -26,6 +24,7 @@ use App\Zhenggg\Widgets\InfoBox;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\MessageBag;
 
 class CheckoutController extends Controller
 {
@@ -42,12 +41,20 @@ class CheckoutController extends Controller
                 if ($key % 2 == 0) {
                     $content->row(function ($row) use ($target, $targets, $key) {
                         $row->column(2, '');
-                        $row->column(3, new InfoBox($target->periodical->name, 'users', 'aqua',
-                            \Front::url('checkout/p/' . $target->getKey()), '&nbsp;', '详细'));
+                        $date = \Carbon::parse($target->s_time)->format('Y-m-d') .
+                            '--' . \Carbon::parse($target->e_time)->format('Y-m-d');
+
+                        $row->column(3, new InfoBox($date, 'users', 'aqua',
+                            \Front::url('checkout/p/' . $target->getKey()),
+                            $target->periodical->name, '详细'));
                         $row->column(1, '');
                         if ($targets->get($key + 1)) {
-                            $row->column(3, new InfoBox($targets->get($key + 1)->periodical->name, 'users', 'green',
-                                \Front::url('checkout/p/' . $targets->get($key + 1)->getKey()), '&nbsp;', '详细'));
+                            $date = \Carbon::parse($targets->get($key + 1)->s_time)->format('Y-m-d') .
+                                '--' . \Carbon::parse($targets->get($key + 1)->e_time)->format('Y-m-d');
+
+                            $row->column(3, new InfoBox($date, 'users', 'green',
+                                \Front::url('checkout/p/' . $targets->get($key + 1)->getKey()),
+                                $targets->get($key + 1)->periodical->name, '详细'));
                         }
                         $row->column(2, '');
                     });
@@ -100,7 +107,7 @@ class CheckoutController extends Controller
                 });
                 $nums = ['m' => 0, 'j' => 0, 'b' => 0, 'y' => 0];
                 foreach ($filtered_inputs as $input) {
-                    $nums[$input['input_type']] = $nums[$input['input_type']] + $input['num'];
+                    $nums[$input->input_type] = $nums[$input->input_type] + $input->num;
                 }
                 $html = '';
                 foreach ($nums as $key => $num) {
@@ -182,9 +189,9 @@ class CheckoutController extends Controller
              * 每种时长的单价*每种时长的份数*每种时长的比例 - 坐扣之和
              *
              */
-            $grid->column('jishuan_money', '应结算金额')->display(function () use ($inputs, $p) {
+            $grid->column('jishuan_money', '应结算金额')->display(function () use ($inputs, $p,$target) {
                 $menber_id = $this->id;
-                return Cache::remember('should_ti_money' . $menber_id, 1, function () use ($inputs, $p, $menber_id) {
+                return Cache::remember('should_ti_money'.$target->id.'.' . $menber_id, 1, function () use ($inputs, $p, $menber_id) {
                     $p_pers = ['m' => $p->per, 'j' => $p->per, 'b' => $p->per, 'y' => $p->per,];
                     $pers = MenberPer::where('user_id', '=', \Front::user()->user_id)
                         ->where('menber_id', $menber_id)
@@ -192,7 +199,7 @@ class CheckoutController extends Controller
                         ->pluck('per', 'type')->toArray();
                     $res_pers = array_merge($p_pers, $pers);
                     $filtered_inputs = $inputs->filter(function ($input, $key) {
-                        return $input->u_id == $this->id;
+                        return $input->u_id == $this->id && $input->input_status == 3;
                     });
                     $should_ti_money = 0;
                     foreach ($filtered_inputs as $input) {
@@ -204,8 +211,8 @@ class CheckoutController extends Controller
 
             $grid->column('not_jishuan_money', '未结算金额')->display(function () use ($inputs, $p, $target) {
                 $menber_id = $this->id;
-                $should_ti_money = Cache::get('should_ti_money' . $menber_id);
-                $last_ucheckout = Cache::remember('last_ucheckout' . $menber_id, 1, function () use ($inputs, $p, $target, $menber_id) {
+                $should_ti_money = Cache::get('should_ti_money'.$target->id.'.' . $menber_id);
+                $last_ucheckout = Cache::remember('last_ucheckout'.$target->id.'.' . $menber_id, 1, function () use ($inputs, $p, $target, $menber_id) {
                     return UCheckout::where('user_id', '=', \Front::user()->user_id)
                         ->where('u_id', $menber_id)
                         ->where('t_id', $target->id)
@@ -221,8 +228,8 @@ class CheckoutController extends Controller
 
             $grid->column('j_status', '发放状态')->display(function () use ($inputs, $p, $target) {
                 $menber_id = $this->id;
-                $should_ti_money = Cache::get('should_ti_money' . $menber_id);
-                $last_ucheckout = Cache::get('last_ucheckout' . $menber_id);
+                $should_ti_money = Cache::get('should_ti_money'.$target->id.'.' . $menber_id);
+                $last_ucheckout = Cache::get('last_ucheckout'.$target->id.'.' . $menber_id);
 
                 if ($last_ucheckout) {
                     if ($should_ti_money == $last_ucheckout->moneyed) {
@@ -274,7 +281,7 @@ class CheckoutController extends Controller
 
         $p = $target->periodical;
 
-        return Cache::remember('should_ti_money' . $u_id, 1, function () use ($inputs, $p, $u_id) {
+        return Cache::remember('should_ti_money'.$t_id.'.' . $u_id, 1, function () use ($inputs, $p, $u_id) {
             $p_pers = ['m' => $p->per, 'j' => $p->per, 'b' => $p->per, 'y' => $p->per,];
             $pers = MenberPer::where('user_id', '=', \Front::user()->user_id)
                 ->where('menber_id', $u_id)
@@ -282,7 +289,7 @@ class CheckoutController extends Controller
                 ->pluck('per', 'type')->toArray();
             $res_pers = array_merge($p_pers, $pers);
             $filtered_inputs = $inputs->filter(function ($input, $key) use ($u_id) {
-                return $input->u_id == $u_id;
+                return $input->u_id == $u_id && $input->input_status == 3;
             });
             $should_ti_money = 0;
             foreach ($filtered_inputs as $input) {
@@ -324,6 +331,9 @@ class CheckoutController extends Controller
 
     public function setDetail($t_id, $u_id, Request $request)
     {
+        Cache::forget('should_ti_money'.$t_id.'');
+        Cache::forget('last_ucheckout'.$t_id.'');
+
         $fafangmoney_key = 'fafangmoney' . $u_id;
         $fafangtype_key = 'fafangtype' . $u_id;
 
@@ -358,6 +368,11 @@ class CheckoutController extends Controller
 
             $u_checkout->save();
         });
+        $info = new MessageBag([
+            'title'   => '发放成功',
+            'message' => '',
+        ]);
+        return back()->with(compact('info'));
     }
 
 }

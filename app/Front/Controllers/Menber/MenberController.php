@@ -12,6 +12,7 @@ use App\Models\Periodical;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
+use function foo\func;
 use Illuminate\Routing\Controller;
 
 use Illuminate\Support\MessageBag;
@@ -76,7 +77,23 @@ class MenberController extends Controller
                     )
                     . '"/>';
             });
-            $grid->money('余额');
+
+
+            $grid->money('余额')->display(function(){
+                $sql = "SELECT moneyed FROM u_checkouts this 
+                    WHERE created_at = ( SELECT MAX( created_at ) FROM u_checkouts
+                                          WHERE 
+                                            this.t_id = u_checkouts.t_id 
+                                          AND 
+                                             u_id = " . $this->id . " 
+                                        )";
+                $res = \DB::select($sql);
+                $re = 0;
+                foreach ($res as $r) {
+                    $re = $re +$r->moneyed;
+                }
+               return $re;
+            });
             $ps = Periodical::all();
             $grid->column('m_per', '月分成比例')->display(function () use ($ps) {
 

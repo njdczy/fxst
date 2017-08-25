@@ -40,7 +40,7 @@ $('.kaipiao').on('click', function () {
                 success: function (data) {
                     
                     if (typeof data === 'object') {
-                        $("#not_kai_money"+id).val(data.not_kai_money + '￥');
+                        $("#not_kai_money"+id).val(data.not_kai_money);
                        
                         $("#piao_name"+id).text(data.customer_piao.name);
                         $("#piao_hao"+id).text(data.customer_piao.hao);
