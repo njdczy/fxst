@@ -90,7 +90,7 @@ class CustomerController extends Controller
             $grid->tel("固定电话");
             $grid->youbian("邮编");
             $grid->column('ssq',"省/市/区")->display(function (){
-                if ($this->province) {
+                if ($this->district) {
                     $regions = cache('regions');
                     return  $regions[$this->province] .'/'. $regions[$this->city] . '/' . $regions[$this->district];
                 } else {

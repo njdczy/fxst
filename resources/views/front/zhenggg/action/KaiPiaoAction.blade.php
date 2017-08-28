@@ -49,6 +49,7 @@
                             </table>
                         </div>
                     </div>
+                    @if($piao_status !=2)
                     <div class="form-group" style="overflow: hidden;">
                         <label for="" class="col-sm-2 control-label">未开金额</label>
                         <div class="col-sm-4">
@@ -57,7 +58,9 @@
                             </div>
                         </div>
                     </div>
-                    @if($piao_status !=1)
+                    @endif
+
+                    @if($piao_status !=1 && $piao_status !=2)
                     <form id="kaipiao_form{{$id}}" method="post" action="{{$form_url}}" onsubmit="return kaipiao({{$id}})">
                         {{csrf_field()}}
                         <div class="form-group" style="overflow: hidden;">

@@ -20,7 +20,7 @@ class KaiPiaoAction
         } elseif ($this->piao_status == 1) {
             $this->button_name = '查看';
         } elseif ($this->piao_status == 2) {
-
+            $this->button_name = '无需开票';
         } elseif ($this->piao_status == 3) {
             $this->button_name = '继续开票';
         }

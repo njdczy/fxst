@@ -123,7 +123,7 @@ class DepartmentController extends Controller
             $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
 
             $form->saving(function (Form $form){
-                if ( Department::where('name',$form->name)->exists()) {
+                if ( Department::where('id','!=',$form->model()->id)->where('name',$form->name)->exists()) {
                     $error = new MessageBag([
                         'title'   => '部门名称不能重复',
                         'message' => $form->name .'已存在',

@@ -90,9 +90,10 @@ class FapiaoController extends Controller
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 $actions->disableDelete();
                 $actions->disableEdit();
-
-                $actions->append(new KaiPiaoAction($actions->getKey(),$actions->row->piao_status));
-
+                //无需开票
+                if ($actions->row->piao_status != 2) {
+                    $actions->append(new KaiPiaoAction($actions->getKey(),$actions->row->piao_status));
+                }
             });
 
             //grid tools

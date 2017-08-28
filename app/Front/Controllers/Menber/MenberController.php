@@ -193,7 +193,7 @@ class MenberController extends Controller
             $form->display('updated_at', trans('front::lang.updated_at'));
             $form->hidden('user_id')->default(\Front::user()->user_id);
             $form->saving(function (Form $form){
-                if ( Menber::where('name',$form->name)->exists()) {
+                if ( Menber::where('id','!=',$form->model()->id)->where('name',$form->name)->exists()) {
                     $error = new MessageBag([
                         'title'   => '人名不能重复',
                         'message' => $form->name .'已存在',
