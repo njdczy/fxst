@@ -6,7 +6,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ Front::user()->avatar }}" class="img-circle" alt="User Image">
+                <img src="{{ config('front.upload.host'). App\Models\JituanConfig::where('user_id',Front::user()->user_id)->value('jituan_pic') }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>{{ Front::user()->name }}</p>

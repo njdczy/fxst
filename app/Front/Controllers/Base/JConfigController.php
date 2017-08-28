@@ -34,10 +34,10 @@ class JConfigController extends Controller
 
                     $form = new Form();
                     $form->action(route('store_and_update_jconfig'));
-
+                    $form->image('jituan_pic', 'logo');
                     $form->text('jituan_name', '单位名称')
                         ->default($jituan_config ? $jituan_config->jituan_name : '')
-                        ->placeholder('请先设置本单位名称')
+                        ->placeholder('设置本单位名称')
                         ->help('如：新华报业集团');
 
                     $column->append(new Box('基本信息', $form));
@@ -56,12 +56,16 @@ class JConfigController extends Controller
                     'required',
                     Rule::unique('jituan_configs')->ignore(\Front::user()->user_id, 'user_id')
                 ],
+                'jituan_pic' => 'image'
             ]
         );
         $jituan_name = $request->input('jituan_name');
-
+        $path = $request->file('jituan_pic')->store(
+            'jituan_pic', 'front'
+        );
         $jituan_config = JituanConfig::firstOrNew(['user_id' => \Front::user()->user_id]);
         $jituan_config->jituan_name = $jituan_name;
+        $jituan_config->jituan_pic = $path;
         $jituan_config->save();
 
         $success = new MessageBag([

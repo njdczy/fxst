@@ -87,6 +87,7 @@ class CustomerController extends Controller
             $grid->hangye("行业类别")->display(function($hangye){
                 return Type::where('id',$hangye)->value('name');
             });
+            $grid->tel("固定电话");
             $grid->youbian("邮编");
             $grid->column('ssq',"省/市/区")->display(function (){
                 if ($this->province) {
@@ -142,7 +143,8 @@ class CustomerController extends Controller
             $form->select('hangye','行业类别')->options(
                 Type::where('type','hangye')->whereIn('user_id',[0,\Front::user()->user_id])->pluck('name','id')
             )->rules('required')->setWidth('2');
-            $form->text('youbian','邮编')->rules('required')->setWidth('2');
+            $form->text('tel','固定电话')->setWidth('2');
+            $form->text('youbian','邮编')->rules('required|digits:6')->setWidth('2');
             $form->select('type', '性质')->options(
                 Type::whereIn ('user_id', [\Front::user()->user_id,0])
                     ->where('type', '=', 'customer_type')

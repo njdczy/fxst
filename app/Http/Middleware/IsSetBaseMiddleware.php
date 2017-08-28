@@ -33,27 +33,27 @@ class IsSetBaseMiddleware
             config(['front.name'=>$jituan_name]);
             config(['front.logo'=>'<b>'.$jituan_name.'</b> ']);
             //检查是否设置集团名称
-            if (
-                !$jituan_name
-                &&
-                !$this->passThrough($request,
-                    [
-                        'get' =>  \Front::url('system/jconfig/'),
-                        'post' =>\Front::url('system/jconfig'),
-                    ]
-                )
-            )
-            {
-                $error = new MessageBag([
-                    'title'   => '请先填写基本信息',
-                    'message' => '',
-                ]);
-                return redirect()->route('jconfig')->with(compact('error'));
-            }
+//            if (
+//                !$jituan_name
+//                &&
+//                !$this->passThrough($request,
+//                    [
+//                        'get' =>  \Front::url('system/jconfig/'),
+//                        'post' =>\Front::url('system/jconfig'),
+//                    ]
+//                )
+//            )
+//            {
+//                $error = new MessageBag([
+//                    'title'   => '请先填写基本信息',
+//                    'message' => '',
+//                ]);
+//                return redirect()->route('jconfig')->with(compact('error'));
+//            }
             //检查是否添加报社
             if (
-                JituanConfig::where('user_id',\Front::user()->user_id)->first()
-                &&
+//                JituanConfig::where('user_id',\Front::user()->user_id)->first()
+//                &&
                 !Baoshe::where('user_id',\Front::user()->user_id)->first()
                 &&
                 !$this->passThrough($request,
