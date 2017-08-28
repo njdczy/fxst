@@ -89,6 +89,11 @@
                         </form>
                         <script>
                             function kaipiao(u_id){
+                                var fapiaohao = $("#fapiaohao"+u_id).val();
+                                if (!fapiaohao) {
+                                    alert('发票号必填');
+                                    return false;
+                                }
                                 var not_kai_money = $("#not_kai_money"+u_id).val();
                                 var shi_kai_money = $("#shi_kai_money"+u_id).val()?$("#shi_kai_money"+u_id).val():0;
 
