@@ -214,7 +214,23 @@ class InputController extends Controller
             )->setWidth('4')->rules('required');
 
             $form->select('input_type','订阅时长')->options(trans('front::lang.input_type'))->rules('required')->setWidth('4');
-            $form->number('num','数量')->rules('required|min:1');
+            $form->number('num','数量')->rules('numeric|min:1');
+
+            $id = preg_replace('/\D/s', '', request()->url());
+            if ($id) {
+                $input = Input::find($id);
+            }
+            if (isset($input)) {
+                if (in_array($input->piao_status,[0,2])) {
+                    $form->radio('piao_status','是否开票')->options([0=> '是',2 => '否'])->default(0);
+                } else {
+                    $form->display('是否开票')->default('是')->setWidth('1');
+                }
+            } else {
+                $form->radio('piao_status','是否开票')->options([0=> '是',2 => '否'])->default(0);
+
+            }
+
 
             $form->divide();
             $form->hidden('user_id')->default(\Front::user()->user_id);
@@ -242,7 +258,6 @@ class InputController extends Controller
                 $department = Menber::find($form->u_id)->department;
                 $form->d_id = $department->id;
             });
-
         });
     }
 
