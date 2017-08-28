@@ -130,7 +130,7 @@ class TargetMController extends Controller
             $form->display('d_num', '部门目标份数')->setWidth(3)->default($target_d->num);
             $form->divide();
 
-            $form->number('num', '目标数');
+            $form->number('num', '目标数')->rules('required|numeric|min:1|max:100000000');
             $form->display('numed', '已完成')->setWidth(1)->default(0);
 
 

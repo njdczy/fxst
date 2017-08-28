@@ -74,12 +74,12 @@ class TargetDController extends Controller
                 Department::selectOptionsForNoroot()
             )->setWidth(4);
 
-            $form->number('num', '设置部门目标份数(按年订阅数)')->rules('required|numeric|min:1');
+            $form->number('num', '设置部门目标份数(按年订阅数)')->rules('required|numeric|min:1|max:1000000000');
             if (isset($form->model()->numed)) {
                 $form->display('numed', '已完成数(按年订阅数)')->setWidth(1)->default($form->model()->numed);
             }
 
-            $form->text('money', '设置部门目标金额')->setWidth(3)->rules('required|numeric|min:1');
+            $form->text('money', '设置部门目标金额')->setWidth(3)->rules('required|numeric|min:1|max:1000000000');
             if (isset($form->model()->moneyed)) {
                 $form->display('moneyed', '部门已完金额')->setWidth(1)->default($form->model()->moneyed);
             }

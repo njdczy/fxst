@@ -209,11 +209,11 @@ SCRIPT;
             )->setWidth(4);
 
             $form->dateRange('s_time', 'e_time', '目标时间段');
-            $form->number('num', '设置总目标份数(按年订阅数)')->rules('required|numeric|min:1');
+            $form->number('num', '设置总目标份数(按年订阅数)')->rules('required|numeric|min:1|max:100000000');
             if (isset($form->model()->numed)) {
                 $form->display('numed', '总已完成数(按年订阅数)')->setWidth(1)->default($form->model()->numed);
             }
-            $form->text('money', '设置总目标金额')->setWidth(3)->rules('required|numeric|min:1');
+            $form->text('money', '设置总目标金额')->setWidth(3)->rules('required|numeric|min:1|max:1000000000');
             if (isset($form->model()->moneyed)) {
                 $form->display('moneyed', '总已完金额')->setWidth(1)->default($form->model()->moneyed);
             }
