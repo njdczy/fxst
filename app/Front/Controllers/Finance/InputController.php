@@ -277,12 +277,10 @@ class InputController extends Controller
             $input = Input::find($id);
             if ($input) {
                 if ($input->piao_status ==  1 && $input->pay_status == 1) {
-                    if (!Input::find($id)) {
-                        return response()->json([
-                            'status'  => false,
-                            'message' => '订单已经完成，不能删除',
-                        ]);
-                    }
+                    return response()->json([
+                        'status'  => false,
+                        'message' => '订单已经完成，不能删除',
+                    ]);
                 }
             }
         }
