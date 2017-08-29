@@ -97,9 +97,15 @@ class CustomerController extends Controller
                     return '';
                 }
             });
+<<<<<<< HEAD
             $grid->address("寄送地址");
             $grid->type("性质")->display(function ($type){
                 return  Type::where('id', $type)->value('name');
+=======
+            $grid->address("客户（寄送）地址");
+            $grid->type("性质")->display(function (){
+                return  Type::where('id', $this->type)->first()->name;
+>>>>>>> 233ac73f7751786869a862cd1577af80b310d23f
             });
             $grid->contacts("联系人");
             $grid->mobile("电话/手机");
@@ -108,13 +114,15 @@ class CustomerController extends Controller
             });
             $grid->customer_piao()->column('开票信息')->expand(function () {
                 $piao = (array) $this->customer_piao;
-                $piao_array['名称'] = $piao['name'];
-                $piao_array['纳税识别号'] = $piao['hao'];
-                $piao_array['地址'] = $piao['addr'];
-                $piao_array['电话'] = $piao['phone'];
-                $piao_array['开户行'] = $piao['bank'];
-                $piao_array['账号'] = $piao['bank_account'];
-                return new Table([], $piao_array);
+                if ($piao) {
+                    $piao_array['名称'] = $piao['name'];
+                    $piao_array['纳税识别号'] = $piao['hao'];
+                    $piao_array['地址'] = $piao['addr'];
+                    $piao_array['电话'] = $piao['phone'];
+                    $piao_array['开户行'] = $piao['bank'];
+                    $piao_array['账号'] = $piao['bank_account'];
+                    return new Table([], $piao_array);
+                }
             }, '查看');
 
             //grid actions
