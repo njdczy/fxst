@@ -267,6 +267,38 @@ class InputController extends Controller
         });
     }
 
+    public function destroy($id)
+    {
+        $ids = explode(',', $id);
+        foreach ($ids as $id) {
+            if (empty($id)) {
+                continue;
+            }
+            $input = Input::find($id);
+            if ($input) {
+                if ($input->piao_status ==  1 && $input->pay_status == 1) {
+                    if (!Input::find($id)) {
+                        return response()->json([
+                            'status'  => false,
+                            'message' => '订单已经完成，不能删除',
+                        ]);
+                    }
+                }
+            }
+        }
+
+        if ($this->form()->destroy($id)) {
+            return response()->json([
+                'status'  => true,
+                'message' => trans('front::lang.delete_succeeded'),
+            ]);
+        } else {
+            return response()->json([
+                'status'  => false,
+                'message' => trans('front::lang.delete_failed'),
+            ]);
+        }
+    }
     public function selectp()
     {
         $p_id = request('p_id',0);

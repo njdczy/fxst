@@ -8,10 +8,14 @@ use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Input;
 use App\Models\Menber;
+use App\Models\Target;
 use App\Models\TargetD;
+use App\Models\TargetM;
 use App\Observer\BaosheObserver;
 use App\Observer\CustomerObserver;
 use App\Observer\TargetDObserver;
+use App\Observer\TargetMObserver;
+use App\Observer\TargetObserver;
 use App\Zhenggg\Auth\Database\Menu;
 use App\Models\Periodical;
 
@@ -52,7 +56,9 @@ class EventServiceProvider extends ServiceProvider
         Menber::observe(new MenberObserver);
         Menu::observe(new MenuObserver);
         Periodical::observe(new PeriodicalObserver);
+        Target::observe(new TargetObserver);
         TargetD::observe(new TargetDObserver);
+        TargetM::observe(new TargetMObserver);
         Customer::observe(new CustomerObserver);
 
     }
