@@ -141,6 +141,7 @@ class FapiaoController extends Controller
                 $fapiaos[$key]['key'] = "第".($key+1)."次开票";
                 $fapiaos[$key]['should_kai_money'] = $input->p_amount;
                 $fapiaos[$key]['haoma'] = $fapiao['haoma']?:'';
+                $fapiaos[$key]['kai_time'] = \Carbon::parse($fapiao['kai_time'])->format('Y-m-d');
             }
             $not_kai_money = ($input->p_amount-$input->piao_money);
             return response()->json([
@@ -156,12 +157,14 @@ class FapiaoController extends Controller
     {
         $shi_kai_money_key = 'shi_kai_money' . $input_id;
         $fapiaohao_key = 'fapiaohao' . $input_id;
+        $kai_time_key = 'kai_time' . $input_id;
 
         $shi_kai_money = $request->{$shi_kai_money_key};
         $fapiaohao = $request->{$fapiaohao_key};
+        $kai_time = $request->{$kai_time_key};
 
         $input = Input::find($input_id);
-        \DB::transaction(function () use ($shi_kai_money,$fapiaohao,$input) {
+        \DB::transaction(function () use ($shi_kai_money,$fapiaohao,$kai_time,$input) {
             $piao_log = new PiaoLog;
             $piao_log->user_id = $input->user_id;
             $piao_log->input_id = $input->id;
@@ -169,6 +172,7 @@ class FapiaoController extends Controller
             $piao_log->admin_id = \Front::user()->id;
             $piao_log->kai_money = $shi_kai_money;
             $piao_log->haoma = $fapiaohao;
+            $piao_log->kai_time = $kai_time;
             $piao_log->save();
 
             $input->piao_money = $input->piao_money + $shi_kai_money;

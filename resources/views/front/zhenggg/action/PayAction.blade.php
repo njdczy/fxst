@@ -73,6 +73,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group 1">
+                            <label for="shou_time" class="col-sm-2 control-label">收款时间</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input style="width: 110px" type="text" class="shou_time" id="shou_time{{$id}}" name="shou_time{{$id}}" value="" class="form-control shou_time" placeholder="输入 收款时间">
+                                </div>
+                            </div>
+                        </div>
                         <div class="box-footer" style="display: block;">
                             <div class="col-sm-2">
                             </div>
@@ -98,6 +107,11 @@
                                     $("#payform"+u_id).submit();
                                 }
                             }
+                        </script>
+                        <script data-exec-on-popstate>
+                            $(function () {
+                                $('.shou_time').datetimepicker({'format':'YYYY-MM-DD','locale':'zh-CN'});
+                            });
                         </script>
                     @endif
             </div>

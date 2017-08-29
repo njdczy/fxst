@@ -54,7 +54,7 @@ $('.kaipiao').on('click', function () {
                               $(".kaipiaolog-table").show();
                               $.each(data.fapiaos, function (n, value) {
                                    var trs = "";
-                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.should_kai_money + "</td><td>" + value.kai_money + "</td><td>" + value.haoma + "</td><td>" + value.created_at + "</td></tr>";
+                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.should_kai_money + "</td><td>" + value.kai_money + "</td><td>" + value.haoma + "</td><td>" + value.kai_time + "</td></tr>";
                                    $(trs).insertAfter($('.head-piao'));
                               }); 
                         } 

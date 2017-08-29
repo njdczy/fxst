@@ -89,6 +89,9 @@ class InputController extends Controller
             $grid->input_type('订阅类别')->display(function(){
                 return trans('front::lang.input_type.' .$this->input_type. '');
             });
+            $grid->ship_time('起始时间')->display(function(){
+                return \Carbon::parse($this->ship_time)->format('Y-m-d');
+            });
             $grid->p_amount('应付金额');
             $grid->money_paid('实付金额');
             $grid->piao_status('开票状态')->display(function(){
@@ -212,6 +215,9 @@ class InputController extends Controller
                 Periodical::where('user_id', \Front::user()->user_id)
                     ->pluck('name', 'id')
             )->setWidth('4')->rules('required');
+
+            $form->date('ship_time','起始时间')->rules('required');
+
 
             $form->select('input_type','订阅时长')->options(trans('front::lang.input_type'))->rules('required')->setWidth('4');
             $form->number('num','数量')->rules('numeric|min:1');

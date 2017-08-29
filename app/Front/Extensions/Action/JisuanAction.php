@@ -13,11 +13,13 @@ class JisuanAction
 {
     protected $id;
     protected $t_id;
+    protected $j_status;
 
-    public function __construct($id,$t_id)
+    public function __construct($id,$t_id,$j_status)
     {
         $this->id = $id;
         $this->t_id = $t_id;
+        $this->j_status = $j_status;
     }
 
     protected function script()
@@ -41,7 +43,7 @@ $('.fafang').on('click', function () {
                               $(".jisuans-table").show();
                               $.each(data.jisuans, function (n, value) {
                                    var trs = "";
-                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.fafang_type + "</td><td>" + value.money + "</td><td>" + value.created_at + "</td></tr>";
+                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.fafang_type + "</td><td>" + value.money + "</td><td>" + value.fa_time + "</td></tr>";
                                    $(trs).insertAfter($('.head-fafang'));
                               }); 
                         } 
@@ -64,6 +66,7 @@ SCRIPT;
                 'id' => $this->id,
                 't_id' => $this->t_id,
                 'url' => $url,
+                'j_status' => $this->j_status,
                 'form_url' => $form_url,
             ])->__toString();
     }

@@ -36,6 +36,7 @@
                             </div>
                         </div>
                     </div>
+                    @if($j_status !=1)
                         <form id="jiesuanform{{$id}}" method="post" action="{{$form_url}}" onsubmit="return jiesuan({{$id}})">
                             {{csrf_field()}}
                             <div class="form-group" style="overflow: hidden;">
@@ -51,6 +52,15 @@
                                 <div class="col-sm-4">
                                     <div class="input-group">
                                         <input type="text" id="fafangmoney{{$id}}" name="fafangmoney{{$id}}" class="form-control" placeholder="输入 发放金额">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group 1">
+                                <label for="fa_time" class="col-sm-2 control-label">发放时间</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input style="width: 110px" type="text" class="fa_time" id="fa_time{{$id}}" name="fa_time{{$id}}" value="" class="form-control fa_time" placeholder="输入 发放时间">
                                     </div>
                                 </div>
                             </div>
@@ -76,6 +86,12 @@
                                 }
                             }
                         </script>
+                    <script data-exec-on-popstate>
+                        $(function () {
+                            $('.fa_time').datetimepicker({'format':'YYYY-MM-DD','locale':'zh-CN'});
+                        });
+                    </script>
+                    @endif
                 </div>
             </div>
         </div>

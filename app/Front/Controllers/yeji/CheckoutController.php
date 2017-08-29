@@ -247,7 +247,18 @@ class CheckoutController extends Controller
             $grid->actions(function ($actions) use ($target) {
                 $actions->disableDelete();
                 $actions->disableEdit();
-                $actions->append(new JisuanAction($actions->getKey(), $target->getKey()));
+                $should_ti_money = Cache::get('should_ti_money'.$target->getKey().'.' . $actions->getKey());
+                $last_ucheckout = Cache::get('last_ucheckout'.$target->getKey().'.' . $actions->getKey());
+                if ($last_ucheckout) {
+                    if ($should_ti_money == $last_ucheckout->moneyed) {
+                        $j_status = 1;
+                    } else {
+                        $j_status = 2;
+                    }
+                } else {
+                    $j_status = 0;
+                }
+                $actions->append(new JisuanAction($actions->getKey(), $target->getKey(),$j_status));
             });
 
             //grid tools
@@ -274,14 +285,22 @@ class CheckoutController extends Controller
 
     }
 
-    private function get_menber_should_ti_money($t_id, $u_id)
+    private function get_menber_not_jie_money($t_id, $u_id)
     {
         $target = Target::find($t_id);
         $inputs = $this->get_inputs_by_target_model($target);
 
         $p = $target->periodical;
 
-        return Cache::remember('should_ti_money'.$t_id.'.' . $u_id, 1, function () use ($inputs, $p, $u_id) {
+        $last_ucheckout = Cache::remember('last_ucheckout'.$t_id.'.' . $u_id, 1, function () use ($inputs, $p, $t_id, $u_id) {
+            return UCheckout::where('user_id', '=', \Front::user()->user_id)
+                ->where('u_id', $u_id)
+                ->where('t_id', $t_id)
+                ->latest()
+                ->first();
+        });
+
+        $should_ti_money = Cache::remember('should_ti_money'.$t_id.'.' . $u_id, 1, function () use ($inputs, $p, $u_id) {
             $p_pers = ['m' => $p->per, 'j' => $p->per, 'b' => $p->per, 'y' => $p->per,];
             $pers = MenberPer::where('user_id', '=', \Front::user()->user_id)
                 ->where('menber_id', $u_id)
@@ -297,7 +316,11 @@ class CheckoutController extends Controller
             }
             return $should_ti_money;
         });
-
+        if ($last_ucheckout) {
+            return $should_ti_money - $last_ucheckout->moneyed;
+        } else {
+            return $should_ti_money;
+        }
     }
 
 
@@ -319,12 +342,12 @@ class CheckoutController extends Controller
 
             foreach ($u_checkouts as $key => $u_checkout) {
                 $u_checkouts[$key]['key'] = "第" . ($key + 1) . "次发放";
+                $u_checkouts[$key]['fa_time'] = \Carbon::parse($u_checkout['fa_time'])->format('Y-m-d');
             }
-
             return response()->json([
                 'status' => true,
                 'jisuans' => $u_checkouts,
-                'not_jie_money' => $this->get_menber_should_ti_money($t_id, $u_id),
+                'not_jie_money' => $this->get_menber_not_jie_money($t_id, $u_id),
             ]);
         }
     }
@@ -336,16 +359,18 @@ class CheckoutController extends Controller
 
         $fafangmoney_key = 'fafangmoney' . $u_id;
         $fafangtype_key = 'fafangtype' . $u_id;
+        $fa_time_key = 'fa_time' . $u_id;
 
         $fafangmoney = $request->{$fafangmoney_key};
         $fafangtype = $request->{$fafangtype_key};
+        $fa_time = $request->{$fa_time_key};
 
 
         $target = Target::find($t_id);
         $p = $target->periodical;
         $menber = Menber::find($u_id);
 
-        \DB::transaction(function () use ($fafangmoney, $fafangtype, $target, $menber, $p) {
+        \DB::transaction(function () use ($fafangmoney, $fafangtype, $fa_time,$target, $menber, $p) {
 
             $last_u_checkout = UCheckout::where('t_id', $target->id)
                 ->where('u_id', $target->id)
@@ -360,6 +385,7 @@ class CheckoutController extends Controller
             $u_checkout->t_id = $target->id;
             $u_checkout->fafang_type = $fafangtype;
             $u_checkout->money = $fafangmoney;
+            $u_checkout->fa_time = $fa_time;
             if ($last_u_checkout) {
                 $u_checkout->moneyed = $last_u_checkout->moneyed + $fafangmoney;
             } else {

@@ -76,7 +76,16 @@
                             <label for="" class="col-sm-2 control-label">发票号</label>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input type="text"  name="fapiaohao{{$id}}" class="form-control" placeholder="输入 发票号">
+                                    <input type="text" id="fapiaohao{{$id}}"  name="fapiaohao{{$id}}" class="form-control" placeholder="输入 发票号">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group 1">
+                            <label for="kai_time" class="col-sm-2 control-label">开票时间</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input style="width: 110px" type="text" class="kai_time" id="kai_time{{$id}}" name="kai_time{{$id}}" value="" class="form-control kai_time" placeholder="输入 开票时间">
                                 </div>
                             </div>
                         </div>
@@ -109,7 +118,12 @@
                                 }
                             }
                         </script>
-                    @endif
+                        <script data-exec-on-popstate>
+                            $(function () {
+                                $('.kai_time').datetimepicker({'format':'YYYY-MM-DD','locale':'zh-CN'});
+                            });
+                        </script>
+                                @endif
             </div>
         </div>
     </div>

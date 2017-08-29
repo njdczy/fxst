@@ -49,7 +49,7 @@ $('.pay').on('click', function () {
                               $(".liushuis-table").show();
                               $.each(data.liushuis, function (n, value) {
                                    var trs = "";
-                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.pay_type + "</td><td>" + value.should_pay_money + "</td><td>" + value.money + "</td><td>" + value.kou + "</td><td>" + value.liushuihao + "</td><td>" + value.created_at + "</td></tr>";
+                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.pay_type + "</td><td>" + value.should_pay_money + "</td><td>" + value.money + "</td><td>" + value.kou + "</td><td>" + value.liushuihao + "</td><td>" + value.shou_time + "</td></tr>";
                                    $(trs).insertAfter($('.head-pay'));
                               }); 
                         } 

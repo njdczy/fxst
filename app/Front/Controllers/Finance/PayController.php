@@ -128,6 +128,7 @@ class PayController extends Controller
                 $liushuis[$key]['should_pay_money'] = $input->p_amount;
                 $liushuis[$key]['pay_type'] = trans('front::lang.pay_name.' . $liushui['pay_type'] . '');
                 $liushuis[$key]['liushuihao'] = $liushui['liushuihao']?:'';
+                $liushuis[$key]['shou_time'] = \Carbon::parse($liushui['shou_time'])->format('Y-m-d');
             }
             $not_pay_money = ($input->p_amount-$input->money_kou-$input->money_paid);
 
@@ -145,14 +146,16 @@ class PayController extends Controller
         $kou_key = 'kou' . $input_id;
         $liushuihao_key = 'liushuihao' . $input_id;
         $paytype_key = 'paytype' . $input_id;
+        $shou_time_key = 'shou_time' . $input_id;
 
         $shi_pay_money = $request->{$shi_pay_money_key};
         $kou = $request->{$kou_key};
         $liushuihao = $request->{$liushuihao_key};
         $paytype = $request->{$paytype_key};
+        $shou_time = $request->{$shou_time_key};
 
         $input = Input::find($input_id);
-        \DB::transaction(function () use ($shi_pay_money,$kou,$liushuihao,$paytype,$input) {
+        \DB::transaction(function () use ($shi_pay_money,$kou,$liushuihao,$paytype,$shou_time,$input) {
             $piao_log = new LiushuiLog;
             $piao_log->user_id = $input->user_id;
             $piao_log->input_id = $input->id;
@@ -162,6 +165,7 @@ class PayController extends Controller
             $piao_log->kou = $kou;
             $piao_log->liushuihao = $liushuihao;
             $piao_log->pay_type = $paytype;
+            $piao_log->shou_time = $shou_time;
             $piao_log->save();
 
             $input->money_paid = $input->money_paid + $shi_pay_money;
