@@ -53,7 +53,7 @@ class XingZhiController extends Controller
             $grid->model()
                 ->whereIn ('user_id', [\Front::user()->user_id,0])
                 ->where('type', '=', 'customer_type')
-                ->orderBy('created_at', '=', 'desc');
+                ->orderBy('created_at','desc');
             $grid->column('');
             $grid->column('');
             $grid->name('客户性质');
