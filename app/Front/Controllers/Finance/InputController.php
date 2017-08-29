@@ -194,11 +194,11 @@ class InputController extends Controller
                 $form->html(view('front::zhenggg.backandnext',['which'=>4,'is_last'=>true]), '');
             });*/
 
-            $form->select('c_id', '客户')->options(
+            $form->select('c_id', '客&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户')->options(
                 Customer::where('user_id', \Front::user()->user_id)
                     ->pluck('name', 'id')
             )->rules('required')->setWidth('4');
-            $form->select('u_id', '销售')->options(
+            $form->select('u_id', '销&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;售')->options(
                 Menber::where('user_id', \Front::user()->user_id)
                     ->pluck('name', 'id')
             )->rules('required')->setWidth('4');
@@ -211,7 +211,7 @@ class InputController extends Controller
             )->default($form->input_status)->help('当订单状态设为已确认时，将计入目标数')->rules('required')->setWidth('4');
             $form->divide();
 
-            $form->select('p_id','刊物')->options(
+            $form->select('p_id','刊&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;物')->options(
                 Periodical::where('user_id', \Front::user()->user_id)
                     ->pluck('name', 'id')
             )->setWidth('4')->rules('required');
@@ -220,7 +220,7 @@ class InputController extends Controller
 
 
             $form->select('input_type','订阅时长')->options(trans('front::lang.input_type'))->rules('required')->setWidth('4');
-            $form->number('num','数量')->rules('numeric|min:1');
+            $form->number('num','数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量')->rules('numeric|min:1');
 
             $id = preg_replace('/\D/s', '', request()->url());
             if ($id) {

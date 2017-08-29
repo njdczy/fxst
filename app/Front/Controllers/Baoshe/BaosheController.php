@@ -57,8 +57,8 @@ class BaosheController extends Controller
     {
         return \Front::grid(Baoshe::class, function (Grid $grid) {
             $grid->model()->where('user_id', '=', \Front::user()->user_id);
-            $grid->column('');
-            $grid->column('');
+            //$grid->column('');
+            //$grid->column('');
             $grid->name('报社名称')->display(function($name){
                 return '('.config('front.name').')'.$name;
             });

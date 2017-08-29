@@ -24,7 +24,7 @@ class JConfigController extends Controller
     {
         return \Front::content(function (Content $content) {
             $content->header('基本信息');
-            $content->description('填写');
+            //$content->description('填写');
 
             $content->row(function ($row) {
                 $row->column(2, '');
@@ -34,14 +34,13 @@ class JConfigController extends Controller
 
                     $form = new Form();
                     $form->action(route('store_and_update_jconfig'));
-                    $form->image('jituan_pic', 'logo');
+                    //logo和单位名称位置顛倒
                     $form->text('jituan_name', '单位名称')
                         ->default($jituan_config ? $jituan_config->jituan_name : '')
-                        ->placeholder('设置本单位名称')
-                        ->help('如：新华报业集团');
-
+                        ->placeholder('设置本单位名称');
+                        //->help('如：新华报业集团');
+                    $form->image('jituan_pic', 'Logo');
                     $column->append(new Box('基本信息', $form));
-
                 });
             });
         });

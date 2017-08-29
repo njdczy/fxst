@@ -167,7 +167,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-        Jenssegers\Agent\AgentServiceProvider::class,
+        //Jenssegers\Agent\AgentServiceProvider::class,
 
         //add vendor ServiceProvider
         Encore\Admin\Providers\AdminServiceProvider::class,
@@ -233,7 +233,7 @@ return [
 
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'Carbon' => Carbon\Carbon::class,
-        'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        //'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
     ],
 

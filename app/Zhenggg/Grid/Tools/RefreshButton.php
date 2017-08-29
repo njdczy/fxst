@@ -37,7 +37,7 @@ EOT;
         $refresh = trans('front::lang.refresh');
 
         return <<<EOT
-<a class="btn btn-sm btn-primary grid-refresh"><i class="fa fa-refresh"></i> $refresh</a>
+<a class="btn btn-sm btn-info grid-refresh"><i class="fa fa-refresh"></i> $refresh</a>
 EOT;
     }
 }

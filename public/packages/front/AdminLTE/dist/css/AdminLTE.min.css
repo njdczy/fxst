@@ -531,7 +531,8 @@ a:hover, a:active, a:focus {
 }
 
 .sidebar-menu > li > a > .fa, .sidebar-menu > li > a > .glyphicon, .sidebar-menu > li > a > .ion {
-    width: 20px
+    width: 25px;
+    font-size: 16px;
 }
 
 .sidebar-menu > li .label, .sidebar-menu > li .badge {
@@ -580,7 +581,7 @@ a:hover, a:active, a:focus {
 }
 
 .sidebar-menu .treeview-menu > li > a {
-    padding: 5px 5px 5px 15px;
+    padding: 10px 5px 5px 30px;
     display: block;
     font-size: 14px
 }
@@ -678,9 +679,12 @@ a:hover, a:active, a:focus {
 
 .sidebar-menu, .main-sidebar .user-panel, .sidebar-menu > li.header {
     white-space: nowrap;
-    overflow: hidden
-}
+    overflow: hidden;
 
+}
+.main-sidebar .user-panel{
+    display: none;
+}
 .sidebar-menu:hover {
     overflow: visible
 }
@@ -2370,10 +2374,13 @@ a:hover, a:active, a:focus {
 }
 
 .btn-success {
-    background-color: #00a65a;
+    background-color: #008d4c;
     border-color: #008d4c
 }
-
+.btn-success {
+    background-color: #10C469;
+    border-color: #10C469
+}
 .btn-success:hover, .btn-success:active, .btn-success.hover {
     background-color: #008d4c
 }
@@ -2804,8 +2811,16 @@ a:hover, a:active, a:focus {
     /*border-top: 1px solid #f4f4f4;*/
     border: 1px solid darkgrey;
     border-top: 1px solid darkgrey!important;
-}
 
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    /*border-top: 1px solid #f4f4f4;*/
+    border: 1px solid #DDDDDD;
+    border-top: 1px solid #DDDDDD!important;
+    text-align: center;
+    color: #797979;
+    vertical-align: middle;
+}
 .table > thead > tr > th {
     border: 1px solid darkgrey;
     /*border-bottom: 2px solid #f4f4f4;*/

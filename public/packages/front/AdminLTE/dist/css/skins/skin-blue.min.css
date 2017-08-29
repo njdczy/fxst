@@ -1,5 +1,5 @@
 .skin-blue .main-header .navbar {
-    background-color: #3c8dbc
+    background-color:#75B9E6
 }
 
 .skin-blue .main-header .navbar .nav > li > a {
@@ -43,13 +43,13 @@
 }
 
 .skin-blue .main-header .logo {
-    background-color: #367fa9;
+    background-color: #75B9E6;
     color: #fff;
     border-bottom: 0 solid transparent
 }
 
 .skin-blue .main-header .logo:hover {
-    background-color: #357ca5
+    background-color: #2196F3
 }
 
 .skin-blue .main-header li.user-header {
@@ -61,7 +61,8 @@
 }
 
 .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
-    background-color: #222d32
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.42) 0px 10px 30px -12px, rgba(0, 0, 0, 0.12) 0px 4px 25px 0px, rgba(0, 0, 0, 0.2) 0px 8px 10px -5px;
 }
 
 .skin-blue .user-panel > .info, .skin-blue .user-panel > .info > a {
@@ -69,29 +70,32 @@
 }
 
 .skin-blue .sidebar-menu > li.header {
-    color: #4b646f;
-    background: #1a2226
+    color: #3C4858;
+    background: #F3F5F6
 }
-
+.skin-blue .sidebar-menu > li.header {
+   
+    font-size: 16px;
+}
 .skin-blue .sidebar-menu > li > a {
-    line-height: 1em;
+    line-height: 2em;
     border-left: 3px solid transparent
 }
 
 .skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
-    line-height: 1em;
-    color: #fff;
-    background: #1e282c;
+    line-height: 2em;
+    color: #3C4858;
+    background: #EAEEEF;
     border-left-color: #3c8dbc
 }
 
 .skin-blue .sidebar-menu > li > .treeview-menu {
     margin: 0 1px;
-    background: #2c3b41
+    background: #F3F5F6
 }
 
 .skin-blue .sidebar a {
-    color: #b8c7ce
+    color: #3C4858
 }
 
 .skin-blue .sidebar a:hover {
@@ -103,7 +107,7 @@
 }
 
 .skin-blue .treeview-menu > li.active > a, .skin-blue .treeview-menu > li > a:hover {
-    color: #fff
+    color: #3C4858
 }
 
 .skin-blue .sidebar-form {

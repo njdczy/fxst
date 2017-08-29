@@ -60,8 +60,8 @@ class ZhifuController extends Controller
             $grid->model()
                 ->whereIn ('user_id', [\Front::user()->user_id,0])
                 ->where('type', '=', 'pay_type');
-            $grid->column('');
-            $grid->column('');
+            //$grid->column('');
+            //$grid->column('');
             $grid->name('支付方式名称');
             $grid->disableExport();
             $grid->disableFilter();

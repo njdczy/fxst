@@ -97,7 +97,7 @@ class CustomerController extends Controller
                     return '';
                 }
             });
-            $grid->address("客户（寄送）地址");
+            $grid->address("寄送地址");
             $grid->type("性质")->display(function ($type){
                 return  Type::where('id', $type)->value('name');
             });
@@ -144,13 +144,13 @@ class CustomerController extends Controller
                 Type::where('type','hangye')->whereIn('user_id',[0,\Front::user()->user_id])->pluck('name','id')
             )->rules('required')->setWidth('2');
             $form->text('tel','固定电话')->setWidth('2');
-            $form->text('youbian','邮编')->rules('required|digits:6')->setWidth('2');
-            $form->select('type', '性质')->options(
+            $form->text('youbian','邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编')->rules('required|digits:6')->setWidth('2');
+            $form->select('type', '性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;质')->options(
                 Type::whereIn ('user_id', [\Front::user()->user_id,0])
                     ->where('type', '=', 'customer_type')
                     ->pluck('name', 'id')
             )->rules('required')->setWidth('2');
-            $form->text('contacts','联系人')->rules('required')->setWidth('3');
+            $form->text('contacts','联&nbsp;&nbsp;系&nbsp;&nbsp;人')->rules('required')->setWidth('3');
             $form->text('mobile','电话/手机')->setWidth('3');
 
             // first level
@@ -175,7 +175,7 @@ class CustomerController extends Controller
 
             })->setWidth('2');
 
-            $form->text('address','客户（寄送）地址')->setWidth('4');
+            $form->text('address','寄送地址')->setWidth('4');
             $form->hidden('user_id')->default(\Front::user()->user_id)->setWidth('4');
 
             $form->divide();
@@ -183,12 +183,12 @@ class CustomerController extends Controller
             $form->divide();
 
             $form->hidden('customer_piao.user_id')->default(\Front::user()->user_id)->setWidth('4');
-            $form->text('customer_piao.name','名称')->setWidth('4');
+            $form->text('customer_piao.name','名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称')->setWidth('4');
             $form->text('customer_piao.hao','纳税识别号')->setWidth('4');
-            $form->text('customer_piao.addr','地址')->setWidth('4');
-            $form->text('customer_piao.phone','电话')->setWidth('4');
-            $form->text('customer_piao.bank','开户行')->setWidth('4');
-            $form->text('customer_piao.bank_account','账号')->setWidth('4');
+            $form->text('customer_piao.addr','地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址')->setWidth('4');
+            $form->text('customer_piao.phone','电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话')->setWidth('4');
+            $form->text('customer_piao.bank','开&nbsp;&nbsp;户&nbsp;&nbsp;行')->setWidth('4');
+            $form->text('customer_piao.bank_account','账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号')->setWidth('4');
         });
     }
 }
