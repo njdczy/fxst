@@ -49,7 +49,7 @@ class IndexController extends Controller
             $customer->address =  $address;
             $customer->source =  1;
             $customer->user_id =  $menber->user_id;
-
+            $customer->type = 5;
             $customer->province = $province;
             $customer->city = $city;
             $customer->district = $distric;
@@ -112,6 +112,7 @@ class IndexController extends Controller
             $customer->address = $address;
             $customer->source =  1;
             $customer->user_id = $menber->user_id;
+            $customer->type = 8;
 
             $customer->province = $province;
             $customer->city = $city;
