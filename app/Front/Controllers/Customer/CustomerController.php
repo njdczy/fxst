@@ -97,15 +97,10 @@ class CustomerController extends Controller
                     return '';
                 }
             });
-<<<<<<< HEAD
+
             $grid->address("寄送地址");
-            $grid->type("性质")->display(function ($type){
-                return  Type::where('id', $type)->value('name');
-=======
-            $grid->address("客户（寄送）地址");
-            $grid->type("性质")->display(function (){
-                return  Type::where('id', $this->type)->first()->name;
->>>>>>> 233ac73f7751786869a862cd1577af80b310d23f
+            $grid->type("性质")->display(function ($type) {
+                return Type::where('id', $type)->value('name');
             });
             $grid->contacts("联系人");
             $grid->mobile("电话/手机");

@@ -52,16 +52,13 @@ class XingZhiController extends Controller
         return \Front::grid(Type::class, function (Grid $grid) {
             $grid->model()
                 ->whereIn ('user_id', [\Front::user()->user_id,0])
-<<<<<<< Updated upstream
+
                 ->where('type', '=', 'customer_type')
                 ->orderBy('created_at','desc');
             $grid->column('');
             $grid->column('');
-=======
-                ->where('type', '=', 'customer_type');
-            //$grid->column('');
-            //$grid->column('');
->>>>>>> Stashed changes
+
+
             $grid->name('客户性质');
             $grid->disableExport();
             $grid->disableFilter();
