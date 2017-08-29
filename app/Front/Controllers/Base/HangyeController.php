@@ -1,16 +1,17 @@
 <?php
 
 
-namespace app\Front\Controllers\Base;
+namespace App\Front\Controllers\Base;
 
 use App\Models\Type;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use App\Zhenggg\Controllers\ModelForm;
+
 use Illuminate\Routing\Controller;
 
-class XingZhiController extends Controller
+class HangyeController extends Controller
 {
     use ModelForm;
 
@@ -18,7 +19,7 @@ class XingZhiController extends Controller
     {
         return \Front::content(function (Content $content) {
 
-            $content->header('客户性质');
+            $content->header('行业名称');
             $content->description('管理');
 
             $content->body($this->grid());
@@ -29,7 +30,7 @@ class XingZhiController extends Controller
     {
         return \Front::content(function (Content $content) use ($id) {
 
-            $content->header('客户性质');
+            $content->header('行业名称');
             $content->description('管理');
 
             $content->body($this->form()->edit($id));
@@ -40,7 +41,7 @@ class XingZhiController extends Controller
     {
         return \Front::content(function (Content $content) {
 
-            $content->header('客户性质');
+            $content->header('行业名称');
             $content->description('管理');
 
             $content->body($this->form());
@@ -52,11 +53,11 @@ class XingZhiController extends Controller
         return \Front::grid(Type::class, function (Grid $grid) {
             $grid->model()
                 ->whereIn ('user_id', [\Front::user()->user_id,0])
-                ->where('type', '=', 'customer_type')
+                ->where('type', '=', 'hangye')
                 ->orderBy('created_at', '=', 'desc');
             $grid->column('');
             $grid->column('');
-            $grid->name('客户性质');
+            $grid->name('行业名称');
             $grid->disableExport();
             $grid->disableFilter();
             $grid->disableRowSelector();
@@ -74,8 +75,8 @@ class XingZhiController extends Controller
         return \Front::form(Type::class, function (Form $form) {
 
             $form->hidden('user_id')->default(\Front::user()->user_id);
-            $form->hidden('type')->default('customer_type');
-            $form->text('name','客户性质名称')->rules('required');
+            $form->hidden('type')->default('hangye');
+            $form->text('name','行业名称')->rules('required');
         });
     }
 }
