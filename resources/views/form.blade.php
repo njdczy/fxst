@@ -55,6 +55,31 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="nums" class="col-sm-2 col-xs-4 control-label">选择订阅时长<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <select class="form-control select-box" name="input_type">
+
+                                <option value="m">月</option>
+                                <option value="j">季</option>
+                                <option value="b">半年</option>
+                                <option value="y" selected >一年</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="nums" class="col-sm-2 col-xs-4 control-label">是否开票<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <select class="form-control select-box" name="piao_status">
+                                <option value="2" selected>否</option>
+                                <option value="0">是</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
                         <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
                         <div class="col-sm-7 col-xs-7">
 
@@ -161,9 +186,35 @@
                             <input type="number"  name="num" class="form-control" id="nums" placeholder="">
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="nums" class="col-sm-2 col-xs-4 control-label">选择订阅时长<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <select class="form-control select-box" name="input_type">
+
+                                <option value="m">月</option>
+                                <option value="j">季</option>
+                                <option value="b">半年</option>
+                                <option value="y" selected >一年</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="nums" class="col-sm-2 col-xs-4 control-label">是否开票<span>*</span></label>
+                        <div class="col-sm-7 col-xs-7">
+                            <select class="form-control select-box" name="piao_status">
+                                <option value="2" selected>否</option>
+                                <option value="0">是</option>
+
+                            </select>
+                        </div>
+
+                    </div>
                     <div class="form-group">
                         <label for="city-picker2" class="col-sm-2 col-xs-4 control-label">省/市/区<span>*</span></label>
-                        <div class="col-sm-10 col-xs-7">
+                        <div class="col-sm-7 col-xs-7">
                             <input type="text" class="form-control" readonly placeholder="选择城市" id="myAddrss" name="region" data-key="" value="" />
                         </div>
                     </div>

@@ -30,6 +30,10 @@ class IndexController extends Controller
         $mobile = $request->input('mobile');
         $baozi_id = $request->input('baozi');
         $num = $request->input('num');
+
+        $input_type = $request->input('input_type');
+        $piao_status = $request->input('piao_status');
+
         $address = $request->input('address');
         $region = $request->input('region');
         $region = explode(" ",$region);
@@ -43,7 +47,7 @@ class IndexController extends Controller
             $customer->mobile =  $mobile;
             $customer->contacts =  $name;
             $customer->address =  $address;
-            $customer->source =  '微信';
+            $customer->source =  1;
             $customer->user_id =  $menber->user_id;
 
             $customer->province = $province;
@@ -67,7 +71,12 @@ class IndexController extends Controller
             $input->source = 1;
             $input->num = $num;
             $input->dis_per = $periodical->per;
-            $input->p_money = $periodical->c_price != 0? $periodical->c_price:$periodical->price;
+
+            $input->input_type = $input_type;
+            $input->piao_status = $piao_status;
+            $price_key = $input_type . '_price';
+            $input->p_money = $periodical->{$price_key};
+
             $input->p_amount = ($num * $input->p_money);
             $input->save();
 
@@ -84,6 +93,10 @@ class IndexController extends Controller
         $mobile = $request->input('mobile');
         $baozi_id = $request->input('baozi');
         $num = $request->input('num');
+
+        $input_type = $request->input('input_type');
+        $piao_status = $request->input('piao_status');
+
         $address = $request->input('address');
         $region = $request->input('region');
         $region = explode(" ",$region);
@@ -97,7 +110,7 @@ class IndexController extends Controller
             $customer->mobile = $mobile;
             $customer->contacts = $contacts;
             $customer->address = $address;
-            $customer->source = '微信';
+            $customer->source =  1;
             $customer->user_id = $menber->user_id;
 
             $customer->province = $province;
@@ -121,7 +134,12 @@ class IndexController extends Controller
             $input->source = 1;
             $input->num = $num;
             $input->dis_per = $periodical->per;
-            $input->p_money = $periodical->c_price != 0 ? $periodical->c_price : $periodical->price;
+
+            $input->input_type = $input_type;
+            $input->piao_status = $piao_status;
+            $price_key = $input_type . '_price';
+            $input->p_money = $periodical->{$price_key};
+
             $input->p_amount = ($num * $input->p_money);
             $input->save();
             return redirect()->to('formm/s');
