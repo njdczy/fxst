@@ -9,7 +9,7 @@ class Permission extends Model
     public $incrementing  = false;
 
 
-    protected $fillable = ['id','name', 'slug', 'parent_id'];
+    protected $fillable = ['id','name', 'slug', 'parent_id','order','user_id'];
 
     /**
      * @var string
@@ -32,6 +32,18 @@ class Permission extends Model
         parent::__construct($attributes);
     }
 
+    public function scopeFirstNode()
+    {
+        return $this->where('user_id', \Front::user()->user_id)
+            ->where('parent_id',0)
+            ->orderBy('order','asc');
+    }
+
+    public function scopeUserNode()
+    {
+        return $this->where('user_id', \Front::user()->user_id)
+            ->orderBy('order','asc');
+    }
     /**
      * Permission belongs to many roles.
      *

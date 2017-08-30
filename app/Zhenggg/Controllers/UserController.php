@@ -89,6 +89,13 @@ class UserController extends Controller
             });
 
             $grid->disableExport();
+
+            //grid filters
+            $grid->filter(function($filter){
+
+                $filter->disableIdFilter();
+
+            });
         });
     }
 
@@ -119,21 +126,35 @@ class UserController extends Controller
 //            $form->multipleSelect('permissions', trans('front::lang.permissions'))
 //                ->options(Permission::all()->pluck('name', 'id'));
             //$form->radio('permissions', trans('front::lang.permissions'))->default('m');
+            $nodes = [];
+            $permissions = Permission::userNode()->get()->toArray();
+            foreach ($permissions as $key => $permission) {
+                if ($permission['parent_id'] == 0) {
+                     $nodes[$permission['id']] = $permission;
+                }
+            }
+            foreach ($permissions as $key => $permission) {
+                foreach ($nodes as $node_key => $node) {
+                    if ($node_key == $permission['parent_id'] ) {
+                        $nodes[$permission['parent_id']]['child'][] = $permission;
+                    }
+                }
+            }
+
+            //$form->html(view('front::zhenggg.permission_nodes',['nodes'=>$nodes]),'权限分配')->setWidth(10,2);
 
             $form->pSelect('permissions', trans('front::lang.permissions'))
-                ->options(Permission::orderBy('parent_id', 'asc')->get()->pluck('name', 'id'));
+                ->options($nodes);
 
-            $form->display('created_at', trans('front::lang.created_at'));
-            $form->display('updated_at', trans('front::lang.updated_at'));
+
             $form->hidden('user_id')->default(Front::user()->user_id);
-            $form->html('<script>
-            function check(){}
-</script>');
+
 
             $form->saving(function (Form $form) {
                 if ($form->password && $form->model()->password != $form->password) {
                     $form->password = bcrypt($form->password);
                 }
+                dd($form->permissions);
             });
         });
     }

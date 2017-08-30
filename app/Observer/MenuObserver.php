@@ -22,8 +22,10 @@ class MenuObserver
             Permission::create([
                 'id'  => $menu->id,
                 'name'  => $menu->title,
+                'order'  => $menu->order,
                 'slug'  => $menu->uri,
                 'parent_id'  => $menu->parent_id,
+                'user_id'  => \Front::user()->user_id,
             ]);
         });
 
