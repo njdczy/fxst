@@ -116,7 +116,7 @@ class FapiaoController extends Controller
                 $filter->where(function ($query) {
                     $input = $this->input;
                     $query->whereHas('fapiaos', function ($query) use ($input) {
-                        $query->where('fapiaohao', 'like', "%{$input}%");
+                        $query->where('haoma', 'like', "%{$input}%");
                     });
                 }, '发票号');
             });
