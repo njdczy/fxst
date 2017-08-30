@@ -78,7 +78,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input style="width: 110px" type="text" class="shou_time" id="shou_time{{$id}}" name="shou_time{{$id}}" value="" class="form-control shou_time" placeholder="输入 收款时间">
+                                    <input style="width: 110px;float: left;" type="text" class="shou_time" id="shou_time{{$id}}" name="shou_time{{$id}}" value="" class="form-control shou_time" placeholder="输入 收款时间">
                                 </div>
                             </div>
                         </div>

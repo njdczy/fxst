@@ -85,7 +85,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input style="width: 110px" type="text" class="kai_time" id="kai_time{{$id}}" name="kai_time{{$id}}" value="" class="form-control kai_time" placeholder="输入 开票时间">
+                                    <input style="width: 110px;float: left;" type="text" class="kai_time" id="kai_time{{$id}}" name="kai_time{{$id}}" value="" class="form-control kai_time" placeholder="输入 开票时间">
                                 </div>
                             </div>
                         </div>

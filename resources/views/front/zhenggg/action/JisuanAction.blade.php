@@ -60,7 +60,7 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input style="width: 110px" type="text" class="fa_time" id="fa_time{{$id}}" name="fa_time{{$id}}" value="" class="form-control fa_time" placeholder="输入 发放时间">
+                                        <input style="width: 110px;float: left;" type="text" class="fa_time" id="fa_time{{$id}}" name="fa_time{{$id}}" value="" class="form-control fa_time" placeholder="输入 发放时间">
                                     </div>
                                 </div>
                             </div>
