@@ -12,7 +12,6 @@ use App\Models\Periodical;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
-use function foo\func;
 use Illuminate\Routing\Controller;
 
 use Illuminate\Support\MessageBag;
@@ -66,13 +65,15 @@ class MenberController extends Controller
 
                 return $this->department['name'];
             })->label();
+            //$grid->column('qrcode', '二维码')->qrCodeColumn();
             $grid->column('qrcode', '二维码')->display(function () {
                 return '<img src="data:image/png;base64,'
                     . base64_encode(
                         QrCode::format("png")
                             //->merge(asset('images/logo/logo'.\Front::user()->id.'.png'), .28,true)
                             ->errorCorrection('H')
-                            ->size(140)
+                            ->size(100)
+                            ->margin(0)
                             ->generate(url("/form/" . $this->id))
                     )
                     . '"/>';
