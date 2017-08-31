@@ -7,6 +7,7 @@ use App\Front\Controllers\ModelForm;
 use App\Models\Department;
 use App\Models\Menber;
 use App\Zhenggg\Form;
+use App\Zhenggg\Front;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Column;
 use App\Zhenggg\Tree;
@@ -20,6 +21,10 @@ class DepartmentController extends Controller
 {
     use ModelForm;
 
+    protected $permissions = [
+        'department_edit' => 'department_edit',
+    ];
+
     public function index()
     {
         return \Front::content(function (Content $content) {
@@ -28,17 +33,19 @@ class DepartmentController extends Controller
             $content->row(function (Row $row) {
                 $row->column(7, $this->treeView()->render());
 
-                $row->column(5, function (Column $column) {
-                    $form = new \App\Zhenggg\Widgets\Form();
-                    $form->action(front_url('department'));
-                    $form->text('name', trans('front::lang.name'))->rules('required');
+                if (\Front::user()->can($this->permissions['department_edit'])) {
+                    $row->column(5, function (Column $column) {
+                        $form = new \App\Zhenggg\Widgets\Form();
+                        $form->action(front_url('department'));
+                        $form->text('name', trans('front::lang.name'))->rules('required');
 
-                    $form->hidden('user_id')->default(\Front::user()->user_id);
+                        $form->hidden('user_id')->default(\Front::user()->user_id);
 
-                    $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
+                        $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
 
-                    $column->append((new Box(trans('front::lang.new'), $form))->style('success'));
-                });
+                        $column->append((new Box(trans('front::lang.new'), $form))->style('success'));
+                    });
+                }
             });
         });
     }
@@ -64,6 +71,7 @@ class DepartmentController extends Controller
     }
     public function edit($id)
     {
+        \Front::user()->can($this->permissions['department_edit']);
         return \Front::content(function (Content $content) use ($id) {
             $content->header(trans('front::lang.roles'));
             $content->description(trans('front::lang.edit'));

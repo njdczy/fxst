@@ -6,7 +6,7 @@
  * Time: 14:26
  */
 
-namespace App\Front\Controllers\Periodical;
+namespace App\Front\Controllers\Base;
 
 use App\Front\Controllers\ModelForm;
 use App\Models\Baoshe;

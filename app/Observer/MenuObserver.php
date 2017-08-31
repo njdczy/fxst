@@ -14,20 +14,20 @@ use App\Zhenggg\Auth\Database\Permission;
 
 class MenuObserver
 {
-    public function saved()
-    {
-        $menus = Menu::all();
-        Permission::truncate();
-        $menus->each(function ($menu, $key) {
-            Permission::create([
-                'id'  => $menu->id,
-                'name'  => $menu->title,
-                'order'  => $menu->order,
-                'slug'  => $menu->uri,
-                'parent_id'  => $menu->parent_id,
-                'user_id'  => \Front::user()->user_id,
-            ]);
-        });
-
-    }
+//    public function saved()
+//    {
+//        $menus = Menu::all();
+//        Permission::truncate();
+//        $menus->each(function ($menu, $key) {
+//            Permission::create([
+//                'id'  => $menu->id,
+//                'name'  => $menu->title,
+//                'order'  => $menu->order,
+//                'slug'  => $menu->uri,
+//                'parent_id'  => $menu->parent_id,
+//                'user_id'  => \Front::user()->user_id,
+//            ]);
+//        });
+//
+//    }
 }

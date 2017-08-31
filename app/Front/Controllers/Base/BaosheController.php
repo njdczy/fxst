@@ -6,7 +6,7 @@
  * Time: 17:54
  */
 
-namespace App\Front\Controllers\Baoshe;
+namespace App\Front\Controllers\Base;
 
 use App\Models\Baoshe;
 use App\Zhenggg\Form;

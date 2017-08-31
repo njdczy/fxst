@@ -27,15 +27,11 @@ class Role extends Model
     /**
      * A role belongs to many users.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function administrators()
     {
-        $pivotTable = config('front.database.role_users_table');
-
-        $relatedModel = config('front.database.users_model');
-
-        return $this->belongsToMany($relatedModel, $pivotTable, 'role_id', 'user_id');
+        return $this->hasMany(Administrator::class, 'role_id');
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Zhenggg\Controllers;
 
 use App\Zhenggg\Auth\Database\Permission;
 use App\Zhenggg\Auth\Database\Role;
-use App\Zhenggg\Front;
+use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Form;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;

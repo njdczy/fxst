@@ -24,15 +24,11 @@ trait AdminPermission
     /**
      * A user has and belongs to many roles.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      */
     public function roles()
     {
-        $pivotTable = config('front.database.role_users_table');
-
-        $relatedModel = config('front.database.roles_model');
-
-        return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'role_id');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     /**
@@ -77,7 +73,14 @@ trait AdminPermission
         }
 
         if (method_exists($this, 'permissions')) {
+
             if ($this->permissions()->where('slug', $permission)->exists()) {
+                return true;
+            }
+
+            $permission = Permission::where('parent_id',0)->where('slug',$permission)->first();
+            if ($permission &&
+                $this->permissions()->where('parent_id', $permission->id)->exists()) {
                 return true;
             }
         }

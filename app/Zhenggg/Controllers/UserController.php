@@ -72,12 +72,12 @@ class UserController extends Controller
             $grid->model()->where('user_id', '=', Front::user()->user_id);
             $grid->admin_account(trans('front::lang.admin_account'));
             $grid->admin_name(trans('front::lang.admin_name'));
-            $grid->roles(trans('front::lang.admin_roles'))->pluck('name')->label();
+            $grid->roles()->name(trans('front::lang.admin_roles'))->label();
             $grid->created_at(trans('front::lang.created_at'));
             $grid->updated_at(trans('front::lang.updated_at'));
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
-                if ($actions->row->roles && $actions->row->roles[0]['slug'] == 'main_account') {
+                if ($actions->row->roles && $actions->row->roles['slug'] == 'main_account') {
                     $actions->disableDelete();
                 }
             });
@@ -120,8 +120,8 @@ class UserController extends Controller
                 });
 
             $form->ignore(['password_confirmation']);
-
-            $form->select('roles', '角色')->options(Role::all()->pluck('name', 'id'));
+            $form->select('role_id', '角色')->options(Role::all()->pluck('name', 'id'))
+                ->help("超级管理员拥有所有权限");
 
 //            $form->multipleSelect('permissions', trans('front::lang.permissions'))
 //                ->options(Permission::all()->pluck('name', 'id'));
@@ -141,8 +141,6 @@ class UserController extends Controller
                 }
             }
 
-            //$form->html(view('front::zhenggg.permission_nodes',['nodes'=>$nodes]),'权限分配')->setWidth(10,2);
-
             $form->pSelect('permissions', trans('front::lang.permissions'))
                 ->options($nodes);
 
@@ -154,7 +152,6 @@ class UserController extends Controller
                 if ($form->password && $form->model()->password != $form->password) {
                     $form->password = bcrypt($form->password);
                 }
-                dd($form->permissions);
             });
         });
     }

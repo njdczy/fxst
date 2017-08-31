@@ -76,7 +76,7 @@
             <div class="set">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" onclick="checkAll('.checklist ul li input','.left');"> 全选&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" id="check_all"> 全选&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </label>
                 </div>
             </div>
@@ -87,17 +87,25 @@
                 <div class="set">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" class="left"
-                                   onclick="checkAll('.{{$key}} li input',' ')"> {{$node['name']}}
+                            <input type="checkbox" class="permissions_checkbox check_line"
+                                   @if(isset($value))
+                                   {{ in_array($key, $value) ?'checked':'' }}
+                                   @endif
+                                   data-id="{{$key}}" name="permissions[]" value="{{$key}}">
+                            {{$node['name']}}
                         </label>
                     </div>
                 </div>
-                <ul class="cont {{$key}}">
+                <ul class="cont">
                     @if(isset($node['child']) && is_array($node['child']))
                         @foreach ($node['child'] as $node_child)
                             <li>
                                 <label>
                                     <input type="checkbox" name="permissions[]"
+                                           @if(isset($value))
+                                           {{ in_array($node_child['id'], $value) ?'checked':'' }}
+                                           @endif
+                                           class="permissions_checkbox check_child{{$key}}"
                                            value="{{$node_child['id']}}">
                                     {{$node_child['name']}}
                                 </label>
@@ -111,10 +119,15 @@
 </div>
 
 <script>
-    var chkall = true;
-    function checkAll(eles1, eles2) {
-        $(eles1).prop("checked", chkall);
-        $(eles2).prop("checked", chkall);
-        chkall = !chkall;
-    }
+    $(function () {
+        $("#check_all").click(function () {
+            var is_check_all = $(this).is(':checked');
+            $(".permissions_checkbox").prop("checked", is_check_all);
+        });
+        $(".check_line").click(function () {
+            var is_check_all = $(this).is(':checked');
+            var id = $(this).data('id');
+            $(".check_child" + id).prop("checked", is_check_all);
+        });
+    });
 </script>

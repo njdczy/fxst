@@ -14,6 +14,7 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class PSelect extends MultipleSelect
 {
+    protected $view = 'front::zhenggg.permission_nodes';
     /**
      * Set options.
      *
@@ -37,6 +38,6 @@ class PSelect extends MultipleSelect
      */
     public function render()
     {
-        return view('front::zhenggg.permission_nodes', ['nodes'=>$this->options]);
+        return parent::render()->with(['nodes' => $this->options]);
     }
 }
