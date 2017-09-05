@@ -106,6 +106,10 @@
                                 var shi_pay_money = $("#shi_pay_money"+u_id).val()?$("#shi_pay_money"+u_id).val():0;
                                 var kou = $("#kou"+u_id).val()?$("#kou"+u_id).val():0;
 
+                                if (!$("#shou_time"+u_id).val()) {
+                                    alert('输入收款时间');
+                                    return false;
+                                }
                                 if((parseFloat(shi_pay_money) + parseFloat(kou)) > not_pay_money || parseFloat(shi_pay_money) == 0) {
                                     alert('金额不能为0或大于最大金额');
                                     $("#shi_pay_money"+u_id).val('');

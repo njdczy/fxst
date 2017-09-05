@@ -113,6 +113,10 @@
                                     alert('发票号必填');
                                     return false;
                                 }
+                                if (!$("#kai_time"+u_id).val()) {
+                                    alert('输入开票时间');
+                                    return false;
+                                }
                                 var not_kai_money = $("#not_kai_money"+u_id).val();
                                 var shi_kai_money = $("#shi_kai_money"+u_id).val()?$("#shi_kai_money"+u_id).val():0;
 

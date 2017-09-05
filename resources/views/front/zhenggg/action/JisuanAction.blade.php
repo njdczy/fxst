@@ -84,7 +84,10 @@
                             function jiesuan(u_id){
                                 var not_jie_money = $("#not_jie_money"+u_id).val();
                                 var fafangmoney = $("#fafangmoney"+u_id).val()?$("#fafangmoney"+u_id).val():0;
-
+                                if (!$("#fa_time"+u_id).val()) {
+                                    alert('输入发放时间');
+                                    return false;
+                                }
                                 if(parseFloat(fafangmoney) > parseFloat(not_jie_money) || parseFloat(fafangmoney) == 0) {
                                     alert('金额不能为0或大于最大金额');
                                     $("#fafangmoney"+u_id).val('');
