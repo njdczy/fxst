@@ -1,5 +1,5 @@
 
-<button class="btn btn-sm btn-primary fafang" data-id="{{$id}}"  data-toggle="modal"
+<button class="btn btn-sm btn-primary" id="fafang{{$id}}" data-id="{{$id}}"  data-toggle="modal"
         data-url="{{$url}}" data-target="#grid-modal-jisuan-{{$id}}">
     处理
 </button>
@@ -20,8 +20,8 @@
                             <table class="table table-hover jisuans-table" style="display: none;" >
                                 <tr class="head-fafang">
                                     <th>发放记录</th>
-                                    <th>发放方式</th>
                                     <th>发放金额</th>
+                                    <th>发放方式</th>
                                     <th>发放时间</th>
                                 </tr>
                             </table>
@@ -73,6 +73,14 @@
                             </div>
                         </form>
                         <script>
+                            $(".jisuans-table").on('click','.grid-editable-fafang',function () {
+                                $('.grid-editable-fafang').editable({
+                                    emptytext: '',
+                                    error: function(response, data) {
+                                        if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
+                                    }
+                                });
+                            });
                             function jiesuan(u_id){
                                 var not_jie_money = $("#not_jie_money"+u_id).val();
                                 var fafangmoney = $("#fafangmoney"+u_id).val()?$("#fafangmoney"+u_id).val():0;

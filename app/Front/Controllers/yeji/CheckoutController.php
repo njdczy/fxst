@@ -21,6 +21,7 @@ use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 
 use App\Zhenggg\Widgets\InfoBox;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -28,6 +29,7 @@ use Illuminate\Support\MessageBag;
 
 class CheckoutController extends Controller
 {
+    use ValidatesRequests;
     public function index()
     {
         return \Front::content(function (Content $content) {
@@ -401,4 +403,30 @@ class CheckoutController extends Controller
         return back()->with(compact('info'));
     }
 
+    public function update($t_id,$u_id,Request $request)
+    {
+        $edit_field = $request->name;
+        if ($edit_field == 'fafang_type') {
+            $this->validate($request,
+                ['value' =>'bail|required|max:100'],
+                [
+                    'value.required' => '请输入发放方式',
+                    'value.max' => '名称太长',
+                ]
+            );
+        }
+        if ($edit_field == 'fa_time') {
+            $this->validate($request,
+                ['value' =>'bail|required|date'],
+                [
+                    'value.required' => '请输入时间',
+                    'value.date' => '请按YYYY-MM-DD的格式输入时间',
+                ]
+            );
+        }
+
+        $liushui_log = UCheckout::find($request->pk);
+        $liushui_log->{$edit_field} = $request->value;
+        $liushui_log->save();
+    }
 }

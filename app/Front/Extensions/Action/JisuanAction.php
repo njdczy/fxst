@@ -24,8 +24,9 @@ class JisuanAction
 
     protected function script()
     {
+        $update_url = \Front::url('/checkout/p/'.$this->t_id.'/update/' . $this->id);
         return <<<SCRIPT
-$('.fafang').on('click', function () {
+$('#fafang$this->id').on('click', function () {
     
     var id =  $(this).data('id');
     
@@ -43,7 +44,15 @@ $('.fafang').on('click', function () {
                               $(".jisuans-table").show();
                               $.each(data.jisuans, function (n, value) {
                                    var trs = "";
-                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.fafang_type + "</td><td>" + value.money + "</td><td>" + value.fa_time + "</td></tr>";
+                                   trs += "<tr><td>" + value.key + 
+                                   "</td> <td>" + value.money + 
+                                   "</td><td><a href='#' class='grid-editable-fafang editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+                                   " data-url='$update_url' data-name='fafang_type' data-value='" +value.fafang_type + 
+                                   "' +data-original-title='' title=''>" + value.fafang_type + 
+                                   "</a></td><td><a href='#' class='grid-editable-fafang editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+                                   " data-url='$update_url' data-name='fa_time' data-value='" +value.fa_time + 
+                                   "' +data-original-title='' title=''>" + value.fa_time + 
+                                   "</a></td></tr>";
                                    $(trs).insertAfter($('.head-fafang'));
                               }); 
                         } 

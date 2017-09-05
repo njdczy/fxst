@@ -23,8 +23,12 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\MessageBag;
 
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
 class PayController extends Controller
 {
+    use ValidatesRequests;
+
     public function index()
     {
         return \Front::content(function (Content $content) {
@@ -188,5 +192,31 @@ class PayController extends Controller
             'message' => '',
         ]);
         return back()->with(compact('info'));
+    }
+
+    public function update($input_id,Request $request)
+    {
+        $edit_field = $request->name;
+        if ($edit_field == 'liushuihao') {
+            $this->validate($request,
+                ['value' =>'bail|max:100'],
+                [
+                    'value.max' => '流水号太长',
+                ]
+            );
+        }
+        if ($edit_field == 'shou_time') {
+            $this->validate($request,
+                ['value' =>'bail|required|date'],
+                [
+                    'value.required' => '请输入时间',
+                    'value.date' => '请按YYYY-MM-DD的格式输入时间',
+                ]
+            );
+        }
+
+        $liushui_log = LiushuiLog::find($request->pk);
+        $liushui_log->{$edit_field} = $request->value;
+        $liushui_log->save();
     }
 }

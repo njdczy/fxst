@@ -29,9 +29,10 @@ class KaiPiaoAction
 
     protected function script()
     {
+        $update_url = \Front::url('/finance/fapiao/update/' . $this->id);
         return <<<SCRIPT
 
-$('.kaipiao').on('click', function () {
+$('#kaipiao$this->id').on('click', function () {
             var id =  $(this).data('id');
             $(".head-piao").nextAll().remove();
              $.ajax({
@@ -54,7 +55,16 @@ $('.kaipiao').on('click', function () {
                               $(".kaipiaolog-table").show();
                               $.each(data.fapiaos, function (n, value) {
                                    var trs = "";
-                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.should_kai_money + "</td><td>" + value.kai_money + "</td><td>" + value.haoma + "</td><td>" + value.kai_time + "</td></tr>";
+                                   trs += "<tr><td>" + value.key + 
+                                   "</td> <td>" + value.should_kai_money + 
+                                   "</td><td>" + value.kai_money + 
+                                   "</td><td><a href='#' class='grid-editable-kaipiao editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+                                   " data-url='$update_url' data-name='haoma' data-value='"+value.haoma+ 
+                                   "' +data-original-title='' title=''>" + value.haoma + 
+                                   "</a></td><td><a href='#' class='grid-editable-kaipiao editable editable-click' data-type='text' data-pk='" + value.id + "' "+
+                                   " data-url='$update_url' data-name='kai_time' data-value='"+value.kai_time+ 
+                                   "' +data-original-title='' title=''>" + value.kai_time + 
+                                   "</a></td></tr>";
                                    $(trs).insertAfter($('.head-piao'));
                               }); 
                         } 
@@ -62,6 +72,14 @@ $('.kaipiao').on('click', function () {
                 }
             });
 });
+
+
+                            $.fn.editable.defaults.params = function (params) {
+                                params._token = LA.token;
+                                params._editable = 1;
+                                params._method = 'PUT';
+                                return params;
+                            };
 
 SCRIPT;
     }

@@ -1,4 +1,4 @@
-<button class="btn btn-sm btn-primary kaipiao" data-id="{{$id}}"
+<button class="btn btn-sm btn-primary" id="kaipiao{{$id}}" data-id="{{$id}}"
         data-toggle="modal" data-url="{{$url}}" data-target="#grid-modal-kaipiao-{{$id}}">
     {{$button_name}}
 </button>
@@ -100,6 +100,13 @@
                         </div>
                         </form>
                         <script>
+                            $(".kaipiaolog-table").on('click','.grid-editable-kaipiao',function () {
+                                $('.grid-editable-kaipiao').editable({
+                                    error: function(response, data) {
+                                        if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
+                                    }
+                                });
+                            });
                             function kaipiao(u_id){
                                 var fapiaohao = $("#fapiaohao"+u_id).val();
                                 if (!fapiaohao) {

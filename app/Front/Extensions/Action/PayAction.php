@@ -23,9 +23,10 @@ class PayAction
 
     protected function script()
     {
+        $update_url = \Front::url('/finance/pay/update/' . $this->id);
         return <<<SCRIPT
 
-$('.pay').on('click', function () {
+$('#pay$this->id').on('click', function () {
     
     var id =  $(this).data('id');
     var paytype = $(this).data('paytype');
@@ -49,7 +50,18 @@ $('.pay').on('click', function () {
                               $(".liushuis-table").show();
                               $.each(data.liushuis, function (n, value) {
                                    var trs = "";
-                                   trs += "<tr><td>" + value.key + "</td> <td>" + value.pay_type + "</td><td>" + value.should_pay_money + "</td><td>" + value.money + "</td><td>" + value.kou + "</td><td>" + value.liushuihao + "</td><td>" + value.shou_time + "</td></tr>";
+                                   trs += "<tr><td>" + value.key + 
+                                   "</td> <td>" + value.pay_type + 
+                                   "</td><td>" + value.should_pay_money + 
+                                   "</td><td>" + value.money + 
+                                   "</td><td>" + value.kou + "<td><a href='#' class='grid-editable-liushuis editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+" data-url='$update_url' data-name='liushuihao' data-value='"+value.liushuihao+ 
+"' +data-original-title='' title=''>" + value.liushuihao + "</a></td>"+
+                                   "</td><td><a href='#' class='grid-editable-liushuis editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+                                   " data-url='$update_url' data-name='shou_time' data-value='" +value.shou_time + 
+                                   "' +data-original-title='' title=''>" + value.shou_time + 
+                                   "</a>"
+                                   "</td></tr>";
                                    $(trs).insertAfter($('.head-pay'));
                               }); 
                         } 
@@ -58,6 +70,12 @@ $('.pay').on('click', function () {
             });
 });
 
+                            $.fn.editable.defaults.params = function (params) {
+                                params._token = LA.token;
+                                params._editable = 1;
+                                params._method = 'PUT';
+                                return params;
+                            };
 SCRIPT;
     }
 

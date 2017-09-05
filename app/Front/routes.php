@@ -158,16 +158,24 @@ Route::group([
         $router->get('/finance/fapiao/getdetail/{input_id}', 'Finance\\FapiaoController@getDetail')->middleware('front.permission:check,finance_fapiao');
         $router->post('/finance/fapiao/setdetail/{input_id}', 'Finance\\FapiaoController@setDetail')->middleware('front.permission:check,finance_fapiao');
 
+        $router->put('/finance/fapiao/update/{input_id}', 'Finance\\FapiaoController@update')->middleware('front.permission:check,finance_fapiao');
+
+
         //pay
         $router->get('/finance/pay', 'Finance\\PayController@index')->middleware('front.permission:check,finance_pay');
         $router->get('/finance/pay/getdetail/{input_id}', 'Finance\\PayController@getDetail')->middleware('front.permission:check,finance_pay');
         $router->post('/finance/pay/setdetail/{input_id}', 'Finance\\PayController@setDetail')->middleware('front.permission:check,finance_pay');
+
+        $router->put('/finance/pay/update/{input_id}', 'Finance\\PayController@update')->middleware('front.permission:check,finance_pay');
 
         //yeji
         $router->get('/checkout', 'Yeji\\CheckoutController@index')->middleware('front.permission:check,checkout');
         $router->get('/checkout/p/{t_id}', 'Yeji\\CheckoutController@checkoutIndex')->middleware('front.permission:check,checkout');
         $router->get('/checkout/p/{t_id}/getdetail/{u_id}', 'Yeji\\CheckoutController@getDetail')->middleware('front.permission:check,checkout');
         $router->post('/checkout/p/{t_id}/setdetail/{u_id}', 'Yeji\\CheckoutController@setDetail')->middleware('front.permission:check,checkout');
+
+        $router->put('/checkout/p/{t_id}/update/{u_id}', 'Yeji\\CheckoutController@update')->middleware('front.permission:check,checkout');
+
 
         $router->get('/selectp/', 'Finance\\InputController@selectp');
 

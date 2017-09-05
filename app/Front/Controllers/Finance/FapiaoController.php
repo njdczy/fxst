@@ -21,8 +21,11 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\MessageBag;
 
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
 class FapiaoController extends Controller
 {
+    use ValidatesRequests;
     public function index()
     {
         return \Front::content(function (Content $content) {
@@ -195,5 +198,32 @@ class FapiaoController extends Controller
         ]);
         return back()->with(compact('info'));
 
+    }
+
+    public function update($input_id,Request $request)
+    {
+
+        $edit_field = $request->name;
+        if ($edit_field == 'haoma') {
+            $this->validate($request,
+                ['value' =>'bail|required|max:50'],
+                [
+                    'value.required' => '请输入发票号',
+                ]
+            );
+        }
+        if ($edit_field == 'kai_time') {
+            $this->validate($request,
+                ['value' =>'bail|required|date'],
+                [
+                    'value.required' => '请输入时间',
+                    'value.date' => '请按YYYY-MM-DD的格式输入时间',
+                ]
+            );
+        }
+
+        $piao_log = PiaoLog::find($request->pk);
+        $piao_log->{$edit_field} = $request->value;
+        $piao_log->save();
     }
 }

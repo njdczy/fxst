@@ -1,9 +1,9 @@
-<button class="btn btn-sm btn-primary pay" data-paytype="0" data-id="{{$id}}"
+<button class="btn btn-sm btn-primary " id="pay{{$id}}" data-paytype="0" data-id="{{$id}}"
         data-url="{{$url}}"  data-toggle="modal" data-target="#grid-modal-pay-{{$id}}">
     现金收款
 </button>
 
-<button class="btn btn-sm btn-primary pay" data-paytype="1" data-id="{{$id}}"
+<button class="btn btn-sm btn-primary" id="pay{{$id}}" data-paytype="1" data-id="{{$id}}"
         data-url="{{$url}}"  data-toggle="modal" data-target="#grid-modal-pay-{{$id}}">
     转账收款
 </button>
@@ -93,6 +93,14 @@
                         </div>
                     </form>
                         <script>
+                            $(".liushuis-table").on('click','.grid-editable-liushuis',function () {
+                                $('.grid-editable-liushuis').editable({
+                                    emptytext: '',
+                                    error: function(response, data) {
+                                        if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
+                                    }
+                                });
+                            });
                             function pay(u_id){
                                 var not_pay_money = $("#not_pay_money"+u_id).val();
                                 var shi_pay_money = $("#shi_pay_money"+u_id).val()?$("#shi_pay_money"+u_id).val():0;
