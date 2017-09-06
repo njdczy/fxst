@@ -179,7 +179,7 @@ class PayController extends Controller
 
             if ($input->money_paid == ($input->p_amount-$input->money_kou)) {
                 $input->pay_status = 1;
-                if ($input->piao_status == 1) {
+                if ($input->piao_status == 1 || 2) {
                     $input->input_status = 3;
                 }
             } else {
