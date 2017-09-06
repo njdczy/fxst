@@ -236,13 +236,12 @@ class FapiaoController extends Controller
                 ],
                 [
                     'value.required' => '请输入金额',
-                    'value.regex' => '请输入合法数字',
+                    'value.regex' => '请输入合法金额',
                 ]
             );
 
             $not_kai_money = ($input->p_amount-$input->piao_money+$piao_log->kai_money);
             if ($request->value > $not_kai_money) {
-
                 return response()
                     ->json([
                         'value' => ['金额不能大于'.$not_kai_money]

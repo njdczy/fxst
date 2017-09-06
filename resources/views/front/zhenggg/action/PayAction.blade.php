@@ -3,7 +3,7 @@
     现金收款
 </button>
 
-<button class="btn btn-sm btn-primary" id="pay{{$id}}" data-paytype="1" data-id="{{$id}}"
+<button class="btn btn-sm btn-primary" id="pay2{{$id}}" data-paytype="1" data-id="{{$id}}"
         data-url="{{$url}}"  data-toggle="modal" data-target="#grid-modal-pay-{{$id}}">
     转账收款
 </button>

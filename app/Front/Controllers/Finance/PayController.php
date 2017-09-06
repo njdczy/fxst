@@ -132,6 +132,8 @@ class PayController extends Controller
                 $liushuis[$key]['should_pay_money'] = $input->p_amount;
                 $liushuis[$key]['pay_type'] = trans('front::lang.pay_name.' . $liushui['pay_type'] . '');
                 $liushuis[$key]['liushuihao'] = $liushui['liushuihao']?:'';
+                $liushuis[$key]['money'] = $liushui['money']?:0;
+                $liushuis[$key]['kou'] = $liushui['kou']?:0;
                 $liushuis[$key]['shou_time'] = \Carbon::parse($liushui['shou_time'])->format('Y-m-d');
             }
             $not_pay_money = ($input->p_amount-$input->money_kou-$input->money_paid);
@@ -196,6 +198,9 @@ class PayController extends Controller
 
     public function update($input_id,Request $request)
     {
+        $liushui_log = LiushuiLog::find($request->pk);
+        $input = Input::find($input_id);
+
         $edit_field = $request->name;
         if ($edit_field == 'liushuihao') {
             $this->validate($request,
@@ -214,8 +219,76 @@ class PayController extends Controller
                 ]
             );
         }
+        if ($edit_field == 'money') {
+            $this->validate($request,
+                ['value' =>
+                    [
+                        'bail',
+                        'required',
+                        'regex:/^(?!0(\\d|\\.0+$|$))\\d+(\\.\\d{1,2})?$/i',
+                    ]
 
-        $liushui_log = LiushuiLog::find($request->pk);
+                ],
+                [
+                    'value.required' => '请输入金额',
+                    'value.regex' => '请输入合法金额',
+                ]
+            );
+            $input->money_paid = $input->money_paid + $request->value - $liushui_log->money;
+
+            if ( $input->money_paid > ($input->p_amount-$input->money_kou)) {
+                return response()
+                    ->json([
+                        'value' => ['金额不能大于'.($input->p_amount - $input->money_kou - $input->getOriginal('money_paid') + $liushui_log->money)]
+                    ],422);
+            }
+            if ($input->money_paid == ($input->p_amount-$input->money_kou)) {
+                $input->pay_status = 1;
+                if ($input->piao_status == 1 || 2) {
+                    $input->input_status = 3;
+                }
+            } else {
+                $input->pay_status = 2;
+            }
+            $input->save();
+        }
+
+        if ($edit_field == 'kou') {
+            $this->validate($request,
+                ['value' =>
+                    [
+                        'bail',
+                        'required',
+                        'regex:/^(?!0(\\d|\\.0+$|$))\\d+(\\.\\d{1,2})?$/i',
+                    ]
+
+                ],
+                [
+                    'value.required' => '请输入金额',
+                    'value.regex' => '请输入合法数字',
+                ]
+            );
+            $input->money_kou = $input->money_kou + $request->value - $liushui_log->kou;
+
+            if ( $input->money_kou > ($input->p_amount-$input->money_paid)) {
+                return response()
+                    ->json([
+                        'value' => ['金额不能大于'.($input->p_amount - $input->money_paid - $input->getOriginal('money_kou') + $liushui_log->kou)]
+                    ],422);
+            }
+
+            if ($input->money_paid == ($input->p_amount-$input->money_kou)) {
+                $input->pay_status = 1;
+                if ($input->piao_status == 1 || 2) {
+                    $input->input_status = 3;
+                }
+            } else {
+                $input->pay_status = 2;
+            }
+
+            $input->save();
+        }
+
         $liushui_log->{$edit_field} = $request->value;
         $liushui_log->save();
     }

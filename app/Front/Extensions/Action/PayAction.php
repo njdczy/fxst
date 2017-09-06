@@ -26,8 +26,7 @@ class PayAction
         $update_url = \Front::url('/finance/pay/update/' . $this->id);
         return <<<SCRIPT
 
-$('#pay$this->id').on('click', function () {
-    
+$('#pay$this->id,#pay2$this->id').bind('click', function () {
     var id =  $(this).data('id');
     var paytype = $(this).data('paytype');
     if(0 == paytype) {
@@ -53,8 +52,11 @@ $('#pay$this->id').on('click', function () {
                                    trs += "<tr><td>" + value.key + 
                                    "</td> <td>" + value.pay_type + 
                                    "</td><td>" + value.should_pay_money + 
-                                   "</td><td>" + value.money + 
-                                   "</td><td>" + value.kou + "<td><a href='#' class='grid-editable-liushuis editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+                                   "</td><td><a href='#' class='grid-editable-liushuis editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+" data-url='$update_url' data-name='money' data-value='"+value.money+ 
+"' +data-original-title='' title=''>" + value.money + "</a></td><td><a href='#' class='grid-editable-liushuis editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+" data-url='$update_url' data-name='kou' data-value='"+value.kou+ 
+"' +data-original-title='' title=''>" + value.kou + "</a><td><a href='#' class='grid-editable-liushuis editable editable-click' data-type='text' data-pk='" + value.id + "' " +
 " data-url='$update_url' data-name='liushuihao' data-value='"+value.liushuihao+ 
 "' +data-original-title='' title=''>" + value.liushuihao + "</a></td>"+
                                    "</td><td><a href='#' class='grid-editable-liushuis editable editable-click' data-type='text' data-pk='" + value.id + "' " +
