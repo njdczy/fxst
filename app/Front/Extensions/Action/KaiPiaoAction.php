@@ -57,8 +57,10 @@ $('#kaipiao$this->id').on('click', function () {
                                    var trs = "";
                                    trs += "<tr><td>" + value.key + 
                                    "</td> <td>" + value.should_kai_money + 
-                                   "</td><td>" + value.kai_money + 
                                    "</td><td><a href='#' class='grid-editable-kaipiao editable editable-click' data-type='text' data-pk='" + value.id + "' " +
+                                   " data-url='$update_url' data-name='kai_money' data-value='"+value.kai_money+ 
+                                   "' +data-original-title='' title=''>" + value.kai_money + 
+                                   "</a></td><td><a href='#' class='grid-editable-kaipiao editable editable-click' data-type='text' data-pk='" + value.id + "' " +
                                    " data-url='$update_url' data-name='haoma' data-value='"+value.haoma+ 
                                    "' +data-original-title='' title=''>" + value.haoma + 
                                    "</a></td><td><a href='#' class='grid-editable-kaipiao editable editable-click' data-type='text' data-pk='" + value.id + "' "+

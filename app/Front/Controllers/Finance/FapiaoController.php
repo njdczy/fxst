@@ -202,6 +202,8 @@ class FapiaoController extends Controller
 
     public function update($input_id,Request $request)
     {
+        $piao_log = PiaoLog::find($request->pk);
+        $input = Input::find($input_id);
 
         $edit_field = $request->name;
         if ($edit_field == 'haoma') {
@@ -222,8 +224,47 @@ class FapiaoController extends Controller
             );
         }
 
-        $piao_log = PiaoLog::find($request->pk);
+        if ($edit_field == 'kai_money') {
+            $this->validate($request,
+                ['value' =>
+                    [
+                        'bail',
+                        'required',
+                        'regex:/^(?!0(\\d|\\.0+$|$))\\d+(\\.\\d{1,2})?$/i',
+                    ]
+
+                ],
+                [
+                    'value.required' => '请输入金额',
+                    'value.regex' => '请输入合法数字',
+                ]
+            );
+
+            $not_kai_money = ($input->p_amount-$input->piao_money+$piao_log->kai_money);
+            if ($request->value > $not_kai_money) {
+
+                return response()
+                    ->json([
+                        'value' => ['金额不能大于'.$not_kai_money]
+                    ],422);
+            }
+
+            $input->piao_money = $input->piao_money - $piao_log->kai_money + $request->value;
+
+            if ($input->piao_money == $input->p_amount) {
+                $input->piao_status = 1;
+                if ($input->pay_status == 1) {
+                    $input->input_status = 3;
+                }
+            } else {
+                $input->piao_status = 3;
+            }
+            $input->save();
+        }
+
         $piao_log->{$edit_field} = $request->value;
         $piao_log->save();
+
+
     }
 }
