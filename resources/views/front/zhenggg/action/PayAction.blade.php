@@ -93,14 +93,7 @@
                         </div>
                     </form>
                         <script>
-                            $(".liushuis-table").on('click','.grid-editable-liushuis',function () {
-                                $('.grid-editable-liushuis').editable({
-                                    emptytext: '',
-                                    error: function(response, data) {
-                                        if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
-                                    }
-                                });
-                            });
+
                             function pay(u_id){
                                 var not_pay_money = $("#not_pay_money"+u_id).val();
                                 var shi_pay_money = $("#shi_pay_money"+u_id).val()?$("#shi_pay_money"+u_id).val():0;
@@ -126,6 +119,16 @@
                             });
                         </script>
                     @endif
+                    <script>
+                        $(".liushuis-table").on('click','.grid-editable-liushuis',function () {
+                            $('.grid-editable-liushuis').editable({
+                                emptytext: '',
+                                error: function(response, data) {
+                                    if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
+                                }
+                            });
+                        });
+                    </script>
             </div>
         </div>
     </div>

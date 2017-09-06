@@ -100,13 +100,6 @@
                         </div>
                         </form>
                         <script>
-                            $(".kaipiaolog-table").on('click','.grid-editable-kaipiao',function () {
-                                $('.grid-editable-kaipiao').editable({
-                                    error: function(response, data) {
-                                        if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
-                                    }
-                                });
-                            });
                             function kaipiao(u_id){
                                 var fapiaohao = $("#fapiaohao"+u_id).val();
                                 if (!fapiaohao) {
@@ -135,6 +128,15 @@
                             });
                         </script>
                                 @endif
+                    <script>
+                        $(".kaipiaolog-table").on('click','.grid-editable-kaipiao',function () {
+                            $('.grid-editable-kaipiao').editable({
+                                error: function(response, data) {
+                                    if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
+                                }
+                            });
+                        });
+                    </script>
             </div>
         </div>
     </div>

@@ -73,14 +73,6 @@
                             </div>
                         </form>
                         <script>
-                            $(".jisuans-table").on('click','.grid-editable-fafang',function () {
-                                $('.grid-editable-fafang').editable({
-                                    emptytext: '',
-                                    error: function(response, data) {
-                                        if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
-                                    }
-                                });
-                            });
                             function jiesuan(u_id){
                                 var not_jie_money = $("#not_jie_money"+u_id).val();
                                 var fafangmoney = $("#fafangmoney"+u_id).val()?$("#fafangmoney"+u_id).val():0;
@@ -103,6 +95,16 @@
                         });
                     </script>
                     @endif
+                    <script>
+                        $(".jisuans-table").on('click','.grid-editable-fafang',function () {
+                            $('.grid-editable-fafang').editable({
+                                emptytext: '',
+                                error: function(response, data) {
+                                    if(response.status == '422') return response.responseJSON.value[0]; //msg will be shown in editable form
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>

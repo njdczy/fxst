@@ -218,7 +218,7 @@ class CheckoutController extends Controller
                     return UCheckout::where('user_id', '=', \Front::user()->user_id)
                         ->where('u_id', $menber_id)
                         ->where('t_id', $target->id)
-                        ->latest()
+                        ->orderByDesc('updated_at')
                         ->first();
                 });
                 if ($last_ucheckout) {
@@ -298,7 +298,7 @@ class CheckoutController extends Controller
             return UCheckout::where('user_id', '=', \Front::user()->user_id)
                 ->where('u_id', $u_id)
                 ->where('t_id', $t_id)
-                ->latest()
+                ->orderByDesc('updated_at')
                 ->first();
         });
 
@@ -375,8 +375,8 @@ class CheckoutController extends Controller
         \DB::transaction(function () use ($fafangmoney, $fafangtype, $fa_time,$target, $menber, $p) {
 
             $last_u_checkout = UCheckout::where('t_id', $target->id)
-                ->where('u_id', $target->id)
-                ->latest()
+                ->where('u_id', $menber->id)
+                ->orderByDesc('updated_at')
                 ->first();
 
             $u_checkout = new UCheckout;
@@ -405,6 +405,9 @@ class CheckoutController extends Controller
 
     public function update($t_id,$u_id,Request $request)
     {
+
+        $u_checkout_log = UCheckout::find($request->pk);
+
         $edit_field = $request->name;
         if ($edit_field == 'fafang_type') {
             $this->validate($request,
@@ -424,9 +427,42 @@ class CheckoutController extends Controller
                 ]
             );
         }
+        if ($edit_field == 'money') {
+            $this->validate($request,
+                ['value' =>
+                    [
+                        'bail',
+                        'required',
+                        'regex:/^(?!0(\\d|\\.0+$|$))\\d+(\\.\\d{1,2})?$/i',
+                    ]
 
-        $liushui_log = UCheckout::find($request->pk);
-        $liushui_log->{$edit_field} = $request->value;
-        $liushui_log->save();
+                ],
+                [
+                    'value.required' => '请输入金额',
+                    'value.regex' => '请输入合法金额',
+                ]
+            );
+
+            $last_u_checkout = UCheckout::where('t_id', $t_id)
+                ->where('u_id', $u_id)
+                ->orderByDesc('updated_at')
+                ->first();
+
+            $menber_not_jie_money = $this->get_menber_not_jie_money($t_id,$u_id);
+
+            if ( $request->value > ($menber_not_jie_money +  $u_checkout_log->money)) {
+                return response()
+                    ->json([
+                        'value' => ['金额不能大于'.($menber_not_jie_money +  $u_checkout_log->money)]
+                    ],422);
+            }
+
+            $u_checkout_log->moneyed = $last_u_checkout->moneyed + ($request->value-$u_checkout_log->money);
+        }
+        $u_checkout_log->{$edit_field} = $request->value;
+        $u_checkout_log->save();
+        Cache::forget('should_ti_money'.$t_id.'');
+        Cache::forget('last_ucheckout'.$t_id.'');
+
     }
 }

@@ -38,8 +38,8 @@ class IsSetBaseMiddleware
 //                &&
 //                !$this->passThrough($request,
 //                    [
-//                        'get' =>  \Front::url('system/jconfig/'),
-//                        'post' =>\Front::url('system/jconfig'),
+//                        'get' =>  \Front::url('base/jconfig/'),
+//                        'post' =>\Front::url('base/jconfig'),
 //                    ]
 //                )
 //            )
@@ -59,8 +59,8 @@ class IsSetBaseMiddleware
                 !$this->passThrough($request,
                     [
 
-                        'get' =>  \Front::url('system/baoshe/create'),
-                        'post' =>\Front::url('system/baoshe'),
+                        'get' =>  \Front::url('base/baoshe/create'),
+                        'post' =>\Front::url('base/baoshe'),
                     ]
                 )
             )
@@ -69,7 +69,7 @@ class IsSetBaseMiddleware
                     'title'   => '请先添加一个报社',
                     'message' => '',
                 ]);
-                return redirect()->to(\Front::url('system/baoshe/create'))->with(compact('error'));
+                return redirect()->to(\Front::url('base/baoshe/create'))->with(compact('error'));
             }
             //检查是否添加刊物
             if (
@@ -79,8 +79,8 @@ class IsSetBaseMiddleware
                 &&
                 !$this->passThrough($request,
                     [
-                        'get' =>  \Front::url('periodical/create'),
-                        'post' =>\Front::url('periodical'),
+                        'get' =>  \Front::url('base/periodical/create'),
+                        'post' =>\Front::url('base/periodical'),
                     ]
                 )
             )
@@ -89,7 +89,7 @@ class IsSetBaseMiddleware
                     'title'   => '请先添加一个刊物',
                     'message' => '',
                 ]);
-                return redirect()->to(\Front::url('periodical/create'))->with(compact('error'));
+                return redirect()->to(\Front::url('base/periodical/create'))->with(compact('error'));
             }
 //            //检查是否设置部门
 
