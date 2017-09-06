@@ -4,7 +4,7 @@ namespace App\Zhenggg\Controllers;
 
 use App\Zhenggg\Auth\Database\Administrator;
 use App\Zhenggg\Auth\Database\OperationLog;
-use App\Zhenggg\Front;
+use App\Zhenggg\Facades\Front;
 use App\Zhenggg\Grid;
 use App\Zhenggg\Layout\Content;
 use Illuminate\Routing\Controller;
