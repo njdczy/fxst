@@ -128,7 +128,7 @@ class CustomerController extends Controller
 
                 $filter->disableIdFilter();
 
-                $filter->like('customer_name', '客户');
+                $filter->like('name', '客户');
             });
 
         });
