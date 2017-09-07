@@ -31,7 +31,7 @@ class IsSetBaseMiddleware
             //set
             $jituan_name = JituanConfig::where('user_id',\Front::user()->user_id)->value('jituan_name');
             config(['front.name'=>$jituan_name]);
-            config(['front.logo'=>'<b>'.$jituan_name.'</b> ']);
+            config(['front.logo'=>''.$jituan_name.'']);
             //检查是否设置集团名称
 //            if (
 //                !$jituan_name

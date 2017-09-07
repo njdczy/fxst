@@ -5,12 +5,12 @@ return [
     /*
      * Laravel-admin name.
      */
-    'name'      => '发行管理系统front',
+    'name'      => '发行管理系统',
 
     /*
      * Logo in admin panel header.
      */
-    'logo'      => '<b>发行管理系统</b> front',
+    'logo'      => '发行管理系统',
 
     /*
      * Mini-logo in admin panel header.

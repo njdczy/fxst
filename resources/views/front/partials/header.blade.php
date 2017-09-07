@@ -6,7 +6,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">{!! config('front.logo-mini', config('front.name')) !!}</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">{!! config('front.logo', config('front.name')) !!}</span>
+        <span class="logo-lg"><b>{!! config('front.title', config('front.title')) !!}</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -15,6 +15,12 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
+
+        <a style="text-align: center" class="logo">
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg" style="font-size: 18px">{!! config('front.logo', config('front.name')) !!}</span>
+        </a>
+
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
