@@ -27,7 +27,7 @@ class JisuanAction
         $update_url = \Front::url('/checkout/p/'.$this->t_id.'/update/' . $this->id);
         return <<<SCRIPT
 $('#fafang$this->id').on('click', function () {
-    
+    $("#tijiao$this->id").removeAttr("disabled");
     var id =  $(this).data('id');
     
     $(".head-fafang").nextAll().remove();

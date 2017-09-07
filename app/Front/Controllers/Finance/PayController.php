@@ -33,7 +33,7 @@ class PayController extends Controller
     {
         return \Front::content(function (Content $content) {
 
-            $content->header('发票');
+            $content->header('收款');
             $content->description('管理');
 
             $content->body($this->grid());
