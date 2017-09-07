@@ -107,7 +107,13 @@ class PayController extends Controller
                 $filter->disableIdFilter();
 
                 $filter->is('pay_status', '支付状态')->select(trans('front::lang.pay_status'));
-                $filter->like('customer_name', '客户');
+                //$filter->like('customer_name', '客户');
+                $filter->where(function ($query) {
+                    $input = $this->input;
+                    $query->whereHas('customer', function ($query) use ($input) {
+                        $query->where('name', 'like', "%{$input}%");
+                    });
+                }, '客户');
                 $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
 
                 $filter->where(function ($query) {
