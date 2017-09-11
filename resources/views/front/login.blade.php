@@ -54,6 +54,17 @@
         <input type="password" class="form-control" placeholder="{{ trans('front::lang.password') }}" name="password" value="{{ old('admin_account') }}">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+
+      <p>{!! captcha_img() !!}</p>
+      <div class="form-group has-feedback {!! !$errors->has('captcha') ?: 'has-error' !!}">
+
+        @if($errors->has('captcha'))
+          @foreach($errors->get('captcha') as $message)
+            <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label></br>
+          @endforeach
+        @endif
+        <input type="input" class="form-control" name="captcha" placeholder="{{ trans('front::lang.captcha') }}">
+      </div>
       <div class="row">
 
         <!-- /.col -->

@@ -99,51 +99,6 @@
                 </form>
                 <!--<a href="javascript:0;" class="next col-xs-2">下一步</a>-->
             </div>
-            <!--个人订购-卡片信息-->
-            <div class="two"  style="display: none;">
-                <div class="step-two"></div>
-                <form   class="form-horizontal">
-                    <div class="form-group">
-                        <label for="account" class="col-sm-2 col-xs-4 control-label">帐号<span>*</span></label>
-                        <div class="col-sm-6 col-xs-7">
-                            <input type="text" class="form-control" id="account" placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="pass" class="col-sm-2 col-xs-4 control-label">密码<span>*</span></label>
-                        <div class="col-sm-6 col-xs-7">
-                            <input type="password" class="form-control" id="pass" placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-2 col-xs-4 control-label">卡片类型<span>*</span></label>
-                        <div class=" col-sm-6 col-xs-8">
-                            <label class="radio-inline" style="color:#37c99e;">
-                                <input type="radio" name="card" id="year" value="option1"> 年卡
-                            </label>
-                            <label class="radio-inline" style="color:#37c99e;">
-                                <input type="radio" name="card" id="quarter" value="option2"> 季卡
-                            </label>
-                            <label class="radio-inline" style="color:#37c99e;">
-                                <input type="radio" name="card" id="month" value="option3"> 月卡
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="nums" class="col-sm-2 col-xs-4 control-label">选择份数<span>*</span></label>
-                        <div class="col-sm-6 col-xs-7">
-                            <input type="number" class="form-control" id="nums" placeholder="">
-                        </div>
-                    </div>
-                    <p class="price">
-                        <span>选择需要订阅的报纸</span>
-                        <span>价格：88889</span>
-                    </p>
-                    <a href="javascript:0;" class="prev">上一步</a>
-                    <input type="submit" name="" id="" value="提交" class="two-next"/>
-                </form>
-
-            </div>
         </div>
         <!--企业订购-->
         <div class="main-form company" style="display: none;">

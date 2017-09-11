@@ -173,6 +173,7 @@ return [
         Encore\Admin\Providers\AdminServiceProvider::class,
         App\Providers\FrontServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -234,6 +235,7 @@ return [
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'Carbon' => Carbon\Carbon::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
 
     ],
 

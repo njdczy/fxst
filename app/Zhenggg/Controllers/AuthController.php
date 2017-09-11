@@ -36,15 +36,17 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        $credentials = $request->only(['admin_account', 'password']);
+        $credentials = $request->only(['admin_account', 'password','captcha']);
 
         $validator = Validator::make($credentials, [
-            'admin_account' => 'required', 'password' => 'required',
+            'admin_account' => 'required', 'password' => 'required','captcha' => 'required|captcha'
         ]);
 
         if ($validator->fails()) {
             return Redirect::back()->withInput()->withErrors($validator);
         }
+
+        $credentials = $request->only(['admin_account', 'password']);
 
         if (Auth::guard('front')->attempt($credentials)) {
             front_toastr(trans('front::lang.login_successful'));
