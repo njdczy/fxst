@@ -87,7 +87,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="btn-group pull-right">
-                                    <button type="submit" class="btn btn-info pull-right" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交">提交</button>
+                                    <button id="tijiao{{$id}}" type="submit" class="btn btn-info pull-right" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交">提交</button>
                                 </div>
                             </div>
                         </div>
@@ -109,6 +109,7 @@
                                     $("#kou"+u_id).val('');
                                     return false;
                                 } else {
+                                    $("#tijiao"+u_id).attr({"disabled":"disabled"});
                                     $("#payform"+u_id).submit();
                                 }
                             }

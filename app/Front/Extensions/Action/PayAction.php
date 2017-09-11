@@ -27,6 +27,8 @@ class PayAction
         return <<<SCRIPT
 
 $('#pay$this->id,#pay2$this->id').bind('click', function () {
+    $("#tijiao$this->id").removeAttr("disabled");
+
     var id =  $(this).data('id');
     var paytype = $(this).data('paytype');
     if(0 == paytype) {

@@ -44,7 +44,7 @@ class HomeController extends Controller
         return \Front::content(function (Content $content) {
 
             $content->header('发行管理系统');
-            $content->description('发行管理系统');
+            $content->description(config('front.logo', config('front.name')));
             $content->row(function ($row) {
                 $row->column(4, '');
                 $row->column(4, view('front::zhenggg.shaixuan', ['options' => Department::selectOptions(), 'value' => $this->d_id])->render());

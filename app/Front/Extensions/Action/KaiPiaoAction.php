@@ -33,6 +33,7 @@ class KaiPiaoAction
         return <<<SCRIPT
 
 $('#kaipiao$this->id').on('click', function () {
+$("#tijiao$this->id").removeAttr("disabled");
             var id =  $(this).data('id');
             $(".head-piao").nextAll().remove();
              $.ajax({
