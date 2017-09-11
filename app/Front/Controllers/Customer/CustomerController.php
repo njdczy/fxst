@@ -88,17 +88,17 @@ class CustomerController extends Controller
                 return Type::where('id',$hangye)->value('name');
             });
             $grid->tel("固定电话");
-            $grid->youbian("邮编");
-            $grid->column('ssq',"省/市/区")->display(function (){
-                if ($this->district) {
-                    $regions = cache('regions');
-                    return  $regions[$this->province] .'/'. $regions[$this->city] . '/' . $regions[$this->district];
-                } else {
-                    return '';
-                }
-            });
-
-            $grid->address("寄送地址");
+//            $grid->youbian("邮编");
+//            $grid->column('ssq',"省/市/区")->display(function (){
+//                if ($this->district) {
+//                    $regions = cache('regions');
+//                    return  $regions[$this->province] .'/'. $regions[$this->city] . '/' . $regions[$this->district];
+//                } else {
+//                    return '';
+//                }
+//            });
+//
+//            $grid->address("寄送地址");
             $grid->type("性质")->display(function ($type) {
                 return Type::where('id', $type)->value('name');
             });
@@ -155,34 +155,31 @@ class CustomerController extends Controller
             )->rules('required')->setWidth('2');
             $form->text('contacts','联&nbsp;&nbsp;系&nbsp;&nbsp;人')->rules('required')->setWidth('3');
             $form->text('mobile','电话/手机')->setWidth('3');
+            $form->divide();
+            $form->html("<h4 class=\"pull-left\"><b>配送地址（多）</b></h4>");
+            $form->hasMany('customer_addresses', '',function (Form\NestedForm $form) {
+                // first level
+                $form->select('province','省')->options(
+                    Region::province()->pluck('name', 'code')
+                )->load('city', '/front/api/region/city')->setWidth('2');
+                // second level
+                $form->select('city','市')->options(function ($id) {
+                    return Region::options($id);
+                })->load('district', '/front/api/region/district')->setWidth('2');
+                // third level
+                $form->select('district','区')->options(function ($id) {
+                    return Region::options($id);
+                })->setWidth('2');
+                $form->text('address','详细地址')->setWidth('4');
+                $form->hidden('user_id')->default(\Front::user()->user_id);
 
-            // first level
+            });
 
-            $form->select('province','省')->options(
-
-                Region::province()->pluck('name', 'code')
-
-            )->load('city', '/front/api/region/city')->setWidth('2');
-
-            // second level
-            $form->select('city','市')->options(function ($id) {
-
-                return Region::options($id);
-
-            })->load('district', '/front/api/region/district')->setWidth('2');
-
-            // third level
-            $form->select('district','区')->options(function ($id) {
-
-                return Region::options($id);
-
-            })->setWidth('2');
-
-            $form->text('address','寄送地址')->setWidth('4');
             $form->hidden('user_id')->default(\Front::user()->user_id)->setWidth('4');
 
             $form->divide();
-            $form->html("<div class=\"col-md-2\"><h4 class=\"pull-right\">开票信息</h4></div>");
+
+            $form->html("<h4 class=\"pull-left\"><b>开票信息</b></h4>");
             $form->divide();
 
             $form->hidden('customer_piao.user_id')->default(\Front::user()->user_id)->setWidth('4');

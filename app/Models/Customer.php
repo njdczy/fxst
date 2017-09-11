@@ -13,4 +13,12 @@ class Customer extends Model
     {
         return $this->hasOne(CustomerPiao::class,'c_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function customer_addresses()
+    {
+        return $this->hasMany(CustomerAddress::class,'c_id');
+    }
 }
