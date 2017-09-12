@@ -44,7 +44,10 @@ class PayController extends Controller
         return \Front::grid(Input::class, function (Grid $grid) {
 
             //grid model filters
-            $grid->model()->where('user_id', '=', \Front::user()->user_id)->orderBy('id', 'desc');
+            $grid->model()
+                ->where('user_id', '=', \Front::user()->user_id)
+                ->whereIn('input_status', array_keys(array_except(trans('front::lang.input_status'),'0')))
+                ->orderBy('id', 'desc');
 
             //grid columns
             $grid->column('customer', '客户')->display(function () {
