@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Menber\Form\Field;
+
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+class MultipleImage extends MultipleFile
+{
+    use ImageField;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $view = 'menber::form.multiplefile';
+
+    /**
+     *  Validation rules.
+     *
+     * @var string
+     */
+    protected $rules = 'image';
+
+    /**
+     * Prepare for each file.
+     *
+     * @param UploadedFile $image
+     *
+     * @return mixed|string
+     */
+    protected function prepareForeach(UploadedFile $image = null)
+    {
+        $this->name = $this->getStoreName($image);
+
+        $this->callInterventionMethods($image->getRealPath());
+
+        return $this->upload($image);
+    }
+}

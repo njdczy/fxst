@@ -8,12 +8,14 @@
 
 namespace App\Models;
 
-
+use App\Zhenggg\Traits\AdminBuilder;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 
-class Menber extends Model
+class Menber extends Model implements AuthenticatableContract
 {
-
+    use Authenticatable,AdminBuilder;
     /**
      * A menber belongs to d.
      *

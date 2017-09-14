@@ -172,6 +172,7 @@ return [
         //add vendor ServiceProvider
         Encore\Admin\Providers\AdminServiceProvider::class,
         App\Providers\FrontServiceProvider::class,
+        App\Providers\MenberServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
         /*

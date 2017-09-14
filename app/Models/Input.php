@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Input extends Model
 {
-    public $fillable = ['d_id','dis_status','pay_name'];
+    public $fillable = ['d_id','dis_status','pay_name','input_status'];
 
     public function department()
     {

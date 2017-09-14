@@ -189,9 +189,13 @@ class MenberController extends Controller
             $form->text('name', '姓名')->rules('required');
             $select = Department::selectOptionsForNoroot();
             $form->select('d_id', '部门')->options($select);
-
-            $form->display('created_at', trans('front::lang.created_at'));
-            $form->display('updated_at', trans('front::lang.updated_at'));
+            $form->text('menber_account', '账号');
+            $form->password('password', trans('front::lang.password'))->rules('required|confirmed');
+            $form->password('password_confirmation', trans('front::lang.password_confirmation'))->rules('required')
+                ->default(function ($form) {
+                    return $form->model()->password;
+                });
+            $form->ignore(['password_confirmation']);
             $form->hidden('user_id')->default(\Front::user()->user_id);
             $form->saving(function (Form $form){
                 if ( Menber::where('id','!=',$form->model()->id)->where('name',$form->name)->exists()) {
@@ -200,6 +204,9 @@ class MenberController extends Controller
                         'message' => $form->name .'已存在',
                     ]);
                     return back()->with(compact('error'));
+                }
+                if ($form->password && $form->model()->password != $form->password) {
+                    $form->password = bcrypt($form->password);
                 }
 
             });

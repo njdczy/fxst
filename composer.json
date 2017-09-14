@@ -26,7 +26,8 @@
             "App\\": "app/"
         },
         "files": [
-            "app/Zhenggg/helpers.php"
+            "app/Zhenggg/helpers.php",
+            "app/Menber/helpers.php"
         ]
     },
     "autoload-dev": {
