@@ -21,15 +21,46 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <style>
+      .login-bg{
+        background: url("/img/background-img.png") 0 0 no-repeat;
+        background-size:cover;
+      }
+      .login-box{
+        margin-top: 15%;
+      }
+      .login-logo{
+        border-bottom: 1px solid #dcdcdc;
+        padding-bottom: 15px;
+      }
+      .login-logo a{
+        color: #fff;
+      }
+      .login-logo a b{
+        font-weight:normal;
+        font-size: 24px;
+      }
+      .login-box-body{
+        background: none;
+        padding: 0;
+      }
+      .login-box-body input{
+        background: none;
+        -webkit-border-radius:;
+        -moz-border-radius:;
+        border-radius:5px;
+        height:45px;
+      }
+  </style>
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page login-bg">
 <div class="login-box">
   <div class="login-logo">
     <a href="{{ Front::url('/') }}"><b>{{config('front.name')}}</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">{{ trans('front::lang.login') }}</p>
+    <p class="login-box-msg" style="display: none">{{ trans('front::lang.login') }}</p>
 
     <form action="{{ Front::url('auth/login') }}" method="post">
       <div class="form-group has-feedback {!! !$errors->has('admin_account') ?: 'has-error' !!}">
@@ -41,7 +72,7 @@
         @endif
 
         <input type="input" class="form-control" placeholder="{{ trans('front::lang.admin_account') }}" name="admin_account" value="{{ old('admin_account') }}">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        {{--<span class="glyphicon glyphicon-envelope form-control-feedback"></span>--}}
       </div>
       <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
 
@@ -52,11 +83,11 @@
         @endif
 
         <input type="password" class="form-control" placeholder="{{ trans('front::lang.password') }}" name="password" value="{{ old('admin_account') }}">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        {{--<span class="glyphicon glyphicon-lock form-control-feedback"></span>--}}
       </div>
 
-      <p>{!! captcha_img() !!}</p>
-      <div class="form-group has-feedback {!! !$errors->has('captcha') ?: 'has-error' !!}">
+
+      <div class="form-group has-feedback {!! !$errors->has('captcha') ?: 'has-error' !!} col-md-8 col-xs-8" style="margin-left: -14px">
 
         @if($errors->has('captcha'))
           @foreach($errors->get('captcha') as $message)
@@ -64,13 +95,15 @@
           @endforeach
         @endif
         <input type="input" class="form-control" name="captcha" placeholder="{{ trans('front::lang.captcha') }}">
+
       </div>
-      <div class="row">
+      <p class="col-md-4 col-xs-4" style="padding-top: 4px">{!! captcha_img() !!}</p>
+      <div class="row" >
 
         <!-- /.col -->
-        <div class="col-xs-4 col-md-offset-4">
+        <div class="col-xs-12 col-md-12" style="padding-top: 12px;">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('front::lang.login') }}</button>
+          <button type="submit" class="btn btn-danger btn-block btn-flat" style="font-size: 16px;height: 45px;border-radius: 5px;">{{ trans('front::lang.login') }}</button>
         </div>
         <!-- /.col -->
       </div>
