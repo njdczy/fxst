@@ -15,4 +15,6 @@ Route::group([
 
     $router->get('/myorders', 'MyOrdersController@index');
     $router->put('/myorders/{id}', 'MyOrdersController@update');
+    
+    $router->get('/mycustomers', 'MyCustomersController@index');
 });
