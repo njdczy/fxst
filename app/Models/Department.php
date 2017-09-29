@@ -138,9 +138,9 @@ class Department extends Model
      *
      * @return array
      */
-    public function toTree()
+    public function toTree($user_id)
     {
-        return $this->buildNestedArray();
+        return $this->buildNestedArray([],0,$user_id);
     }
 
     /**
@@ -151,17 +151,17 @@ class Department extends Model
      *
      * @return array
      */
-    protected function buildNestedArray(array $nodes = [], $parentId = 0)
+    protected function buildNestedArray(array $nodes = [], $parentId = 0,$user_id)
     {
         $branch = [];
 
         if (empty($nodes)) {
-            $nodes = $this->allNodes();
+            $nodes = $this->allNodes($user_id);
         }
         foreach ($nodes as $node) {
 
             if ($node[$this->parentColumn] == $parentId) {
-                $children = $this->buildNestedArray($nodes, $node[$this->getKeyName()]);
+                $children = $this->buildNestedArray($nodes, $node[$this->getKeyName()],$user_id);
                 if ($children) {
                     $node['children'] = $children;
                 }
@@ -177,7 +177,7 @@ class Department extends Model
      *
      * @return mixed
      */
-    public function allNodes()
+    public function allNodes($user_id)
     {
         $orderColumn = DB::getQueryGrammar()->wrap($this->orderColumn);
         $byOrder = $orderColumn.' = 0,'.$orderColumn;
@@ -187,7 +187,7 @@ class Department extends Model
         if ($this->queryCallback instanceof \Closure) {
             $self = call_user_func($this->queryCallback, $self);
         }
-        return $self->orderByRaw($byOrder)->where('user_id', \Front::user()->user_id)->get()->toArray();
+        return $self->orderByRaw($byOrder)->where('user_id', $user_id)->get()->toArray();
     }
 
     /**
@@ -236,21 +236,21 @@ class Department extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function selectOptions()
+    public static function selectOptions($user_id)
     {
-        $options = (new static())->buildSelectOptions();
+        $options = (new static())->buildSelectOptions([],0,'',$user_id);
         return collect($options)->prepend('/', 0)->all();
     }
 
-    public static function selectOptionsForTarget()
+    public static function selectOptionsForTarget($user_id)
     {
-        $options = (new static())->buildSelectOptions();
+        $options = (new static())->buildSelectOptions([],0,'',$user_id);
         return collect($options)->prepend('总目标', 0)->all();
     }
 
-    public static function selectOptionsForNoroot()
+    public static function selectOptionsForNoroot($user_id)
     {
-        $options = (new static())->buildSelectOptions();
+        $options = (new static())->buildSelectOptions([],0,'',$user_id);
         return collect($options);
     }
 
@@ -263,20 +263,20 @@ class Department extends Model
      *
      * @return array
      */
-    protected function buildSelectOptions(array $nodes = [], $parentId = 0, $prefix = '')
+    protected function buildSelectOptions(array $nodes = [], $parentId = 0, $prefix = '',$user_id)
     {
         $prefix = $prefix ?: str_repeat('&nbsp;', 6);
 
         $options = [];
 
         if (empty($nodes)) {
-            $nodes = $this->allNodes();
+            $nodes = $this->allNodes($user_id);
         }
 
         foreach ($nodes as $node) {
             $node[$this->titleColumn] = $prefix.'&nbsp;'.$node[$this->titleColumn];
             if ($node[$this->parentColumn] == $parentId) {
-                $children = $this->buildSelectOptions($nodes, $node[$this->getKeyName()], $prefix.$prefix);
+                $children = $this->buildSelectOptions($nodes, $node[$this->getKeyName()], $prefix.$prefix,$user_id);
 
                 $options[$node[$this->getKeyName()]] = $node[$this->titleColumn];
 

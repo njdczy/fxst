@@ -258,7 +258,7 @@ SCRIPT;
     {
         return [
             'id'        => $this->elementId,
-            'items'     => $this->model->withQuery($this->queryCallback)->toTree(),
+            'items'     => $this->model->withQuery($this->queryCallback)->toTree(\Front::user()->user_id),
             'useCreate' => $this->useCreate,
         ];
     }

@@ -41,7 +41,7 @@ class DepartmentController extends Controller
 
                         $form->hidden('user_id')->default(\Front::user()->user_id);
 
-                        $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
+                        $form->select('parent_id','上级部门')->options()->options(Department::selectOptions(\Front::user()->user_id));
 
                         $column->append((new Box(trans('front::lang.new'), $form))->style('success'));
                     });
@@ -128,7 +128,7 @@ class DepartmentController extends Controller
             $form->hidden('user_id')->default(\Front::user()->user_id);
             $form->hidden('id');
 
-            $form->select('parent_id','上级部门')->options()->options(Department::selectOptions());
+            $form->select('parent_id','上级部门')->options()->options(Department::selectOptions(\Front::user()->user_id));
 
             $form->saving(function (Form $form){
                 if ( Department::where('id','!=',$form->model()->id)->where('name',$form->name)->exists()) {

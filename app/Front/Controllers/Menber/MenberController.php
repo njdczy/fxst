@@ -166,7 +166,7 @@ class MenberController extends Controller
 
                 $filter->like('name', '姓名');
 
-                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
+                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot(\Front::user()->user_id));
 
             });
 
@@ -187,7 +187,7 @@ class MenberController extends Controller
         return \Front::form(Menber::class, function (Form $form) {
 
             $form->text('name', '姓名')->rules('required');
-            $select = Department::selectOptionsForNoroot();
+            $select = Department::selectOptionsForNoroot(\Front::user()->user_id);
             $form->select('d_id', '部门')->options($select);
             $form->text('menber_account', '账号');
             $form->password('password', trans('front::lang.password'))->rules('required|confirmed');

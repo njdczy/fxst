@@ -117,7 +117,7 @@ class InputController extends Controller
                 $filter->between('created_at', '下单时间')->datetime();
                 $filter->like('d_id', '部门ID');
                 // 关系查询，查询对应关系`department`的字段
-                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
+                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot(\Front::user()->user_id));
                 $filter->like('liushui', '流水号');
                 $filter->is('pay_status', '支付状态')->select(trans('front::lang.pay_status'));
             });

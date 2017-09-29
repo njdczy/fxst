@@ -55,7 +55,10 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
-            <p>{!! captcha_img() !!}</p>
+            <p>
+                <img style="cursor:pointer" class="img"  src="{!! captcha_src() !!}"
+                     onClick="this.src=this.src+'?'+Math.random();" title="看不清楚?点击刷新验证码?">
+            </p>
             <div class="form-group has-feedback {!! !$errors->has('captcha') ?: 'has-error' !!}">
 
                 @if($errors->has('captcha'))

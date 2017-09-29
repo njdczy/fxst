@@ -145,6 +145,7 @@ class TestDataSeeder extends Seeder
             Customer::insert([
                 [
                     'user_id' => $admin->user_id,
+                    'u_id' => 1,
                     'name' => '客户1',
                     'province' => 10,
                     'city' => 162,
@@ -161,6 +162,7 @@ class TestDataSeeder extends Seeder
                 ],
                 [
                     'user_id' => $admin->user_id,
+                    'u_id' => 2,
                     'name' => '客户2',
                     'province' => 10,
                     'city' => 162,

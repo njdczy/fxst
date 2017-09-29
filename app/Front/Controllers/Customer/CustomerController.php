@@ -9,6 +9,7 @@
 namespace App\Front\Controllers\Customer;
 
 use App\Front\Controllers\ModelForm;
+use App\Models\Menber;
 use App\Models\Customer;
 use App\Models\Region;
 use App\Models\Type;
@@ -143,6 +144,11 @@ class CustomerController extends Controller
     {
         return \Front::form(Customer::class, function (Form $form) {
             $form->text('name','客户名称')->rules('required')->setWidth('3');
+
+            $form->select('u_id','所属发行人')->options(
+                Menber::where('user_id',\Front::user()->user_id)->pluck('name','id')
+            )->rules('required')->setWidth('2');
+
             $form->select('hangye','行业类别')->options(
                 Type::where('type','hangye')->whereIn('user_id',[0,\Front::user()->user_id])->pluck('name','id')
             )->rules('required')->setWidth('2');

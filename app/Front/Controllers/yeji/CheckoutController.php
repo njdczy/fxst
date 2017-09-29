@@ -279,7 +279,7 @@ class CheckoutController extends Controller
 
                 $filter->like('name', '姓名');
 
-                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
+                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot(\Front::user()->user_id));
 
             });
         });

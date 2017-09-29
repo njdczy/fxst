@@ -19,9 +19,12 @@
  */
 
 
+use App\Menber\Exception\Column\ExpandRow;
+use App\Menber\Grid\Column;
+
 App\Menber\Form::forget(['map', 'editor']);
 
-
+Column::extend('expand', ExpandRow::class);
 
 //更改后台视图文件位置
 app('view')->prependNamespace('menber', resource_path('views/menber'));

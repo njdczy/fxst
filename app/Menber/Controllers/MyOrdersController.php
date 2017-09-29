@@ -87,11 +87,12 @@ class MyOrdersController extends Controller
                 return trans('menber::lang.pay_status.' .$this->pay_status. '');
             });
             $states = [
-                'on'  => ['value' => 0, 'text' => '未确认', 'color' => 'primary'],
-                'off' => ['value' => 1, 'text' => '已确认', 'color' => 'default'],
+                'off'  => ['value' => 0, 'text' => '未确认', 'color' => 'primary'],
+                'on' => ['value' => 1, 'text' => '已确认', 'color' => 'default'],
             ];
 
-            $grid->column('input','订单状态')->switch($states);
+            $grid->column('input_status','订单状态')->switch($states);
+
 //            $grid->rows(function($row){
 //                //id小于10的行添加style
 //                if($row->input_status == 0) {
@@ -104,12 +105,16 @@ class MyOrdersController extends Controller
 
                 $filter->is('piao_status', '开票状态')->select(trans('menber::lang.piao_status'));
                 $filter->like('customer_name', '客户');
+                $filter->is('p_id', '刊物')->select(
+                    Periodical::where('user_id', \Menber::user()->user_id)
+                        ->pluck('name', 'id')
+                );
                 $filter->like('fapiao', '发票');
                 $filter->like('menber_name', '销售人');
                 $filter->between('created_at', '下单时间')->datetime();
                 $filter->like('d_id', '部门ID');
                 // 关系查询，查询对应关系`department`的字段
-                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot());
+                $filter->is('d_id', '所属部门')->select(Department::selectOptionsForNoroot(\Menber::user()->user_id));
                 $filter->like('liushui', '流水号');
                 $filter->is('pay_status', '支付状态')->select(trans('menber::lang.pay_status'));
             });
@@ -125,9 +130,9 @@ class MyOrdersController extends Controller
 
 
 
-            $form->text('input_status', '订单状态');
+            $form->switch('input_status', '订单状态');
 
-            $form->hidden('user_id')->default(\Front::user()->user_id);
+            $form->hidden('user_id')->default(\Menber::user()->user_id);
 
             $form->saving(function (Form $form){
 

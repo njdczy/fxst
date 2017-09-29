@@ -47,7 +47,7 @@ class HomeController extends Controller
             $content->description(config('front.logo', config('front.name')));
             $content->row(function ($row) {
                 $row->column(4, '');
-                $row->column(4, view('front::zhenggg.shaixuan', ['options' => Department::selectOptions(), 'value' => $this->d_id])->render());
+                $row->column(4, view('front::zhenggg.shaixuan', ['options' => Department::selectOptions(\Front::user()->user_id), 'value' => $this->d_id])->render());
             });
             $content->row(function ($row) {
                 $row->column(12, '<hr/>');

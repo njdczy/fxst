@@ -51,7 +51,7 @@
                                 <a href="{{ Menber::url('auth/setting') }}" class="btn btn-default btn-flat">{{ trans('menber::lang.setting') }}</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ Menber::url('auth/logout') }}" class="btn btn-default btn-flat">{{ trans('menber::lang.logout') }}</a>
+                                <a href="{{ Menber::url('logout') }}" class="btn btn-default btn-flat">{{ trans('menber::lang.logout') }}</a>
                             </div>
                         </li>
                     </ul>
